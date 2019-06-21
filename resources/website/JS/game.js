@@ -50,6 +50,7 @@ function Sprite (x, y) {
     this.YSIZE = 49;
     this.img = document.getElementById("sprite");
     this.canJump = true;
+    this.friction = 0.95;
     
     this.checkBoxCollision = function () {
         var topCollision = false;
@@ -113,7 +114,7 @@ function Sprite (x, y) {
         }
         if (topCollision) {
             this.canJump = true;
-            if (!keydown)this.xVelocity *= friction;
+            if (!keydown)this.xVelocity *= this.friction;
         }
         else this.canJump = false;
     }
@@ -160,6 +161,7 @@ function Snowball (x, y, xVelocity, yVelocity) {
     this.yVelocity = yVelocity;
     this.img = document.getElementById("snowball");
     this.SIZE = 15;
+    this.friction = 0.9;
     
     this.checkBoxCollision = function () {
         var topCollision = false;
@@ -216,10 +218,10 @@ function Snowball (x, y, xVelocity, yVelocity) {
             }
         }
         if (topCollision) {
-            this.xVelocity *= friction;
-            this.yVelocity *= -0.5;
+            this.xVelocity *= this.friction;
+            this.yVelocity *= -0.3;
         }
-        if (leftCollision || rightCollision) this.xVelocity *= -0.5;
+        if (leftCollision || rightCollision) this.xVelocity *= -0.3;
     }
     
     this.draw = function () {
@@ -250,7 +252,6 @@ function Camera () {
 }
 
 var gravity = 0.5;
-var friction = 0.95;
 var GUARD = 0.001;
 var keydown = false;
 
