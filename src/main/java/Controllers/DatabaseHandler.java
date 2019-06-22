@@ -5,6 +5,7 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -27,13 +28,14 @@ public class DatabaseHandler {
     }
 
     @POST
-    @Path("userTable/insert")
+    @Path("{tableName}/insert")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public static void insert (@FormDataParam("username") String username, @FormDataParam("password") String password) {
+    public static void insert (@PathParam("tableName") String tableName, @FormDataParam("username") String username, @FormDataParam("password") String password) {
         try {
-            PreparedStatement ps = database.prepareStatement("INSERT INTO userTable (username, password) VALUES (?, ?)");
-            ps.setString(1, username);
-            ps.setString(2, password);
+            PreparedStatement ps = database.prepareStatement("INSERT INTO ? (username, password) VALUES (?, ?)");
+            ps.setString(1, tableName);
+            ps.setString(2, username);
+            ps.setString(3, password);
             ps.execute();
             System.out.println("Inserted into userTable database");
 

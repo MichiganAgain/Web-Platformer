@@ -10,7 +10,18 @@ $("#sprite").click(function () {mostRecentlySelected = "sprite";});
 $("#enemy").click(function () {mostRecentlySelected = "enemy";});
 
 $("#saveButton").click(function () {
-    
+    if (spriteExists) {
+        var mapData = {blocks: [], sprite: {"x": 0, "y": 0}, enemies: []};
+
+        for (let block of blocks) mapData.blocks.push({"x": block.x, "y": block.y});
+        for (let enemy of enemies) mapData.enemies.push({"x": enemy.x, "y": enemy.y});
+        mapData.sprite.x = sprite.x;
+        mapData.sprite.y = sprite.y;
+        
+        var formData = new FormData();
+        formData.append(mapData);
+        fetch("/");
+    }
 });
 
 window.addEventListener("keydown", function (evt) {
