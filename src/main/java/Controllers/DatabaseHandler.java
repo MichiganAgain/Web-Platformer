@@ -11,7 +11,6 @@ import java.security.MessageDigest;
 import java.sql.PreparedStatement;
 
 import static Server.ServerStarter.database;
-
 @Path("database/")
 public class DatabaseHandler {
     public static String hash (String plainText) {
