@@ -263,9 +263,9 @@ var camera = new Camera();
 
 for (var i = 0; i < 20; i++) blocks.push(new Block(50 * i, 450));
 for (var i = 12; i < 17; i++) blocks.push(new Block(50 * i, 1000 - i * 50));
-for (var i = 0; i < 899; i++) blocks.push(new Block(100, 50 * i + 500));
-for (var i = 0; i < 900; i++) blocks.push(new Block(-150, 50 * i));
-for (var i = -10; i < 20; i++) blocks.push(new Block(50 * i, 45000));
+for (var i = 0; i < 90; i++) blocks.push(new Block(100, 50 * i + 400));
+for (var i = 0; i < 100; i++) blocks.push(new Block(-150, 50 * i));
+for (var i = -10; i < 20; i++) blocks.push(new Block(50 * i, 5000));
 blocks.push(new Block(300, 400));
 
 function animate () {
