@@ -12,11 +12,11 @@ window.addEventListener("keydown", function (evt) {
         sprite.canJump = false;
     }
     else if (evt.keyCode == 65) {
-        sprite.xVelocity = -3;
+        sprite.xVelocity = -4;
         keydown = true;
     }
     else if (evt.keyCode == 68) {
-        sprite.xVelocity = 3;
+        sprite.xVelocity = 4;
         keydown = true;
     }
 });

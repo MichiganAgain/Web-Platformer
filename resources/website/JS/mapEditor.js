@@ -11,10 +11,9 @@ $("img").hover(function () {
     $(this).animate({borderRadius: "0px"}, 100);
 });
 
-$("img").click(function () {
-    mostRecentlySelected = document.getElementById(this).id;
-    alert(mostRecentlySelected);
-});
+$("#block").click(function () {mostRecentlySelected = "block";});
+$("#sprite").click(function () {mostRecentlySelected = "sprite";});
+$("#enemy").click(function () {mostRecentlySelected = "enemy";});
 
 window.addEventListener("keydown", function (evt) {
     if (evt.keyCode == 65) camera.xOffset += 50; //a
@@ -31,7 +30,12 @@ window.addEventListener("click", function (evt) {
         var mouseY = (evt.clientY - camera.yOffset) - ((evt.clientY - camera.yOffset) % 50);
         if ((evt.clientY - camera.yOffset) < 0) mouseY -= 50;
 
-        blocks.push(new Block(mouseX, mouseY));
+        if (mostRecentlySelected == "block") blocks.push(new Block(mouseX, mouseY));
+        else if (mostRecentlySelected == "sprite") {
+            spriteExists = true; //only for drawing it on the screen
+            sprite = new Sprite(mouseX, mouseY);
+        }
+        else if (mostRecentlySelected == "enemy") enemies.push(new Enemy(mouseX, mouseY));
     }
 });
 
@@ -56,7 +60,7 @@ function Block (x, y) {
     this.x = x;
     this.y = y;
     this.SIZE = 50;
-    this.img = document.getElementById("ice");
+    this.img = document.getElementById("block");
     
     this.draw = function () {
         context.drawImage(this.img, this.x + camera.xOffset, this.y + camera.yOffset);
