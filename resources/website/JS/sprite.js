@@ -10,6 +10,7 @@ function Sprite (x, y) {
     this.friction = 0.8;
     this.airResistance = 0.95;
     this.powers = 0x0;
+    this.dead = false;
     
     this.checkBoxCollision = function () {
         var topCollision = false;
@@ -79,6 +80,25 @@ function Sprite (x, y) {
         if (!keydown) this.xVelocity *= this.airResistance
     }
     
+    this.checkEnemyCollision = function () {
+        for (let enemy of enemies) {
+            if (enemy.dead == false) {
+                if (this.x >= enemy.x && this.x <= enemy.x + enemy.SIZE) { //top left corner of sprite
+                    if (this.y >= enemy.y && this.y <= enemy.y + enemy.SIZE) this.dead = true;
+                }
+                else if (this.x >= enemy.x && this.x <= enemy.x + enemy.SIZE) { //bottom left corner
+                    if (this.y + this.YSIZE >= enemy.y && this.y + this.YSIZE <= enemy.y + enemy.SIZE) this.dead = true;
+                }
+                else if (this.x + this.XSIZE >= enemy.x && this.x + this.XSIZE <= enemy.x + enemy.SIZE) { //bottom right
+                    if (this.y + this.YSIZE >= enemy.y && this.y + this.YSIZE <= enemy.y + enemy.SIZE) this.dead = true;
+                }
+                else if (this.x + this.XSIZE >= enemy.x && this.x + this.XSIZE <= enemy.x + enemy.SIZE) {
+                    if (this.y >= enemy.y && this.y <= enemy.y + enemy.SIZE) this.dead = true;
+                }
+            }
+        }
+    }
+    
     this.draw = function () {
         context.drawImage(this.img, this.x + camera.xOffset, this.y + camera.yOffset);
     }
@@ -88,6 +108,7 @@ function Sprite (x, y) {
         this.yVelocity += gravity;
         
         this.checkBoxCollision();
+        this.checkEnemyCollision();
         
         this.x += this.xVelocity;
         this.y += this.yVelocity;

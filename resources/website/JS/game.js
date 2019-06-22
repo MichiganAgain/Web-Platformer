@@ -2,6 +2,9 @@ var canvas = document.getElementById("mainCanvas")
 canvas.width = window.innerWidth - 4;
 canvas.height = window.innerHeight - 4;
 var context = canvas.getContext("2d");
+var text = ["A forced update accidentally deleted all of your files :(", "And you got another blue sceen of death :(",
+            "And your computer isn't up to spec to run it :(", "And you got more viruses than you have braincells :(",
+            "And the cmd is worse than "];
 
 window.addEventListener("keydown", function (evt) {
     if (evt.keyCode == 32 && sprite.canJump) {
@@ -35,7 +38,7 @@ window.addEventListener("click", function (evt) {
     var xDiff = xMouse - (sprite.x + sprite.XSIZE / 2);
     var yDiff = yMouse - (sprite.y + sprite.YSIZE / 2);
     var theta = Math.atan2(yDiff, xDiff);
-    var velocity = 20;
+    var velocity = 15;
     
     //blocks.push(new Block(xMouse, yMouse));
     snowballs.push(new Snowball((sprite.x + sprite.XSIZE / 2)-7, (sprite.y + sprite.YSIZE / 2)-7, Math.cos(theta) * velocity + sprite.xVelocity, Math.sin(theta) * velocity + sprite.yVelocity));
@@ -45,19 +48,29 @@ var gravity = 0.5;
 var GUARD = 0.001;
 var keydown = false;
 
-var sprite = new Sprite(50, 50);
+var sprite;
 var snowballs = [];
 var blocks = [];
-var enemies = [new Enemy(200, 350)];
+var enemies = [];
 var fishies = [];
-var camera = new Camera();
+var camera;
 
-for (var i = 0; i < 20; i++) blocks.push(new Block(50 * i, 450));
-for (var i = 12; i < 17; i++) blocks.push(new Block(50 * i, 1000 - i * 50));
-for (var i = 0; i < 90; i++) blocks.push(new Block(100, 50 * i + 400));
-for (var i = 0; i < 100; i++) blocks.push(new Block(-150, 50 * i));
-for (var i = -10; i < 20; i++) blocks.push(new Block(50 * i, 5000));
-//blocks.push(new Block(300, 400));
+function initWorld () {
+    snowballs = [];
+    blocks = [];
+    enemies = [];
+    fishies = [];
+    for (var i = 0; i < 20; i++) blocks.push(new Block(50 * i, 450));
+    for (var i = 12; i < 17; i++) blocks.push(new Block(50 * i, 1000 - i * 50));
+    for (var i = 0; i < 90; i++) blocks.push(new Block(100, 50 * i + 400));
+    for (var i = 0; i < 100; i++) blocks.push(new Block(-150, 50 * i));
+    for (var i = -10; i < 20; i++) blocks.push(new Block(50 * i, 5000));
+    //blocks.push(new Block(300, 400));
+    sprite = new Sprite(50, 50);
+    enemies.push(new Enemy(200, 350));
+    enemies.push(new Enemy(500, 350));
+    camera = new Camera();
+}
 
 function animate () {
     requestAnimationFrame(animate);
@@ -66,8 +79,15 @@ function animate () {
     camera.update();
     for (let block of blocks) block.update();
     for (let fish of fishies) fish.update();
-    sprite.update();
     for (let enemy of enemies) enemy.update();
-    for (let snowball of snowballs) snowball.update();
+    sprite.update();
+    if (sprite.dead) {
+        alert("Oh noo, you tried windows.  " + text[Math.floor(Math.random() * text.length)]);
+        initWorld();
+    }
+    for (let snowball of snowballs) {
+        if (snowball.dead == false) snowball.update();
+    }
 }
+initWorld();
 animate();
