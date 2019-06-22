@@ -11,7 +11,7 @@ $("#enemy").click(function () {mostRecentlySelected = "enemy";});
 
 $("#saveButton").click(function () {
     if (spriteExists) {
-        var mapData = {blocks: [], sprite: {"x": 0, "y": 0}, enemies: []};
+        var mapData = {"blocks": [], sprite: {"x": 0, "y": 0}, "enemies": []};
 
         for (let block of blocks) mapData.blocks.push({"x": block.x, "y": block.y});
         for (let enemy of enemies) mapData.enemies.push({"x": enemy.x, "y": enemy.y});
@@ -19,8 +19,9 @@ $("#saveButton").click(function () {
         mapData.sprite.y = sprite.y;
         
         var formData = new FormData();
-        formData.append(mapData);
-        fetch("/");
+        formData.append("username", "MichiganAgain");
+        formData.append("mapData", mapData.stringify());
+        fetch("/database/mapTable/insert", {method: "POST", body: formData});
     }
 });
 

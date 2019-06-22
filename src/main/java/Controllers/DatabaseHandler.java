@@ -2,10 +2,7 @@ package Controllers;
 
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -28,16 +25,32 @@ public class DatabaseHandler {
     }
 
     @POST
-    @Path("{tableName}/insert")
+    @Path("userTable/insert")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public static void insert (@PathParam("tableName") String tableName, @FormDataParam("username") String username, @FormDataParam("password") String password) {
+    public static void insert (@FormDataParam("username") String username, @FormDataParam("password") String password) {
         try {
-            PreparedStatement ps = database.prepareStatement("INSERT INTO ? (username, password) VALUES (?, ?)");
-            ps.setString(1, tableName);
-            ps.setString(2, username);
-            ps.setString(3, password);
+            PreparedStatement ps = database.prepareStatement("INSERT INTO userTable (username, password) VALUES (?, ?)");
+            ps.setString(1, username);
+            ps.setString(2, password);
             ps.execute();
             System.out.println("Inserted into userTable database");
+
+        } catch (Exception e) {
+            System.out.println("Failed to insert into database");
+        }
+    }
+
+    @POST
+    @Path("mapTable/insert")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public static void insertMapData (@FormDataParam("username") String username, @FormDataParam("mapData") String mapData) {
+        try {
+            System.out.println(mapData);
+            /*PreparedStatement ps = database.prepareStatement("INSERT INTO mapTable (username, password) VALUES (?, ?)");
+            ps.setString(1, username);
+            ps.setString(2, mapData);
+            ps.execute();
+            System.out.println("Inserted into userTable database");*/
 
         } catch (Exception e) {
             System.out.println("Failed to insert into database");

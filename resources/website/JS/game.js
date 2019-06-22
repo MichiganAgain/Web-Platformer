@@ -8,7 +8,7 @@ var text = ["A forced update accidentally deleted all of your files :(", "And yo
 
 window.addEventListener("keydown", function (evt) {
     if (evt.keyCode == 32 && sprite.canJump) {
-        sprite.yVelocity = -10;
+        sprite.yVelocity = -12;
         sprite.canJump = false;
     }
     else if (evt.keyCode == 65) {
