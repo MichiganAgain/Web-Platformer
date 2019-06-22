@@ -18,8 +18,7 @@ public class DatabaseHandler {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
             byte[] data = messageDigest.digest(plainText.getBytes());
             BigInteger bigInteger = new BigInteger(1, data);
-            String hashedText = bigInteger.toString();
-            return hashedText;
+            return bigInteger.toString();
 
         } catch (Exception e) {
             System.out.println("Failed to has string");
