@@ -4,16 +4,14 @@ canvas.height = window.innerHeight * 0.9;
 var context = canvas.getContext("2d");
 var mostRecentlySelected = null;
 
-$("img").hover(function () {
-    $(this).animate({borderRadius: "5px"}, 100);
-                
-}, function () {
-    $(this).animate({borderRadius: "0px"}, 100);
-});
 
 $("#block").click(function () {mostRecentlySelected = "block";});
 $("#sprite").click(function () {mostRecentlySelected = "sprite";});
 $("#enemy").click(function () {mostRecentlySelected = "enemy";});
+
+$("#saveButton").click(function () {
+    
+});
 
 window.addEventListener("keydown", function (evt) {
     if (evt.keyCode == 65) camera.xOffset += 50; //a
@@ -37,6 +35,12 @@ window.addEventListener("click", function (evt) {
         }
         else if (mostRecentlySelected == "enemy") enemies.push(new Enemy(mouseX, mouseY));
     }
+});
+
+window.addEventListener("mousemove", function (evt) {
+    var mouseX = (evt.clientX - camera.xOffset)
+    var mouseY = (evt.clientY - camera.yOffset)
+    document.getElementById("coords").innerHTML = "x: " + mouseX + "  y: " + mouseY;
 });
 
 
