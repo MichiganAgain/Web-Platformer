@@ -28,12 +28,12 @@ function Snowball (x, y, xVelocity, yVelocity) {
             }
             //bottom block
             if (this.y >= block.y + block.SIZE && this.y + this.yVelocity <= block.y + block.SIZE) {
-                if (this.x >= block.x && this.x <= block.x + block.SIZE) {
+                if ((this.x >= block.x && this.x <= block.x + block.SIZE)) {
                     this.yVelocity = 0;
                     this.y = block.y + block.SIZE + GUARD;
                     bottomCollision = true;
                 }
-                else if (this.x + this.SIZE >= block.x && this.x + this.SIZE <= block.x + block.SIZE) {
+                else if ((this.x + this.SIZE >= block.x && this.x + this.SIZE <= block.x + block.SIZE)) {
                     this.yVelocity = 0;
                     this.y = block.y + block.SIZE + GUARD;
                     bottomCollision = true;
@@ -41,22 +41,22 @@ function Snowball (x, y, xVelocity, yVelocity) {
             }
             //left block
             if (this.x + this.SIZE <= block.x && this.x + this.SIZE + this.xVelocity >= block.x) {
-                if (this.y >= block.y && this.y <= block.y + block.SIZE) {
+                if ((this.y >= block.y && this.y <= block.y + block.SIZE)) {
                     this.x = block.x - this.SIZE - GUARD;
                     leftCollision = true;
                 }
-                else if (this.y + this.SIZE >= block.y && this.y + this.SIZE <= block.y + block.SIZE) {
+                else if ((this.y + this.SIZE >= block.y && this.y + this.SIZE <= block.y + block.SIZE)) {
                     this.x = block.x - this.SIZE - GUARD;
                     leftCollision = true;
                 }
             }
             //right block
             if (this.x >= block.x + block.SIZE && this.x + this.xVelocity <= block.x + block.SIZE) {
-                if (this.y >= block.y && this.y <= block.y + block.SIZE) {
+                if ((this.y >= block.y && this.y <= block.y + block.SIZE)) {
                     this.x = block.x + block.SIZE + GUARD;
                     rightCollision = true;
                 }
-                else if (this.y + this.SIZE >= block.y && this.y + this.SIZE <= block.y + block.SIZE) {
+                else if ((this.y + this.SIZE >= block.y && this.y + this.SIZE <= block.y + block.SIZE)) {
                     this.x = block.x + block.SIZE + GUARD;
                     rightCollision = true;
                 }
