@@ -11,7 +11,6 @@ import java.security.MessageDigest;
 import java.sql.PreparedStatement;
 
 import static Server.ServerStarter.database;
-
 @Path("database/")
 public class DatabaseHandler {
     public static String hash (String plainText) {
@@ -19,8 +18,7 @@ public class DatabaseHandler {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
             byte[] data = messageDigest.digest(plainText.getBytes());
             BigInteger bigInteger = new BigInteger(1, data);
-            String hashedText = bigInteger.toString();
-            return hashedText;
+            return bigInteger.toString();
 
         } catch (Exception e) {
             System.out.println("Failed to has string");
