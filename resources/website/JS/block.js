@@ -2,7 +2,7 @@ function Block (x, y) {
     this.x = x;
     this.y = y;
     this.SIZE = 50;
-    this.img = document.getElementById("ice");
+    this.img = document.getElementById("block");
     
     this.draw = function () {
         context.drawImage(this.img, this.x + camera.xOffset, this.y + camera.yOffset);

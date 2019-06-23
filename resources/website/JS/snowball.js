@@ -10,7 +10,7 @@ function Snowball (x, y, xVelocity, yVelocity) {
     this.dead = false;
     this.damage = 25;
     this.totalCollisions = 0;
-    this.maxCollisions = 100;
+    this.maxCollisions = 50;
     
     this.checkBoxCollision = function () {
         var topCollision = false;
