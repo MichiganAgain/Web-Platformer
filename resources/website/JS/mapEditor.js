@@ -8,6 +8,7 @@ var mostRecentlySelected = null;
 $("#block").click(function () {mostRecentlySelected = "block";});
 $("#sprite").click(function () {mostRecentlySelected = "sprite";});
 $("#enemy").click(function () {mostRecentlySelected = "enemy";});
+$("#eraser").click(function () {mostRecentlySelected = "eraser";});
 
 $("#saveButton").click(function () {
     if (spriteExists) {
@@ -39,6 +40,27 @@ window.addEventListener("click", function (evt) {
         
         var mouseY = (evt.clientY - camera.yOffset) - ((evt.clientY - camera.yOffset) % 50);
         if ((evt.clientY - camera.yOffset) < 0) mouseY -= 50;
+
+
+        //check if something is already there
+            for (var i = 0; i < blocks.length; i++) {
+                if (blocks[i].x == mouseX && blocks[i].y == mouseY) {
+                    blocks.splice(i, 1);
+                    break;
+                }
+            }
+            if (spriteExists && sprite.x == mouseX && sprite.y == mouseY) {
+                spriteExists = false;
+                sprite = null;
+            }
+            for (var i = 0; i < enemies.length; i++) {
+                if (enemies[i].x == mouseX && enemies[i].y == mouseY) {
+                    enemies.splice(i, 1);
+                    break;
+                }
+            }
+        //
+
 
         if (mostRecentlySelected == "block") blocks.push(new Block(mouseX, mouseY));
         else if (mostRecentlySelected == "sprite") {
