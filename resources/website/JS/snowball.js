@@ -5,7 +5,6 @@ function Snowball (x, y, xVelocity, yVelocity) {
     this.yVelocity = yVelocity;
     this.img = document.getElementById("snowball");
     this.SIZE = 15;
-    this.friction = 0.9;
     this.airResistance = 0.99;
     this.dead = false;
     this.damage = 25;
@@ -23,10 +22,14 @@ function Snowball (x, y, xVelocity, yVelocity) {
             if (this.y + this.SIZE <= block.y && this.y + this.SIZE + this.yVelocity >= block.y) {
                 if (this.x >= block.x && this.x <= block.x + block.SIZE) {
                     this.y = block.y - this.SIZE - GUARD;
+                    this.xVelocity *= block.friction;
+                    this.yVelocity *= -block.bounce;
                     topCollision = true;
                 }
                 else if (this.x + this.SIZE >= block.x && this.x + this.SIZE <= block.x + block.SIZE) {
                     this.y = block.y - this.SIZE - GUARD;
+                    this.xVelocity *= block.friction;
+                    this.yVelocity *= -block.bounce;
                     topCollision = true;
                 }
             }
@@ -67,8 +70,7 @@ function Snowball (x, y, xVelocity, yVelocity) {
             }
         }
         if (topCollision) {
-            this.xVelocity *= this.friction;
-            this.yVelocity *= -0.3;
+            
         }
         if (leftCollision || rightCollision) this.xVelocity *= -0.3;
         if (leftCollision || rightCollision || topCollision || bottomCollision) this.totalCollisions += 1;

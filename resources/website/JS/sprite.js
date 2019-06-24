@@ -25,13 +25,13 @@ function Sprite (x, y) {
                 if ((this.x >= block.x && this.x <= block.x + block.SIZE) || (this.x + this.xVelocity >= block.x && this.x + this.xVelocity <= block.x + block.SIZE)) {
                     this.yVelocity = 0;
                     this.y = block.y - this.YSIZE - GUARD;
-                    bottomCollisionBox = block;
+                    if (!keydown) this.xVelocity *= block.friction;
                     topCollision = true;
                 }
                 else if ((this.x + this.XSIZE >= block.x && this.x + this.XSIZE <= block.x + block.SIZE) || (this.x + this.XSIZE + this.xVelocity >= block.x && this.x + this.XSIZE + this.xVelocity <= block.x + block.SIZE)) {
                     this.yVelocity = 0;
                     this.y = block.y - this.YSIZE - GUARD;
-                    bottomCollisionBox = block;
+                    if (!keydown) this.xVelocity *= block.friction;
                     topCollision = true;
                 }
             }
@@ -75,10 +75,7 @@ function Sprite (x, y) {
                 }
             }
         }
-        if (topCollision) {
-            this.canJump = true;
-            if (!keydown) this.xVelocity *= bottomCollisionBox.friction;
-        }
+        if (topCollision) this.canJump = true;
         else this.canJump = false;
         if (!keydown) this.xVelocity *= this.airResistance
     }

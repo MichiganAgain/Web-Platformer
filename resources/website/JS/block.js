@@ -5,13 +5,16 @@ function Block (x, y, type) {
     this.img = document.getElementById("ice");
     this.type = type;
     this.friction = 0;
+    this.bounce = 0;
     if (type == "dirt") {
         this.img = document.getElementById("dirt");
         this.friction = 0;
+        this.bounce = 0;
     }
     else if (type == "ice") {
         this.img = document.getElementById("ice");
         this.friction = 0.95;
+        this.bounce = 0.3;
     }
     
     this.draw = function () {

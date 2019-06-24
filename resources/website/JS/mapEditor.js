@@ -5,10 +5,11 @@ var context = canvas.getContext("2d");
 var mostRecentlySelected = null;
 
 
-$("#block").click(function () {mostRecentlySelected = "block";});
+$("#ice").click(function () {mostRecentlySelected = "ice";});
+$("#dirt").click(function () {mostRecentlySelected = "dirt";});
+$("#eraser").click(function () {mostRecentlySelected = "eraser";});
 $("#sprite").click(function () {mostRecentlySelected = "sprite";});
 $("#enemy").click(function () {mostRecentlySelected = "enemy";});
-$("#eraser").click(function () {mostRecentlySelected = "eraser";});
 
 $("#saveButton").click(function () {
     if (spriteExists) {
@@ -62,7 +63,8 @@ window.addEventListener("click", function (evt) {
         //
 
 
-        if (mostRecentlySelected == "block") blocks.push(new Block(mouseX, mouseY));
+        if (mostRecentlySelected == "ice") blocks.push(new Block(mouseX, mouseY, "ice"));
+        else if (mostRecentlySelected == "dirt") blocks.push(new Block(mouseX, mouseY, "dirt"));
         else if (mostRecentlySelected == "sprite") {
             spriteExists = true; //only for drawing it on the screen
             sprite = new Sprite(mouseX, mouseY);
@@ -90,24 +92,6 @@ function Sprite (x, y) {
     }
     
     this.update = function () { 
-        this.draw();
-    }
-}
-
-function Block (x, y) {
-    this.x = x;
-    this.y = y;
-    this.SIZE = 50;
-    this.img = document.getElementById("block");
-    
-    this.draw = function () {
-        context.drawImage(this.img, this.x + camera.xOffset, this.y + camera.yOffset);
-        context.strokeStyle = "#000000";
-        context.lineWidth = 2;
-        context.strokeRect(this.x + camera.xOffset, this.y + camera.yOffset, this.SIZE, this.SIZE);
-    }
-
-    this.update = function () {
         this.draw();
     }
 }
