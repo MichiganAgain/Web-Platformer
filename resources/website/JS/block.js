@@ -1,8 +1,18 @@
-function Block (x, y) {
+function Block (x, y, type) {
     this.x = x;
     this.y = y;
     this.SIZE = 50;
-    this.img = document.getElementById("block");
+    this.img = document.getElementById("ice");
+    this.type = type;
+    this.friction = 0;
+    if (type == "dirt") {
+        this.img = document.getElementById("dirt");
+        this.friction = 0;
+    }
+    else if (type == "ice") {
+        this.img = document.getElementById("ice");
+        this.friction = 0.95;
+    }
     
     this.draw = function () {
         context.drawImage(this.img, this.x + camera.xOffset, this.y + camera.yOffset);

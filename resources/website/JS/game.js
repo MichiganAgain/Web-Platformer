@@ -60,11 +60,11 @@ function initWorld () {
     blocks = [];
     enemies = [];
     fishies = [];
-    for (var i = 0; i < 20; i++) blocks.push(new Block(50 * i, 450));
-    for (var i = 12; i < 17; i++) blocks.push(new Block(50 * i, 1000 - i * 50));
-    for (var i = 0; i < 90; i++) blocks.push(new Block(100, 50 * i + 400));
-    for (var i = 0; i < 100; i++) blocks.push(new Block(-150, 50 * i));
-    for (var i = -10; i < 20; i++) blocks.push(new Block(50 * i, 5000));
+    for (var i = 0; i < 20; i++) blocks.push(new Block(50 * i, 450, "dirt"));
+    for (var i = 12; i < 17; i++) blocks.push(new Block(50 * i, 1000 - i * 50, "ice"));
+    for (var i = 0; i < 90; i++) blocks.push(new Block(100, 50 * i + 400, "ice"));
+    for (var i = 0; i < 100; i++) blocks.push(new Block(-150, 50 * i, "ice"));
+    for (var i = -10; i < 20; i++) blocks.push(new Block(50 * i, 5000, "dirt"));
     //blocks.push(new Block(300, 400));
     sprite = new Sprite(50, 50);
     enemies.push(new Enemy(200, 350));

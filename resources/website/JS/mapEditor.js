@@ -21,7 +21,7 @@ $("#saveButton").click(function () {
         
         var formData = new FormData();
         formData.append("username", "MichiganAgain");
-        formData.append("mapData", mapData.stringify());
+        formData.append("mapData", JSON.stringify(mapData));
         fetch("/database/mapTable/insert", {method: "POST", body: formData});
     }
 });
