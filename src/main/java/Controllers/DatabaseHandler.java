@@ -1,6 +1,8 @@
 package Controllers;
 
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -46,11 +48,12 @@ public class DatabaseHandler {
     public static void insertMapData (@FormDataParam("username") String username, @FormDataParam("mapData") String mapData) {
         try {
             System.out.println(mapData);
-            /*PreparedStatement ps = database.prepareStatement("INSERT INTO mapTable (username, password) VALUES (?, ?)");
-            ps.setString(1, username);
-            ps.setString(2, mapData);
-            ps.execute();
-            System.out.println("Inserted into userTable database");*/
+            JSONObject jsonObject = new JSONObject(mapData);
+
+            JSONArray jsonArray = jsonObject.getJSONArray("blocks");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                System.out.println(jsonArray.getJSONObject(i).getInt("x"));
+            }
 
         } catch (Exception e) {
             System.out.println("Failed to insert into database");
