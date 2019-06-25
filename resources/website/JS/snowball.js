@@ -69,9 +69,6 @@ function Snowball (x, y, xVelocity, yVelocity) {
                 }
             }
         }
-        if (topCollision) {
-            
-        }
         if (leftCollision || rightCollision) this.xVelocity *= -0.3;
         if (leftCollision || rightCollision || topCollision || bottomCollision) this.totalCollisions += 1;
     }
