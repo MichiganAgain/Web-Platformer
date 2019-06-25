@@ -7,7 +7,7 @@ var text = ["A forced update accidentally deleted all of your files :(", "And yo
             "And the cmd is worse than "];
 
 window.addEventListener("keydown", function (evt) {
-    if (evt.keyCode == 32 && sprite.canJump) {
+    if ((evt.keyCode == 32 || evt.keyCode == 87) && sprite.canJump) {
         sprite.yVelocity = -12;
         sprite.canJump = false;
     }
@@ -64,7 +64,7 @@ function initWorld () {
     for (var i = 12; i < 17; i++) blocks.push(new Block(50 * i, 1000 - i * 50, "ice"));
     for (var i = 0; i < 90; i++) blocks.push(new Block(100, 50 * i + 400, "ice"));
     for (var i = 0; i < 100; i++) blocks.push(new Block(-150, 50 * i, "ice"));
-    for (var i = -10; i < 20; i++) blocks.push(new Block(50 * i, 5000, "ice"));
+    for (var i = -10; i < 20; i++) blocks.push(new Block(50 * i, 5000, "slime"));
     //blocks.push(new Block(300, 400));
     sprite = new Sprite(50, 50);
     enemies.push(new Enemy(200, 350));

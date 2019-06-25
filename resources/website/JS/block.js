@@ -16,6 +16,11 @@ function Block (x, y, type) {
         this.friction = 0.95;
         this.bounce = 0.3;
     }
+    else if (type == "slime") {
+        this.img = document.getElementById("slime");
+        this.friction = 0.98;
+        this.bounce = 0.7;
+    }
     
     this.draw = function () {
         context.drawImage(this.img, this.x + camera.xOffset, this.y + camera.yOffset);

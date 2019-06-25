@@ -23,7 +23,7 @@ function Sprite (x, y) {
             //top of block
             if (this.y + this.YSIZE <= block.y && this.y + this.YSIZE + this.yVelocity >= block.y) {
                 if ((this.x >= block.x && this.x <= block.x + block.SIZE) || (this.x + this.xVelocity >= block.x && this.x + this.xVelocity <= block.x + block.SIZE)) {
-                    if (block.type === "slime") this.yVelocity *= -block.bounce;
+                    if (block.type === "slime" && this.yVelocity > 2) this.yVelocity *= -block.bounce;
                     else this.yVelocity = 0;
                     this.y = block.y - this.YSIZE - GUARD;
                     if (!keydown) this.xVelocity *= block.friction;
