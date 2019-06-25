@@ -84,19 +84,17 @@ function Sprite (x, y) {
     
     this.checkEnemyCollision = function () {
         for (let enemy of enemies) {
-            if (enemy.dead == false) {
-                if (this.x >= enemy.x && this.x <= enemy.x + enemy.SIZE) { //top left corner of sprite
-                    if (this.y >= enemy.y && this.y <= enemy.y + enemy.SIZE) this.dead = true;
-                }
-                else if (this.x >= enemy.x && this.x <= enemy.x + enemy.SIZE) { //bottom left corner
-                    if (this.y + this.YSIZE >= enemy.y && this.y + this.YSIZE <= enemy.y + enemy.SIZE) this.dead = true;
-                }
-                else if (this.x + this.XSIZE >= enemy.x && this.x + this.XSIZE <= enemy.x + enemy.SIZE) { //bottom right
-                    if (this.y + this.YSIZE >= enemy.y && this.y + this.YSIZE <= enemy.y + enemy.SIZE) this.dead = true;
-                }
-                else if (this.x + this.XSIZE >= enemy.x && this.x + this.XSIZE <= enemy.x + enemy.SIZE) {
-                    if (this.y >= enemy.y && this.y <= enemy.y + enemy.SIZE) this.dead = true;
-                }
+            if (this.x >= enemy.x && this.x <= enemy.x + enemy.SIZE) { //top left corner of sprite
+                if (this.y >= enemy.y && this.y <= enemy.y + enemy.SIZE) this.dead = true;
+            }
+            else if (this.x >= enemy.x && this.x <= enemy.x + enemy.SIZE) { //bottom left corner
+                if (this.y + this.YSIZE >= enemy.y && this.y + this.YSIZE <= enemy.y + enemy.SIZE) this.dead = true;
+            }
+            else if (this.x + this.XSIZE >= enemy.x && this.x + this.XSIZE <= enemy.x + enemy.SIZE) { //bottom right
+                if (this.y + this.YSIZE >= enemy.y && this.y + this.YSIZE <= enemy.y + enemy.SIZE) this.dead = true;
+            }
+            else if (this.x + this.XSIZE >= enemy.x && this.x + this.XSIZE <= enemy.x + enemy.SIZE) {
+                if (this.y >= enemy.y && this.y <= enemy.y + enemy.SIZE) this.dead = true;
             }
         }
     }

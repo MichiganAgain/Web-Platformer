@@ -77,16 +77,22 @@ function animate () {
     context.clearRect(0, 0, canvas.width, canvas.height);
     
     camera.update();
+
     for (let block of blocks) block.update();
     for (let fish of fishies) fish.update();
-    for (let enemy of enemies) enemy.update();
+    for (var i = 0; i < enemies.length; i++) {
+        enemies[i].update();
+        if (enemies[i].dead) enemies.splice(i, 1);
+    }
+
     sprite.update();
     if (sprite.dead) {
         alert("Oh noo, you tried windows.  " + text[Math.floor(Math.random() * text.length)]);
         initWorld();
     }
-    for (let snowball of snowballs) {
-        if (snowball.dead == false) snowball.update();
+    for (var i = 0; i < snowballs.length; i++) {
+        snowballs[i].update();
+        if (snowballs[i].dead) snowballs.splice(i, 1);
     }
 }
 initWorld();
