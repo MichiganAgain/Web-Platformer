@@ -18,7 +18,7 @@ public class ClientHandler {
             return data;
 
         } catch (Exception e) {
-            System.out.println("Failed to read file");
+            System.out.println("Failed to read file: " + path);
             return null;
         }
     }
