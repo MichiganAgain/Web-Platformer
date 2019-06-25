@@ -49,7 +49,6 @@ public class ClientHandler {
 
     @GET
     @Path("images/{path}")
-    @Produces("text/css")
     public static byte[] getImage (@PathParam("path") String path) {
         System.out.println("Serving image: " + path);
         return getFile("resources/website/Images/" + path);
