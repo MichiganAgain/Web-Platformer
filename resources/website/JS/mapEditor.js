@@ -1,6 +1,6 @@
 var canvas = document.getElementById("mainCanvas")
 canvas.width = window.innerWidth * 1;
-canvas.height = window.innerHeight * 0.9;
+canvas.height = window.innerHeight * 0.85;
 var context = canvas.getContext("2d");
 var mostRecentlySelected = null;
 
