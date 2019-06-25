@@ -4,7 +4,6 @@ canvas.height = window.innerHeight * 0.85;
 var context = canvas.getContext("2d");
 var mostRecentlySelected = null;
 
-
 $("#ice").click(function () {mostRecentlySelected = "ice";});
 $("#dirt").click(function () {mostRecentlySelected = "dirt";});
 $("#slime").click(function () {mostRecentlySelected = "slime";});
