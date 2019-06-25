@@ -7,6 +7,7 @@ var mostRecentlySelected = null;
 
 $("#ice").click(function () {mostRecentlySelected = "ice";});
 $("#dirt").click(function () {mostRecentlySelected = "dirt";});
+$("#slime").click(function () {mostRecentlySelected = "slime";});
 $("#eraser").click(function () {mostRecentlySelected = "eraser";});
 $("#sprite").click(function () {mostRecentlySelected = "sprite";});
 $("#enemy").click(function () {mostRecentlySelected = "enemy";});
@@ -65,6 +66,7 @@ window.addEventListener("click", function (evt) {
 
         if (mostRecentlySelected == "ice") blocks.push(new Block(mouseX, mouseY, "ice"));
         else if (mostRecentlySelected == "dirt") blocks.push(new Block(mouseX, mouseY, "dirt"));
+        else if (mostRecentlySelected == "slime") blocks.push(new Block(mouseX, mouseY, "slime"));
         else if (mostRecentlySelected == "sprite") {
             spriteExists = true; //only for drawing it on the screen
             sprite = new Sprite(mouseX, mouseY);
@@ -103,6 +105,7 @@ function Block (x, y, type) {
     this.img = document.getElementById("ice");
     if (type == "dirt") this.img = document.getElementById("dirt");
     else if (type == "ice") this.img = document.getElementById("ice");
+    else if (type == "slime") this.img = document.getElementById("slime");
     
     this.draw = function () {
         context.drawImage(this.img, this.x + camera.xOffset, this.y + camera.yOffset);
