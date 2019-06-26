@@ -129,8 +129,8 @@
             ////////////input validations/////////////////////
             function validateUsername () {
                 var username = $("#username").val();
-                return false;
-                //get usernames from database and check if it has already been choses
+                return true;
+                //get usernames from database and check if it has already been chosen
             }
 
             function validatePassword () {
@@ -154,6 +154,12 @@
                 }else $("#password-warning").animate({opacity: "0"}, 300);
 
                 if (validUsername && validPassword) {
+                    var formData = new FormData();
+                    formData.append("username", $("#username").val());
+                    formData.append("password", $("#password").val());
+                    fetch("/users/insert", {method: "POST", body: formData}).then(response => response.json()).then(data => {
+                        console.log(data);
+                    });
                     //add to database
                     //check if it was added correctly else alert :)
                     return true;

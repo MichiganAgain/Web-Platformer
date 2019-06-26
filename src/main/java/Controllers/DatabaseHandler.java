@@ -29,6 +29,7 @@ public class DatabaseHandler {
     @POST
     @Path("userTable/insert")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
     public static void insert (@FormDataParam("username") String username, @FormDataParam("password") String password) {
         try {
             PreparedStatement ps = database.prepareStatement("INSERT INTO users (username, password) VALUES (?, ?)");
