@@ -79,7 +79,7 @@ function Sprite (x, y) {
         }
         if (topCollision) this.canJump = true;
         else this.canJump = false;
-        if (!keydown) this.xVelocity *= this.airResistance
+        if (!keydown) this.xVelocity *= this.airResistance;
     }
     
     this.checkEnemyCollision = function () {

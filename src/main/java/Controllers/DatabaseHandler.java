@@ -54,6 +54,10 @@ public class DatabaseHandler {
             for (int i = 0; i < jsonArray.length(); i++) {
                 System.out.println(jsonArray.getJSONObject(i).getInt("x"));
             }
+            jsonArray = jsonObject.getJSONArray("enemies");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                System.out.println(jsonArray.getJSONObject(i).getInt("x"));
+            }
 
         } catch (Exception e) {
             System.out.println("Failed to insert into database");
