@@ -129,7 +129,13 @@
             ////////////input validations/////////////////////
             function validateUsername () {
                 var username = $("#username").val();
-                return true;
+                fetch("/users/select", {method: "GET"}).then(response => response.json()).then(data => {
+                    for (let jsonObject of data) {
+                        alert(jsonObject.username + " " + $("#username").val());
+                        if (jsonObject.username == username) return false;
+                    }
+                });
+
                 //get usernames from database and check if it has already been chosen
             }
 
@@ -142,6 +148,7 @@
 
             function checkInputs () {
                 var validUsername = validateUsername();
+                alert(validUsername);
                 if (!validUsername) {
                     $("#username-warning").html("Username has already been taken");
                     $("#username-warning").animate({opacity: "1"}, 300);
@@ -175,7 +182,7 @@
                     $("#username").delay(100).animate({left: "-300px", opacity: "0"}, 1000);
                     $("#password").delay(200).animate({left: "-300px", opacity: "0"}, 1000);
                     $("#register-button").delay(400).animate({left: "-300px", opacity: "0"}, 1000, function () {
-                        window.location.href = "login.html";
+                        //window.location.href = "login.html";
                     });
                 }
                 else ;
