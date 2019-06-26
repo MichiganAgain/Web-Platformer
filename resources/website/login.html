@@ -148,7 +148,7 @@
                 $("#password").delay(200).animate({left: "-300px", opacity: "0"}, 1000);
                 $("#login-button").delay(300).animate({left: "-300px", opacity: "0"}, 1000);
                 $("#register-button").delay(500).animate({left: "-300px", opacity: "0"}, 1000, function () {
-                    window.location.href = "register.html";
+                    window.location.href = "/client/register.html";
                 });
             });
 
@@ -160,7 +160,9 @@
                 $("#username").delay(100).animate({left: "-300px", opacity: "0"}, 1000);
                 $("#password").delay(200).animate({left: "-300px", opacity: "0"}, 1000);
                 $("#login-button").delay(300).animate({left: "-300px", opacity: "0"}, 1000);
-                $("#register-button").delay(500).animate({left: "-300px", opacity: "0"}, 1000);
+                $("#register-button").delay(500).animate({left: "-300px", opacity: "0"}, 1000, function () {
+                    window.location.href = "/client/game.html";
+                });
             }
 
         </script>
