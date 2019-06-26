@@ -18,7 +18,7 @@ public class DatabaseHandler {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
             byte[] data = messageDigest.digest(plainText.getBytes());
             BigInteger bigInteger = new BigInteger(1, data);
-            return bigInteger.toString();
+            return bigInteger.toString(16);
 
         } catch (Exception e) {
             System.out.println("Failed to has string");
@@ -31,9 +31,9 @@ public class DatabaseHandler {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public static void insert (@FormDataParam("username") String username, @FormDataParam("password") String password) {
         try {
-            PreparedStatement ps = database.prepareStatement("INSERT INTO userTable (username, password) VALUES (?, ?)");
+            PreparedStatement ps = database.prepareStatement("INSERT INTO users (username, password) VALUES (?, ?)");
             ps.setString(1, username);
-            ps.setString(2, password);
+            ps.setString(2, hash(password));
             ps.execute();
             System.out.println("Inserted into userTable database");
 
