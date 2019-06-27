@@ -81,15 +81,12 @@
             <div id="login-container">
                 
                 <img src="" id="profile-picture">
-
                 <div class="clear-float"></div>
-
                 <input type="text" class="text-input" id="username" placeholder="Username">
-
                 <div class="clear-float"></div>
-
                 <input type="password" class="text-input" id="password" placeholder="Password">
                 <div class="clear-float"></div>
+
                 <button id="login-button" class="button">Login</button>
                 <div class="clear-float"></div>
                 <button id="register-button" class="button">Register</button>
@@ -100,7 +97,7 @@
         
         <script type="text/javascript">
             window.addEventListener("keydown", function (evt) {
-                if (evt.keyCode == 13) {enterPressed();}
+                if (evt.keyCode == 13) {loginPressed();}
             });
 
             ///////////////PageLoad ANIMATIONS ////////////////////////////////////////
@@ -141,12 +138,18 @@
             });
             ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-            $("#register-button").click(function () {
+            /////////////////////Page Exit animations/////////////////////////////////
+            function exitAnimations () {
                 $("#register-button").css("border", "2px black inset");
                 $("#profile-picture").animate({left: "-300px", opacity: "0"}, 1000);
                 $("#username").delay(100).animate({left: "-300px", opacity: "0"}, 1000);
                 $("#password").delay(200).animate({left: "-300px", opacity: "0"}, 1000);
                 $("#login-button").delay(300).animate({left: "-300px", opacity: "0"}, 1000);
+            }
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            $("#register-button").click(function () {
+                exitAnimations();
                 $("#register-button").delay(500).animate({left: "-300px", opacity: "0"}, 1000, function () {
                     window.location.href = "/client/register.html";
                 });
@@ -154,14 +157,16 @@
 
             $("#login-button").click(function () {loginPressed();});
             function loginPressed () {
-                //function to check details
-                $("#login-button").css("border", "2px black inset");
-                $("#profile-picture").animate({left: "-300px", opacity: "0"}, 1000);
-                $("#username").delay(100).animate({left: "-300px", opacity: "0"}, 1000);
-                $("#password").delay(200).animate({left: "-300px", opacity: "0"}, 1000);
-                $("#login-button").delay(300).animate({left: "-300px", opacity: "0"}, 1000);
-                $("#register-button").delay(500).animate({left: "-300px", opacity: "0"}, 1000, function () {
-                    window.location.href = "/client/game.html";
+                var formData = new FormData();
+                formData.append("username", $("#username").val());
+                formData.append("password", $("#password").val());
+                fetch("/users/select", {method: "POST", body: formData}).then(response => response.json()).then(data => {
+                    if (data.hasOwnProperty('success') && data.success > 0) {
+                        exitAnimations();
+                        $("#register-button").delay(500).animate({left: "-300px", opacity: "0"}, 1000, function () {
+                            window.location.href = "/client/game.html";
+                        });
+                    }
                 });
             }
 

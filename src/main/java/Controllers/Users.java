@@ -30,21 +30,19 @@ public class Users {
         }
     }
 
-    @GET
+    @POST
     @Path("select")
     @Produces(MediaType.APPLICATION_JSON)
-    public String selectUsernames () {
+    public String selectUsernames (@FormDataParam("username") String username, @FormDataParam("password") String password) {
         try {
-            PreparedStatement ps = database.prepareStatement("SELECT username FROM users");
+            PreparedStatement ps = database.prepareStatement("SELECT * FROM users WHERE username=? AND password=?");
+            ps.setString(1, username);
+            ps.setString(2, hash(password));
             ResultSet resultSet = ps.executeQuery();
 
-            JSONArray jsonArray = new JSONArray();
-            while (resultSet.next()) {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("username", resultSet.getString(1));
-                jsonArray.put(jsonObject);
-            }
-            return jsonArray.toString();
+            int resultCount = 0;
+            while (resultSet.next()) resultCount++;
+            return "{\"success\": " + resultCount + "}";
 
         } catch (Exception e) {
             System.out.println("Failed to select from the users table");
