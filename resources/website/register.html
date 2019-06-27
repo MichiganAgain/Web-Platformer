@@ -127,16 +127,16 @@
 
             
             ////////////input validations/////////////////////
-            function validateUsername () {
+            /*function validateUsername () {            TSS
                 var username = $("#username").val();
                 fetch("/users/select", {method: "GET"}).then(response => response.json()).then(data => {
                     for (let jsonObject of data) {
-                        if (jsonObject.username == username) return false;
+                        if (jsonObject.username == username) {return false; alert();}
                     }
                 });
                 return true;
                 //get usernames from database and check if it has already been chosen
-            }
+            }*/
 
             function validatePassword () {
                 var password = $("#password").val();
@@ -145,46 +145,36 @@
             }
             //////////////////////////////////////////////////////////////////////////////
 
-            function checkInputs () {
-                var validUsername = validateUsername();
-                //alert(validUsername);
-                if (!validUsername) {
-                    $("#username-warning").html("Username has already been taken");
-                    $("#username-warning").animate({opacity: "1"}, 300);
-                }else $("#username-warning").animate({opacity: "0"}, 300);
-
-                var validPassword = validatePassword(); 
+            $("#register-button").click(function () {registerPressed();});
+            function registerPressed () {
+                var validPassword = validatePassword();
                 if (!validPassword) {
                     $("#password-warning").html("Password has to be at least 8 characters long");
                     $("#password-warning").animate({opacity: "1"}, 300);
                 }else $("#password-warning").animate({opacity: "0"}, 300);
 
-                if (validUsername && validPassword) {
+                if (validPassword) {
                     var formData = new FormData();
                     formData.append("username", $("#username").val());
                     formData.append("password", $("#password").val());
                     fetch("/users/insert", {method: "POST", body: formData}).then(response => response.json()).then(data => {
-                        console.log(data);
-                    });
-                    //add to database
-                    //check if it was added correctly else alert :)
-                    return true;
-                }
-                return false;
-            }
-
-            $("#register-button").click(function () {registerPressed();});
-            
-            function registerPressed () {
-                if (checkInputs()) {
-                    $("#register-button").css("border", "2px black inset");
-                    $("#username").delay(100).animate({left: "-300px", opacity: "0"}, 1000);
-                    $("#password").delay(200).animate({left: "-300px", opacity: "0"}, 1000);
-                    $("#register-button").delay(400).animate({left: "-300px", opacity: "0"}, 1000, function () {
-                        window.location.href = "login.html";
+                        var validUsername = true;
+                        if (data.hasOwnProperty('error')) validUsername = false;
+                        if (!validUsername) {
+                            $("#username-warning").html("Username has already been taken");
+                            $("#username-warning").animate({opacity: "1"}, 300);
+                        }
+                        else {
+                            $("#username-warning").animate({opacity: "0"}, 300);
+                            $("#register-button").css("border", "2px black inset");
+                            $("#username").delay(100).animate({left: "-300px", opacity: "0"}, 1000);
+                            $("#password").delay(200).animate({left: "-300px", opacity: "0"}, 1000);
+                            $("#register-button").delay(400).animate({left: "-300px", opacity: "0"}, 1000, function () {
+                                window.location.href = "login.html";
+                            });
+                        }
                     });
                 }
-                else ;
             }
 
         </script>

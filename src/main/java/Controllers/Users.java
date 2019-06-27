@@ -26,7 +26,7 @@ public class Users {
 
         } catch (Exception e) {
             System.out.println("Failed to insert into users table");
-            return "{\"error\": \"Not logged in as valid admin\"}";
+            return "{\"error\": \"taken\"}";
         }
     }
 

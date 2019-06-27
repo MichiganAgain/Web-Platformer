@@ -16,7 +16,6 @@
     <dependencies>
 
         <!-- SQLite -->
-
         <!-- https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc -->
         <dependency>
             <groupId>org.xerial</groupId>
@@ -25,7 +24,6 @@
         </dependency>
 
         <!-- JSON Simple -->
-
         <!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
@@ -34,7 +32,6 @@
         </dependency>
 
         <!-- Jersey -->
-
         <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-server -->
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
