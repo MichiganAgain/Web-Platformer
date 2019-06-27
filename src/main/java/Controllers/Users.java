@@ -36,7 +36,7 @@ public class Users {
             ps.setString(2, hash(password));
             ps.execute();
             System.out.println("Inserted into users table");
-            return "{\"success\": \"logged in as valid admin\"}";
+            return "{\"success\": \"successfully added user\"}";
 
         } catch (Exception e) {
             System.out.println("Failed to insert into users table");
@@ -46,6 +46,7 @@ public class Users {
 
     @POST
     @Path("select")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     public String selectUsernames (@FormDataParam("username") String username, @FormDataParam("password") String password) {
         try {

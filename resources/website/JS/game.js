@@ -5,6 +5,7 @@ var context = canvas.getContext("2d");
 var text = ["A forced update accidentally deleted all of your files :(", "And you got another blue sceen of death :(",
             "And your computer isn't up to spec to run it :(", "And you got more viruses than you have braincells :(",
             "And the cmd is worse than "];
+$("#mainCanvas").animate({opacity: 1}, 1000);
 
 window.addEventListener("keydown", function (evt) {
     if ((evt.keyCode == 32 || evt.keyCode == 87) && sprite.canJump) {
@@ -66,7 +67,7 @@ function initWorld () {
     for (var i = 0; i < 100; i++) blocks.push(new Block(-150, 50 * i, "ice"));
     for (var i = -10; i < 20; i++) blocks.push(new Block(50 * i, 5000, "slime"));
     //blocks.push(new Block(300, 400));
-    sprite = new Sprite(50, 50);
+    sprite = new Sprite(50, 400);
     enemies.push(new Enemy(200, 350));
     enemies.push(new Enemy(500, 350));
     camera = new Camera();

@@ -79,7 +79,7 @@
 
     </head>
 
-    <body>
+    <body onload="pageLoad()">
 
         <div id="wrapper">
             
@@ -107,45 +107,45 @@
                 if (evt.keyCode == 13) {loginPressed();}
             });
 
-            ///////////////PageLoad ANIMATIONS ////////////////////////////////////////
-            var rnum = Math.floor((Math.random() * 9)) + 1;
-            $("#profile-picture").attr("src", "/client/images/SaitamaGIF" + rnum + ".gif");
-
-            $("#login-container").animate({opacity: "0"}, 0);
-            $("#login-container").animate({opacity: "1"}, 1000);
-
-            $("#profile-picture").animate({left: "0px", opacity: "1"}, 1000);
-            $("#username").delay(100).animate({left: "0px", opacity: "1"}, 1000);
-            $("#password").delay(200).animate({left: "0px", opacity: "1"}, 1000);
-            $("#login-button").delay(300).animate({left: "0px", opacity: "1"}, 1000);
-            $("#register-button").delay(500).animate({left: "0px", opacity: "1"}, 1000);
-            ///////////////////////////////////////////////////////////////////////////////////////////////
-
 
             ////////General Animations ///////////////////////////////////////////////////////
             $(".button").hover(function () {
-                $(this).animate({width: "50%", borderRadius: "9px"}, 100);
+                $(this).animate({width: "50%", borderRadius: "9px"}, 50);
 
             }, function () {
-                $(this).animate({width: "40%", borderRadius: "2px"}, 100);
+                $(this).animate({width: "40%", borderRadius: "2px"}, 50);
             });
 
             $(".text-input").hover(function () {
-                $(this).animate({borderRadius: "5px"}, 100);
+                $(this).animate({borderRadius: "5px"}, 50);
 
             }, function () {
-                $(this).animate({borderRadius: "10px"}, 100);
+                $(this).animate({borderRadius: "10px"}, 50);
             });
 
             $("#profile-picture").hover(function () {
-                $(this).animate({width: "35%"}, 300);
+                $(this).animate({width: "35%"}, 50);
 
             }, function () {
-                $(this).animate({width: "30%"}, 300);
+                $(this).animate({width: "30%"}, 50);
             });
             ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-            /////////////////////Page Exit animations/////////////////////////////////
+            /////////////////////Page Load / Exit animations/////////////////////////////////
+            function pageLoad () {
+                var rnum = Math.floor((Math.random() * 9)) + 1;
+                $("#profile-picture").attr("src", "/client/images/SaitamaGIF" + rnum + ".gif");
+
+                $("#login-container").animate({opacity: "0"}, 0);
+                $("#login-container").animate({opacity: "1"}, 1000);
+
+                $("#profile-picture").animate({left: "0px", opacity: "1"}, 1000);
+                $("#username").delay(100).animate({left: "0px", opacity: "1"}, 1000);
+                $("#password").delay(200).animate({left: "0px", opacity: "1"}, 1000);
+                $("#login-button").delay(300).animate({left: "0px", opacity: "1"}, 1000);
+                $("#register-button").delay(500).animate({left: "0px", opacity: "1"}, 1000);
+            }
+
             function exitAnimations () {
                 $("#input-warning").animate({opacity: "0"}, 100);
                 $("#register-button").css("border", "2px black inset");
