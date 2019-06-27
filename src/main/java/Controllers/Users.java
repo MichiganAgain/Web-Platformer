@@ -1,17 +1,31 @@
 package Controllers;
 
-import static Controllers.DatabaseHandler.hash;
 import static Server.ServerStarter.database;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.json.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 @Path("users/")
 public class Users {
+    public static String hash (String plainText) {
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
+            byte[] data = messageDigest.digest(plainText.getBytes());
+            BigInteger bigInteger = new BigInteger(1, data);
+            return bigInteger.toString(16);
+
+        } catch (Exception e) {
+            System.out.println("Failed to has string");
+            return null;
+        }
+    }
+
     @POST
     @Path("insert")
     @Consumes(MediaType.MULTIPART_FORM_DATA)

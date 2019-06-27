@@ -69,6 +69,11 @@
             }
 
             .clear-float {float: none;}
+            
+            #input-warning {
+                color: #FF0000;
+                opacity: 0;
+            }
 
         </style>
 
@@ -81,6 +86,8 @@
             <div id="login-container">
                 
                 <img src="" id="profile-picture">
+                <div class="clear-float"></div>
+                <p id="input-warning">Invalid username or password</p>
                 <div class="clear-float"></div>
                 <input type="text" class="text-input" id="username" placeholder="Username">
                 <div class="clear-float"></div>
@@ -140,6 +147,7 @@
 
             /////////////////////Page Exit animations/////////////////////////////////
             function exitAnimations () {
+                $("#input-warning").animate({opacity: "0"}, 100);
                 $("#register-button").css("border", "2px black inset");
                 $("#profile-picture").animate({left: "-300px", opacity: "0"}, 1000);
                 $("#username").delay(100).animate({left: "-300px", opacity: "0"}, 1000);
@@ -161,11 +169,14 @@
                 formData.append("username", $("#username").val());
                 formData.append("password", $("#password").val());
                 fetch("/users/select", {method: "POST", body: formData}).then(response => response.json()).then(data => {
-                    if (data.hasOwnProperty('success') && data.success > 0) {
+                    if (data.hasOwnProperty('success') && data.success == 1) {
                         exitAnimations();
                         $("#register-button").delay(500).animate({left: "-300px", opacity: "0"}, 1000, function () {
                             window.location.href = "/client/game.html";
                         });
+                    }
+                    else {
+                        $("#input-warning").animate({opacity: "1"}, 100);
                     }
                 });
             }

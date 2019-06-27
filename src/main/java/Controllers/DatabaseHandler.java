@@ -13,19 +13,6 @@ import java.sql.PreparedStatement;
 import static Server.ServerStarter.database;
 @Path("database/")
 public class DatabaseHandler {
-    public static String hash (String plainText) {
-        try {
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
-            byte[] data = messageDigest.digest(plainText.getBytes());
-            BigInteger bigInteger = new BigInteger(1, data);
-            return bigInteger.toString(16);
-
-        } catch (Exception e) {
-            System.out.println("Failed to has string");
-            return null;
-        }
-    }
-
     @POST
     @Path("mapTable/insert")
     @Consumes(MediaType.MULTIPART_FORM_DATA)

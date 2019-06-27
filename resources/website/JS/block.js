@@ -19,7 +19,7 @@ function Block (x, y, type) {
     else if (type == "slime") {
         this.img = document.getElementById("slime");
         this.friction = 0.98;
-        this.bounce = 0.7;
+        this.bounce = 0.5;
     }
     
     this.draw = function () {
