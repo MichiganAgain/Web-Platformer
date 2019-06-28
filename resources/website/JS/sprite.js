@@ -109,9 +109,10 @@ function Sprite (x, y) {
         
         this.checkBoxCollision();
         this.checkEnemyCollision();
-        
+
         this.x += this.xVelocity;
         this.y += this.yVelocity;
+        camera.update();
         
         this.draw();
     }

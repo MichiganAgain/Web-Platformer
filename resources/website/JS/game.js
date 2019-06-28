@@ -77,7 +77,7 @@ function animate () {
     requestAnimationFrame(animate);
     context.clearRect(0, 0, canvas.width, canvas.height);
     
-    camera.update();
+    //camera.update();
 
     for (let block of blocks) block.update();
     for (let fish of fishies) fish.update();
