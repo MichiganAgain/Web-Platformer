@@ -18,7 +18,7 @@
 
             #register-container {
                 display: inline-block;
-                margin-top: 10%;
+                margin-top: 15%;
                 width: 50%;
                 padding: 20px;
                 border: 0px black solid;
@@ -26,7 +26,7 @@
             }
 
             .text-input {
-                margin-bottom: 5%;
+                margin-bottom: 2%;
                 background-color: #555555;
                 border: 1px black solid;
                 border-radius: 10px;
@@ -163,7 +163,7 @@
                     formData.append("password", $("#password").val());
                     fetch("/users/insert", {method: "POST", body: formData}).then(response => response.json()).then(data => {
                         var validUsername = true;
-                        if (data.hasOwnProperty('error')) validUsername = false;
+                        if (data.hasOwnProperty('error')) {validUsername = false; console.log(data.error);}
                         if (!validUsername) {
                             $("#username-warning").html("Username has already been taken");
                             $("#username-warning").animate({opacity: "1"}, 300);

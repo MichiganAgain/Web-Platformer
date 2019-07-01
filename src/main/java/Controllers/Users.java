@@ -40,7 +40,7 @@ public class Users {
 
         } catch (Exception e) {
             System.out.println("Failed to insert into users table");
-            return "{\"error\": \"taken\"}";
+            return "{\"error\": \"Error: username taken\"}";
         }
     }
 
@@ -57,7 +57,7 @@ public class Users {
 
             int resultCount = 0;
             while (resultSet.next()) resultCount++;
-            return (resultCount == 1) ? "{\"success\": \"user exists\"}" : "{\"error\": \"user doesn't exist\"}";
+            return (resultCount == 1) ? "{\"success\": \"user exists\"}" : "{\"error\": \"Error: user doesn't exist\"}";
 
         } catch (Exception e) {
             System.out.println("Failed to select from the users table");
