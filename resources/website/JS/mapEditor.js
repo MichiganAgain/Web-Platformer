@@ -15,7 +15,7 @@ $("#saveButton").click(function () {
     if (spriteExists) {
         var mapData = {"blocks": [], sprite: {"x": 0, "y": 0}, "enemies": []};
 
-        for (let block of blocks) mapData.blocks.push({"x": block.x, "y": block.y});
+        for (let block of blocks) mapData.blocks.push({"type": block.type, "x": block.x, "y": block.y});
         for (let enemy of enemies) mapData.enemies.push({"x": enemy.x, "y": enemy.y});
         mapData.sprite.x = sprite.x;
         mapData.sprite.y = sprite.y;
@@ -23,7 +23,8 @@ $("#saveButton").click(function () {
         var formData = new FormData();
         formData.append("username", "MichiganAgain");
         formData.append("mapData", JSON.stringify(mapData));
-        fetch("/database/mapTable/insert", {method: "POST", body: formData});
+        formData.append("mapName", "First Map");
+        fetch("/maps/insert", {method: "POST", body: formData});
     }
 });
 

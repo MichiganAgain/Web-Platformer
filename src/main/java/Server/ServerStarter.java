@@ -46,9 +46,7 @@ public class ServerStarter {
             database = DriverManager.getConnection("jdbc:sqlite:resources/" + databaseName, sqLiteConfig.toProperties());
             System.out.println("Connected to database");
 
-        } catch (Exception e) {
-            System.out.println("Failed to connect to database");
-        }
+        } catch (Exception e) {System.out.println("Failed to connect to database");}
     }
 
     public static void disconnect () {
@@ -56,8 +54,6 @@ public class ServerStarter {
             database.close();
             System.out.println("Database closed");
 
-        } catch (Exception e) {
-            System.out.println("Failed to close database");
-        }
+        } catch (Exception e) {System.out.println("Failed to close database"); }
     }
 }

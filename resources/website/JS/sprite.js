@@ -80,6 +80,8 @@ function Sprite (x, y) {
         if (topCollision) this.canJump = true;
         else this.canJump = false;
         if (!keydown) this.xVelocity *= this.airResistance;
+        if (!topCollision && !bottomCollision && !leftCollision && ! rightCollision && Math.abs(this.yVelocity) > 50) camera.shake = true
+        else camera.shake = false;
     }
     
     this.checkEnemyCollision = function () {
@@ -109,9 +111,10 @@ function Sprite (x, y) {
         
         this.checkBoxCollision();
         this.checkEnemyCollision();
-        
+
         this.x += this.xVelocity;
         this.y += this.yVelocity;
+        camera.update();
         
         this.draw();
     }
