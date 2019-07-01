@@ -117,10 +117,12 @@
             });
 
             $(".text-input").hover(function () {
-                $(this).animate({borderRadius: "5px"}, 50);
+                //$(this).animate({borderRadius: "5px"}, 50);
+                $(this).animate({width: "60%"}, 50);
 
             }, function () {
-                $(this).animate({borderRadius: "10px"}, 50);
+                //$(this).animate({borderRadius: "10px"}, 50);
+                $(this).animate({width: "50%"}, 50);
             });
 
             // $("#profile-picture").hover(function () {
@@ -169,7 +171,7 @@
                 formData.append("username", $("#username").val());
                 formData.append("password", $("#password").val());
                 fetch("/users/select", {method: "POST", body: formData}).then(response => response.json()).then(data => {
-                    if (data.hasOwnProperty('success') && data.success == 1) {
+                    if (data.hasOwnProperty('success')) {
                         exitAnimations();
                         $("#register-button").delay(500).animate({left: "-300px", opacity: "0"}, 1000, function () {
                             window.location.href = "/client/game.html";

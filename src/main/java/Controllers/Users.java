@@ -57,7 +57,7 @@ public class Users {
 
             int resultCount = 0;
             while (resultSet.next()) resultCount++;
-            return "{\"success\": " + resultCount + "}";
+            return (resultCount == 1) ? "{\"success\": \"user exists\"}" : "{\"error\": \"user doesn't exist\"}";
 
         } catch (Exception e) {
             System.out.println("Failed to select from the users table");
