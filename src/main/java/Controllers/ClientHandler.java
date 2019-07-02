@@ -53,4 +53,11 @@ public class ClientHandler {
         System.out.println("Serving image: " + path);
         return getFile("resources/website/Images/" + path);
     }
+
+    @GET
+    @Path("audio/{path}")
+    public static byte[] getAudio (@PathParam("path") String path) {
+        System.out.println("Serving audio: " + path);
+        return getFile("resources/website/Audio/" + path);
+    }
 }
