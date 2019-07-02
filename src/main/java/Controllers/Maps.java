@@ -20,8 +20,10 @@ public class Maps {
     public String insertMapData (@FormDataParam("username") String username, @FormDataParam("mapData") String mapData, @FormDataParam("mapName") String mapName) {
         try {
             JSONObject jsonObject = new JSONObject(mapData);
+            database.setAutoCommit(false);
 
             JSONArray blockArray = jsonObject.getJSONArray("blocks");
+            System.out.println();
             for (int i = 0; i < blockArray.length(); i++) {
                 PreparedStatement ps = database.prepareStatement("INSERT INTO blocks (mapName, type, x, y) VALUES (?, ?, ?, ?)");
                 ps.setString(1, mapName);
@@ -46,6 +48,9 @@ public class Maps {
             ps.setInt(2, spriteObject.getInt("x"));
             ps.setInt(3, spriteObject.getInt("y"));
             ps.execute();
+
+            database.commit();
+            database.setAutoCommit(true);
 
             return "{\"success\": \"successfully added map data\"}";
 

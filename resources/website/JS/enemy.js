@@ -1,33 +1,41 @@
 function Enemy (x, y) {
     this.x = x;
     this.y = y;
-    this.xVelocity = -2;
+    this.xMovementVelocity = 2;
+    this.xVelocity = 0;
     this.yVelocity = 0;
+    this.jumpForce = 10;
     this.img = document.getElementById("enemy");
     this.SIZE = 49;
     this.maxHealth = 100;
     this.health = 100;
     this.myHealthBar = new healthBar(this);
     this.dead = false;
+    this.canJump = false;
+
+    this.topCollision = false;
+    this.bottomCollision = false;
+    this.leftCollision = false;
+    this.rightCollision = false;
     
     this.checkBoxCollision = function () {
-        var topCollision = false;
-        var bottomCollision = false;
-        var leftCollision = false;
-        var rightCollision = false;
+        this.topCollision = false;
+        this.bottomCollision = false;
+        this.leftCollision = false;
+        this.rightCollision = false;
         
         for (let block of blocks) {
             //top block
             if (this.y + this.SIZE <= block.y && this.y + this.SIZE + this.yVelocity >= block.y) {
                 if (this.x >= block.x && this.x <= block.x + block.SIZE) {
                     this.y = block.y - this.SIZE - GUARD;
-                    this.yVelocity = 0;
-                    topCollision = true;
+                    this.yVelocity *= -block.bounce;
+                    this.topCollision = true;
                 }
                 else if (this.x + this.SIZE >= block.x && this.x + this.SIZE <= block.x + block.SIZE) {
-                    this.yVelocity = 0;
+                    this.yVelocity *= -block.bounce;
                     this.y = block.y - this.SIZE - GUARD;
-                    topCollision = true;
+                    this.topCollision = true;
                 }
             }
             //bottom block
@@ -35,38 +43,41 @@ function Enemy (x, y) {
                 if ((this.x >= block.x && this.x <= block.x + block.SIZE)) {
                     this.yVelocity = 0;
                     this.y = block.y + block.SIZE + GUARD;
-                    bottomCollision = true;
+                    this.bottomCollision = true;
                 }
                 else if ((this.x + this.SIZE >= block.x && this.x + this.SIZE <= block.x + block.SIZE)) {
                     this.yVelocity = 0;
                     this.y = block.y + block.SIZE + GUARD;
-                    bottomCollision = true;
+                    this.bottomCollision = true;
                 }
             }
             //left block
             if (this.x + this.SIZE <= block.x && this.x + this.SIZE + this.xVelocity >= block.x) {
                 if ((this.y >= block.y && this.y <= block.y + block.SIZE)) {
                     this.x = block.x - this.SIZE - GUARD;
-                    leftCollision = true;
+                    this.xVelocity = 0;
+                    this.leftCollision = true;
                 }
                 else if ((this.y + this.SIZE >= block.y && this.y + this.SIZE <= block.y + block.SIZE)) {
                     this.x = block.x - this.SIZE - GUARD;
-                    leftCollision = true;
+                    this.xVelocity = 0;
+                    this.leftCollision = true;
                 }
             }
             //right block
             if (this.x >= block.x + block.SIZE && this.x + this.xVelocity <= block.x + block.SIZE) {
                 if ((this.y >= block.y && this.y <= block.y + block.SIZE)) {
                     this.x = block.x + block.SIZE + GUARD;
-                    rightCollision = true;
+                    this.xVelocity = 0;
+                    this.rightCollision = true;
                 }
                 else if ((this.y + this.SIZE >= block.y && this.y + this.SIZE <= block.y + block.SIZE)) {
                     this.x = block.x + block.SIZE + GUARD;
-                    rightCollision = true;
+                    this.xVelocity = 0;
+                    this.rightCollision = true;
                 }
             }
         }
-        if (leftCollision || rightCollision) this.xVelocity *= -1;
     }
     
     this.checkSnowballCollision = function () {
@@ -110,7 +121,21 @@ function Enemy (x, y) {
         //this.xVelocity *= this.airResistance;
         this.yVelocity += gravity;
 
+        /////movement stuff//////////
+
+        if (this.topCollision) this.canJump = true;
+        else this.canJump = false;
+
+        if (sprite.x < this.x) this.xVelocity = -this.xMovementVelocity;
+        else if (sprite.x > this.x) this.xVelocity = this.xMovementVelocity;
+        if ((sprite.y < this.y && this.canJump == true) || (this.leftCollision && sprite.x > this.x && this.topCollision) || (this.rightCollision && sprite.x < this.x && this.topCollision)) {
+            this.yVelocity = -this.jumpForce;
+            this.canJump = false;
+        }
         this.checkBoxCollision();
+
+        //////////////////////////////////////////////////////////////////////////
+
         this.checkSnowballCollision()
         if (this.health <= 0) this.dead = true;
 
