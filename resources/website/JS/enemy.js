@@ -29,11 +29,13 @@ function Enemy (x, y) {
             if (this.y + this.SIZE <= block.y && this.y + this.SIZE + this.yVelocity >= block.y) {
                 if (this.x >= block.x && this.x <= block.x + block.SIZE) {
                     this.y = block.y - this.SIZE - GUARD;
-                    this.yVelocity *= -block.bounce;
+                    //this.yVelocity *= -block.bounce;
+                    this.yVelocity = 0;
                     this.topCollision = true;
                 }
                 else if (this.x + this.SIZE >= block.x && this.x + this.SIZE <= block.x + block.SIZE) {
-                    this.yVelocity *= -block.bounce;
+                    //this.yVelocity *= -block.bounce;
+                    this.yVelocity = 0;
                     this.y = block.y - this.SIZE - GUARD;
                     this.topCollision = true;
                 }
