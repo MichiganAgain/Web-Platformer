@@ -1,5 +1,5 @@
 var canvas = document.getElementById("mainCanvas")
-canvas.width = window.innerWidth * 1;
+canvas.width = window.innerWidth;
 canvas.height = window.innerHeight * 0.85;
 var context = canvas.getContext("2d");
 var mostRecentlySelected = null;
@@ -29,10 +29,10 @@ $("#saveButton").click(function () {
 });
 
 window.addEventListener("keydown", function (evt) {
-    if (evt.keyCode == 65) camera.xOffset += 50; //a
-    else if (evt.keyCode == 68) camera.xOffset -= 50; //d
-    else if (evt.keyCode == 83) camera.yOffset -= 50; //s
-    else if (evt.keyCode == 87) camera.yOffset += 50; //w
+    if (evt.keyCode === 65) camera.xOffset += 50; //a
+    else if (evt.keyCode === 68) camera.xOffset -= 50; //d
+    else if (evt.keyCode === 83) camera.yOffset -= 50; //s
+    else if (evt.keyCode === 87) camera.yOffset += 50; //w
 });
 
 window.addEventListener("click", function (evt) {
@@ -46,17 +46,17 @@ window.addEventListener("click", function (evt) {
 
         //check if something is already there
             for (var i = 0; i < blocks.length; i++) {
-                if (blocks[i].x == mouseX && blocks[i].y == mouseY) {
+                if (blocks[i].x === mouseX && blocks[i].y === mouseY) {
                     blocks.splice(i, 1);
                     break;
                 }
             }
-            if (spriteExists && sprite.x == mouseX && sprite.y == mouseY) {
+            if (spriteExists && sprite.x === mouseX && sprite.y === mouseY) {
                 spriteExists = false;
                 sprite = null;
             }
             for (var i = 0; i < enemies.length; i++) {
-                if (enemies[i].x == mouseX && enemies[i].y == mouseY) {
+                if (enemies[i].x === mouseX && enemies[i].y === mouseY) {
                     enemies.splice(i, 1);
                     break;
                 }
@@ -64,14 +64,14 @@ window.addEventListener("click", function (evt) {
         //
 
 
-        if (mostRecentlySelected == "ice") blocks.push(new Block(mouseX, mouseY, "ice"));
-        else if (mostRecentlySelected == "dirt") blocks.push(new Block(mouseX, mouseY, "dirt"));
-        else if (mostRecentlySelected == "slime") blocks.push(new Block(mouseX, mouseY, "slime"));
-        else if (mostRecentlySelected == "sprite") {
+        if (mostRecentlySelected === "ice") blocks.push(new Block(mouseX, mouseY, "ice"));
+        else if (mostRecentlySelected === "dirt") blocks.push(new Block(mouseX, mouseY, "dirt"));
+        else if (mostRecentlySelected === "slime") blocks.push(new Block(mouseX, mouseY, "slime"));
+        else if (mostRecentlySelected === "sprite") {
             spriteExists = true; //only for drawing it on the screen
             sprite = new Sprite(mouseX, mouseY);
         }
-        else if (mostRecentlySelected == "enemy") enemies.push(new Enemy(mouseX, mouseY));
+        else if (mostRecentlySelected === "enemy") enemies.push(new Enemy(mouseX, mouseY));
     }
 });
 
@@ -103,9 +103,9 @@ function Block (x, y, type) {
     this.y = y;
     this.SIZE = 50;
     this.img = document.getElementById("ice");
-    if (type == "dirt") this.img = document.getElementById("dirt");
-    else if (type == "ice") this.img = document.getElementById("ice");
-    else if (type == "slime") this.img = document.getElementById("slime");
+    if (type === "dirt") this.img = document.getElementById("dirt");
+    else if (type === "ice") this.img = document.getElementById("ice");
+    else if (type === "slime") this.img = document.getElementById("slime");
     
     this.draw = function () {
         context.drawImage(this.img, this.x + camera.xOffset, this.y + camera.yOffset);
