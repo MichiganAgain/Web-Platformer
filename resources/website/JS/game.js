@@ -70,8 +70,9 @@ function initWorld () {
     enemies = [];
     fishies = [];
     for (var i = -1000; i < 1000; i++) blocks.push(new Block(50 * i, 450, "ice"));
-    blocks.push(new Block(50, 350, "dirt"));
-    blocks.push(new Block(100, 400));
+    for (var i = 10; i > 0; i--) blocks.push(new Block(50 * i, 50 * i, "dirt"));
+    for (var i = -10; i < 0; i++) blocks.push(new Block(50 * i, 50 * -i, "dirt"));
+    blocks.push(new Block(0, 100, "dirt"));
     sprite = new Sprite(50, 250);
     enemies.push(new Enemy(400, 350));
     camera = new Camera();
