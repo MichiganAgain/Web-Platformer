@@ -1,7 +1,7 @@
 function Enemy (x, y) {
     this.x = x;
     this.y = y;
-    this.xMovementVelocity = 0.9;
+    this.xMovementVelocity = 2;
     this.xVelocity = 0;
     this.yVelocity = 0;
     this.jumpForce = 8;

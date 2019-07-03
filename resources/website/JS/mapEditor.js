@@ -36,8 +36,8 @@ $("#saveButton").click(function () {
         mapData.sprite.y = sprite.y;
         
         let formData = new FormData();
+        formData.append("mapName", $("#mapName").val());
         formData.append("mapData", JSON.stringify(mapData));
-        formData.append("mapName", "map 4");
         fetch("/maps/insert", {method: "POST", body: formData}).then(response => response.json()).then(data => {
 
         });
@@ -77,7 +77,7 @@ window.addEventListener("click", function (evt) {
                     break;
                 }
             }
-        //
+        /////////////////////////////////////////////
 
 
         if (mostRecentlySelected === "ice") blocks.push(new Block(mouseX, mouseY, "ice"));

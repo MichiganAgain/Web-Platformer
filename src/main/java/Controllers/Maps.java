@@ -18,7 +18,7 @@ public class Maps {
     @Path("insert")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String insertMapData (@CookieParam("sessionToken") Cookie sessionToken, @FormDataParam("mapData") String mapData, @FormDataParam("mapName") String mapName) {
+    public String insertMapData (@CookieParam("sessionToken") Cookie sessionToken, @FormDataParam("mapName") String mapName, @FormDataParam("mapData") String mapData) {
         try {
             String username = Users.validateCookieMonster(sessionToken);
             if (username != null) {
@@ -33,7 +33,6 @@ public class Maps {
                 database.setAutoCommit(false);
 
                 JSONArray blockArray = jsonObject.getJSONArray("blocks");
-                System.out.println(blockArray.getJSONObject(0).getInt("x"));
                 for (int i = 0; i < blockArray.length(); i++) {
                     PreparedStatement ps = database.prepareStatement("INSERT INTO blocks (mapName, type, x, y) VALUES (?, ?, ?, ?)");
                     ps.setString(1, mapName);
@@ -113,14 +112,11 @@ public class Maps {
         spriteObject.put("x", spriteResult.getInt("x"));
         spriteObject.put("y", spriteResult.getInt("y"));
 
-        System.out.println(blockArray);
-        System.out.println(enemyArray);
-        System.out.println(spriteObject);
         JSONObject mapData = new JSONObject();
+
         mapData.put("blocks", blockArray);
         mapData.put("enemies", enemyArray);
         mapData.put("sprite", spriteObject);
-        System.out.println(mapData.toString());
 
         return mapData.toString();
         //return "{'blocks': " + blockArray + ", 'enemies': " + enemyArray + ", 'sprite': " + spriteObject + "}";
