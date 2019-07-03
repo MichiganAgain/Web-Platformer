@@ -4,6 +4,8 @@ canvas.height = window.innerHeight * 0.85;
 let context = canvas.getContext("2d");
 let mostRecentlySelected = null;
 
+$("#GameButton").click(function () {window.location.href = "/client/game.html"});
+
 function checkLogin (onSuccess) {
     let token = Cookies.get("sessionToken");
     if (token !== undefined) {

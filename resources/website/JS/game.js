@@ -8,8 +8,11 @@ let text = ["A forced update accidentally deleted all of your files :(", "And yo
 
 let colors = ["#FDA534", "#F7902F", "#F17C2A", "#EC6325", "#F05027", "#FB282E", "#CE172F", "#BB112F", "#A30830", "#940633", "#860537", "#7A053B", "#74053E", "#6D0541", "#600545", "#540543", "#49043D", "#400438", "#350433", "#300531", "#300531", "#20042B", "#0C0225"];
 let colorIndex = 0;
-
+let colorDirection = 1;
+$("#mainCanvas").css({"background-color": colors[0]});
 $("#mainCanvas").animate({opacity: 1}, 1000);
+
+$("#mapEditButton").click(function () {window.location.href = "/client/mapEditor.html"});
 
 window.addEventListener("keydown", function (evt) {
     if ((evt.keyCode == 32 || evt.keyCode == 87) && sprite.canJump) {
@@ -50,14 +53,17 @@ window.addEventListener("click", function (evt) {
 });
 
 setInterval(function () {
-    $("#mainCanvas").css({"background-color": colors[Math.floor(Math.abs(sprite.y) / 100) % colors.length]});
-}, 100);
+    //$("#mainCanvas").css({"background-color": colors[Math.floor(Math.abs(sprite.y) / 100) % colors.length]});
+    if (colorIndex + colorDirection < 0 || colorIndex + colorDirection > colors.length - 1) colorDirection *= -1;
+    $("#mainCanvas").css({"background-color": colors[colorIndex]});
+    colorIndex += colorDirection;
+}, 10000);
 
 let gravity = 0.5;
 let GUARD = 0.001;
 let keydown = false;
 
-let sprite;
+var sprite;
 let snowballs = [];
 let blocks = [];
 let enemies = [];
@@ -68,15 +74,18 @@ function initWorld () {
     snowballs = [];
     blocks = [];
     enemies = [];
+    sprite = null;
     var formData = new FormData();
-    formData.append("mapOwner", "MichiganAgain");
-    formData.append("mapName", "map 4");
+    formData.append("mapOwner", $("#mapOwner").val());
+    formData.append("mapName", $("#mapName").val());
+    $("#mapSelect").css("display", "none");
     fetch("/maps/getMap", {method: "POST", body: formData}).then(response => response.json()).then(data => {
         for (let block of data.blocks) blocks.push(new Block(block.x, block.y, block.type));
         for (let enemy of data.enemies) enemies.push(new Enemy(enemy.x, enemy.y));
         sprite = new Sprite(data.sprite.x, data.sprite.y);
         camera = new Camera();
     });
+    animate();
 }
 
 function animate () {
@@ -101,5 +110,3 @@ function animate () {
         initWorld();
     }
 }
-initWorld();
-animate();
