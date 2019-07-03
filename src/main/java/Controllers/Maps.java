@@ -75,4 +75,13 @@ public class Maps {
             return "{\"error\": \"failed to insert map data\"}";
         }
     }
+
+    @POST
+    @Path("getMap")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getMap (@FormDataParam("mapOwner") String mapOwner, @FormDataParam("mapName") String mapName) {
+        PreparedStatement ps = database.prepareStatement("SELECT type, x, y FROM blocks WHERE mapName = ?");
+        ResultSet blockResults = ps.executeQuery();
+    }
 }
