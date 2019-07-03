@@ -22,11 +22,19 @@ public class Maps {
         try {
             String username = Users.validateCookieMonster(sessionToken);
             if (username != null) {
+                //first create map, worry about updates later
+                PreparedStatement insertMap = database.prepareStatement("INSERT INTO maps (mapName, username) VALUES (?, ?)");
+                insertMap.setString(1, mapName);
+                insertMap.setString(2, username);
+                insertMap.executeUpdate();
+
+                System.out.println("Inserting map shit:  " + mapData);
                 JSONObject jsonObject = new JSONObject(mapData);
+
                 database.setAutoCommit(false);
 
                 JSONArray blockArray = jsonObject.getJSONArray("blocks");
-                System.out.println();
+                System.out.println(blockArray.getJSONObject(0).getInt("x"));
                 for (int i = 0; i < blockArray.length(); i++) {
                     PreparedStatement ps = database.prepareStatement("INSERT INTO blocks (mapName, type, x, y) VALUES (?, ?, ?, ?)");
                     ps.setString(1, mapName);
@@ -35,6 +43,7 @@ public class Maps {
                     ps.setInt(4, blockArray.getJSONObject(i).getInt("y"));
                     ps.execute();
                 }
+                System.out.println("Finished inserting blocks");
 
                 JSONArray enemyArray = jsonObject.getJSONArray("enemies");
                 for (int i = 0; i < blockArray.length(); i++) {
@@ -57,10 +66,13 @@ public class Maps {
 
                 return "{\"success\": \"successfully added map data\"}";
             }
-            else return "{\"error\": \"Not logged in\"}";
+            else {
+                System.out.println("User not logged in");
+                return "{\"error\": \"Not logged in\"}";
+            }
 
         } catch (Exception e) {
-            System.out.println("Failed to insert into databases");
+            System.out.println(e.getMessage());
             return "{\"error\": \"failed to insert map data\"}";
         }
     }

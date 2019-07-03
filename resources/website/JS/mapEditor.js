@@ -38,7 +38,9 @@ $("#saveButton").click(function () {
         let formData = new FormData();
         formData.append("mapData", JSON.stringify(mapData));
         formData.append("mapName", "First Map");
-        fetch("/maps/insert", {method: "POST", body: formData});
+        fetch("/maps/insert", {method: "POST", body: formData}).then(response => response.json()).then(data => {
+
+        });
     }
 });
 
@@ -116,6 +118,7 @@ function Block (x, y, type) {
     this.x = x;
     this.y = y;
     this.SIZE = 50;
+    this.type = type;
     this.img = document.getElementById("ice");
     if (type === "dirt") this.img = document.getElementById("dirt");
     else if (type === "ice") this.img = document.getElementById("ice");
