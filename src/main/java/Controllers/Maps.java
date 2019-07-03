@@ -28,7 +28,6 @@ public class Maps {
                 insertMap.setString(2, username);
                 insertMap.executeUpdate();
 
-                System.out.println("Inserting map shit:  " + mapData);
                 JSONObject jsonObject = new JSONObject(mapData);
 
                 database.setAutoCommit(false);
@@ -80,8 +79,50 @@ public class Maps {
     @Path("getMap")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String getMap (@FormDataParam("mapOwner") String mapOwner, @FormDataParam("mapName") String mapName) {
-        PreparedStatement ps = database.prepareStatement("SELECT type, x, y FROM blocks WHERE mapName = ?");
-        ResultSet blockResults = ps.executeQuery();
+    public String getMap (@FormDataParam("mapOwner") String mapOwner, @FormDataParam("mapName") String mapName) throws Exception {
+        System.out.println(mapOwner + "  " + mapName);
+
+        PreparedStatement bps = database.prepareStatement("SELECT type, x, y FROM blocks WHERE mapName = ?");
+        bps.setString(1, mapName);
+        ResultSet blockResults = bps.executeQuery();
+        JSONArray blockArray = new JSONArray();
+        while (blockResults.next()) {
+            JSONObject blockObject = new JSONObject();
+            blockObject.put("type", blockResults.getString("type"));
+            blockObject.put("x", blockResults.getInt("x"));
+            blockObject.put("y", blockResults.getInt("y"));
+            blockArray.put(blockObject);
+        }
+
+        PreparedStatement eps = database.prepareStatement("SELECT x, y FROM enemies WHERE mapName = ?");
+        eps.setString(1, mapName);
+        ResultSet enemyResults = eps.executeQuery();
+        JSONArray enemyArray = new JSONArray();
+        while (enemyResults.next()) {
+            JSONObject enemyObject = new JSONObject();
+            enemyObject.put("x", enemyResults.getInt("x"));
+            enemyObject.put("y", enemyResults.getInt("y"));
+            enemyArray.put(enemyObject);
+        }
+
+        PreparedStatement sps = database.prepareStatement("SELECT x, y FROM sprites WHERE mapName = ?");
+        sps.setString(1, mapName);
+        ResultSet spriteResult = sps.executeQuery();
+        spriteResult.next();
+        JSONObject spriteObject = new JSONObject();
+        spriteObject.put("x", spriteResult.getInt("x"));
+        spriteObject.put("y", spriteResult.getInt("y"));
+
+        System.out.println(blockArray);
+        System.out.println(enemyArray);
+        System.out.println(spriteObject);
+        JSONObject mapData = new JSONObject();
+        mapData.put("blocks", blockArray);
+        mapData.put("enemies", enemyArray);
+        mapData.put("sprite", spriteObject);
+        System.out.println(mapData.toString());
+
+        return mapData.toString();
+        //return "{'blocks': " + blockArray + ", 'enemies': " + enemyArray + ", 'sprite': " + spriteObject + "}";
     }
 }

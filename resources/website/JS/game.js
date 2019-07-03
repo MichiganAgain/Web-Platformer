@@ -68,19 +68,14 @@ function initWorld () {
     snowballs = [];
     blocks = [];
     enemies = [];
-    fishies = [];
-    // for (let i = -1000; i < 1000; i++) blocks.push(new Block(50 * i, 450, "ice"));
-    // for (let i = 10; i > 0; i--) blocks.push(new Block(50 * i, 50 * i, "dirt"));
-    // //for (let i = -10; i < 0; i++) blocks.push(new Block(50 * i, 50 * -i, "dirt"));
-    // blocks.push(new Block(0, 100, "dirt"));
-    // sprite = new Sprite(50, 250);
-    // enemies.push(new Enemy(400, 350)); enemies.push(new Enemy(450, 350)); enemies.push(new Enemy(500, 350));
-    // camera = new Camera();
     var formData = new FormData();
-    formData.append("username", "MichiganAgain");
-    formData.append("mapName", "5 map");
+    formData.append("mapOwner", "MichiganAgain");
+    formData.append("mapName", "map 4");
     fetch("/maps/getMap", {method: "POST", body: formData}).then(response => response.json()).then(data => {
-        alert(data);
+        for (let block of data.blocks) blocks.push(new Block(block.x, block.y, block.type));
+        for (let enemy of data.enemies) enemies.push(new Enemy(enemy.x, enemy.y));
+        sprite = new Sprite(data.sprite.x, data.sprite.y);
+        camera = new Camera();
     });
 }
 

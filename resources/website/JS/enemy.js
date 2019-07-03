@@ -1,10 +1,10 @@
 function Enemy (x, y) {
     this.x = x;
     this.y = y;
-    this.xMovementVelocity = 2;
+    this.xMovementVelocity = 0.9;
     this.xVelocity = 0;
     this.yVelocity = 0;
-    this.jumpForce = 10;
+    this.jumpForce = 8;
     this.img = document.getElementById("enemy");
     this.SIZE = 49;
     this.maxHealth = 100;
@@ -131,7 +131,7 @@ function Enemy (x, y) {
 
         if (sprite.x < this.x) this.xVelocity = -this.xMovementVelocity;
         else if (sprite.x > this.x) this.xVelocity = this.xMovementVelocity;
-        if ((sprite.y < this.y && this.canJump == true) || (this.leftCollision && sprite.x > this.x && this.topCollision) || (this.rightCollision && sprite.x < this.x && this.topCollision)) {
+        if ((sprite.y < this.y && this.canJump === true) || (this.leftCollision && sprite.x > this.x && this.topCollision) || (this.rightCollision && sprite.x < this.x && this.topCollision)) {
             this.yVelocity = -this.jumpForce;
             this.canJump = false;
         }
