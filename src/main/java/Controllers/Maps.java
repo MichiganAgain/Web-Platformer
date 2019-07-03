@@ -7,8 +7,6 @@ import org.json.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
-import java.math.BigInteger;
-import java.security.MessageDigest;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 

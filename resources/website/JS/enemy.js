@@ -6,7 +6,7 @@ function Enemy (x, y) {
     this.yVelocity = 0;
     this.jumpForce = 8;
     this.img = document.getElementById("enemy");
-    this.SIZE = 49;
+    this.SIZE = 47;
     this.maxHealth = 100;
     this.health = 100;
     this.myHealthBar = new healthBar(this);
@@ -28,13 +28,13 @@ function Enemy (x, y) {
         for (let block of blocks) {
             //top block
             if (this.y + this.SIZE <= block.y && this.y + this.SIZE + this.yVelocity >= block.y) {
-                if ((this.x >= block.x && this.x <= block.x + block.SIZE) || (this.x + this.xVelocity >= block.x && this.x + this.xVelocity <= block.x + block.SIZE)) {
+                if ((this.x >= block.x && this.x <= block.x + block.SIZE)) {
                     this.y = block.y - this.SIZE - GUARD;
                     //this.yVelocity *= -block.bounce;
                     this.yVelocity = 0;
                     this.topCollision = true;
                 }
-                else if ((this.x + this.SIZE >= block.x && this.x + this.SIZE <= block.x + block.SIZE) || (this.x + this.SIZE + this.xVelocity >= block.x && this.x + this.SIZE + this.xVelocity <= block.x + block.SIZE)) {
+                else if ((this.x + this.SIZE >= block.x && this.x + this.SIZE <= block.x + block.SIZE)) {
                     //this.yVelocity *= -block.bounce;
                     this.yVelocity = 0;
                     this.y = block.y - this.SIZE - GUARD;
@@ -131,7 +131,7 @@ function Enemy (x, y) {
 
         if (sprite.x < this.x) this.xVelocity = -this.xMovementVelocity;
         else if (sprite.x > this.x) this.xVelocity = this.xMovementVelocity;
-        if ((sprite.y < this.y && this.canJump === true) || (this.leftCollision && sprite.x > this.x && this.topCollision) || (this.rightCollision && sprite.x < this.x && this.topCollision)) {
+        if ((sprite.y < this.y - 5 && this.canJump === true) || (this.leftCollision && sprite.x > this.x && this.topCollision) || (this.rightCollision && sprite.x < this.x && this.topCollision)) {
             this.yVelocity = -this.jumpForce;
             this.canJump = false;
         }

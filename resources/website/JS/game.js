@@ -6,9 +6,10 @@ let text = ["A forced update accidentally deleted all of your files :(", "And yo
             "And your computer isn't up to spec to run it :(", "And you got more viruses than you have braincells :(",
             "And the cmd is worse than "];
 
-let colors = ["#FDA534", "#F7902F", "#F17C2A", "#EC6325", "#F05027", "#FB282E", "#CE172F", "#BB112F", "#A30830", "#940633", "#860537", "#7A053B", "#74053E", "#6D0541", "#600545", "#540543", "#49043D", "#400438", "#350433", "#300531", "#300531", "#20042B", "#0C0225"];
+let colors = ["#FDA534", "#F7902F", "#F17C2A", "#EC6325", "#F05027", "#FB282E", "#CE172F", "#BB112F", "#A30830", "#940633", "#860537", "#7A053B", "#74053E", "#6D0541", "#600545", "#540543", "#49043D", "#400438", "#350433", "#300531", "#300531", "#20042B", "#0C0225", "#000000", "#000000", "#000000", "#000000"];
 let colorIndex = 0;
 let colorDirection = 1;
+let gameStarted = false;
 $("#mainCanvas").css({"background-color": colors[0]});
 $("#mainCanvas").animate({opacity: 1}, 1000);
 
@@ -57,7 +58,7 @@ setInterval(function () {
     if (colorIndex + colorDirection < 0 || colorIndex + colorDirection > colors.length - 1) colorDirection *= -1;
     $("#mainCanvas").css({"background-color": colors[colorIndex]});
     colorIndex += colorDirection;
-}, 10000);
+}, 1000);
 
 let gravity = 0.5;
 let GUARD = 0.001;
@@ -67,7 +68,6 @@ var sprite;
 let snowballs = [];
 let blocks = [];
 let enemies = [];
-let fishies = [];
 let camera;
 
 function initWorld () {
@@ -85,17 +85,16 @@ function initWorld () {
         sprite = new Sprite(data.sprite.x, data.sprite.y);
         camera = new Camera();
     });
-    animate();
 }
 
+setInterval(function () {animate()}, 15);
 function animate () {
-    requestAnimationFrame(animate);
+    console.log("f");
     context.clearRect(0, 0, canvas.width, canvas.height);
     
-    //camera.update();
+    //camera.update();  moved to sprite
 
     for (let block of blocks) block.update();
-    for (let fish of fishies) fish.update();
     for (let i = 0; i < enemies.length; i++) {
         enemies[i].update();
         if (enemies[i].dead) enemies.splice(i, 1);
