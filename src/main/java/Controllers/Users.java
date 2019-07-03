@@ -3,13 +3,21 @@ package Controllers;
 import static Server.ServerStarter.database;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.json.*;
-
+/*
+insert -
+validateCookie -
+verify -
+checkLogin - when users go on site that they MUST have an account for
+             Intertwined with validateCookie??
+*/
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.UUID;
+import javax.ws.rs.core.Cookie;
 
 @Path("users/")
 public class Users {
@@ -29,7 +37,7 @@ public class Users {
     @POST
     @Path("insert")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public String insert (@FormDataParam("username") String username, @FormDataParam("password") String password) {
+    public String addUser (@FormDataParam("username") String username, @FormDataParam("password") String password) {
         try {
             PreparedStatement ps = database.prepareStatement("INSERT INTO users (username, password) VALUES (?, ?)");
             ps.setString(1, username);
@@ -45,23 +53,59 @@ public class Users {
     }
 
     @POST
-    @Path("select")
+    @Path("verify")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String selectUsernames (@FormDataParam("username") String username, @FormDataParam("password") String password) {
+    public String verifyUsername (@FormDataParam("username") String username, @FormDataParam("password") String password) {
         try {
-            PreparedStatement ps = database.prepareStatement("SELECT * FROM users WHERE username=? AND password=?");
+            PreparedStatement ps = database.prepareStatement("SELECT password FROM users WHERE username=?");
             ps.setString(1, username);
-            ps.setString(2, hash(password));
             ResultSet resultSet = ps.executeQuery();
 
-            int resultCount = 0;
-            while (resultSet.next()) resultCount++;
-            return (resultCount == 1) ? "{\"success\": \"user exists\"}" : "{\"error\": \"Error: user doesn't exist\"}";
+            if (resultSet.next()) {
+                if (resultSet.getString(1).equals(hash(password))) {
+                    String token = UUID.randomUUID().toString();
+                    PreparedStatement ps2 = database.prepareStatement("UPDATE users SET sessionToken = ? WHERE username = ?");
+                    ps2.setString(1, token);
+                    ps2.setString(2, username);
+                    ps2.executeUpdate();
+                    return "{\"token\": \"" + token + "\"}";
+                } else {
+                    return "{\"error\": \"Error: password incorrect\"}";
+                }
+            } else {
+                return "{\"error\": \"Error: user doesn't exist\"}";
+            }
 
         } catch (Exception e) {
             System.out.println("Failed to select from the users table");
             return "{\"error\": \"Failed to select from the users table\"}";
         }
+    }
+
+    public static String validateCookieMonster (Cookie cookieSession) {
+        if (cookieSession != null) {
+            try {
+                String sessionToken = cookieSession.getValue();
+                PreparedStatement ps = database.prepareStatement("SELECT username FROM users WHERE sessionToken = ?");
+                ps.setString(1, sessionToken);
+                ResultSet rs = ps.executeQuery();
+                if (rs != null && rs.next()) {
+                    return rs.getString("username");
+                }
+
+            } catch (Exception e) {
+                System.out.println("Error selecting cookie-kun from users");
+            }
+        }
+        return null;
+    }
+
+    @GET
+    @Path("check")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String checkLogin (@CookieParam("sessionToken") Cookie sessionCookie) {
+        String user = validateCookieMonster(sessionCookie);
+        return (user == null) ? "{\"error\": \"Invalid user session token\"}": "{\"username\": \"" + user + "\"}";
     }
 }

@@ -3,6 +3,7 @@
 
     <head>
 
+        <script src="/client/JS/js.cookie.min.js"></script>
         <script src="/client/JS/jQuery.js"></script>
         
         <title>Tux Game - Map Editior</title>
@@ -39,7 +40,7 @@
 
     </head>
 
-    <body>
+    <body onload="pageLoad()">
 
         <p id="coords">x: 0   y: 0</p>
         <canvas id="mainCanvas"></canvas>

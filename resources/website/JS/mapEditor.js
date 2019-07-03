@@ -1,8 +1,23 @@
-var canvas = document.getElementById("mainCanvas")
+let canvas = document.getElementById("mainCanvas")
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight * 0.85;
-var context = canvas.getContext("2d");
-var mostRecentlySelected = null;
+let context = canvas.getContext("2d");
+let mostRecentlySelected = null;
+
+function checkLogin (onSuccess) {
+    let token = Cookies.get("sessionToken");
+    if (token !== undefined) {
+        fetch("/users/check", {method: "GET"}).then(response => response.json()).then(data => {
+            if (data.hasOwnProperty("error")) {
+                window.location.href = "/client/login.html";
+            }
+        });
+    }
+}
+
+function pageLoad () {
+    checkLogin();
+}
 
 $("#ice").click(function () {mostRecentlySelected = "ice";});
 $("#dirt").click(function () {mostRecentlySelected = "dirt";});
@@ -13,15 +28,14 @@ $("#enemy").click(function () {mostRecentlySelected = "enemy";});
 
 $("#saveButton").click(function () {
     if (spriteExists) {
-        var mapData = {"blocks": [], sprite: {"x": 0, "y": 0}, "enemies": []};
+        let mapData = {"blocks": [], sprite: {"x": 0, "y": 0}, "enemies": []};
 
         for (let block of blocks) mapData.blocks.push({"type": block.type, "x": block.x, "y": block.y});
         for (let enemy of enemies) mapData.enemies.push({"x": enemy.x, "y": enemy.y});
         mapData.sprite.x = sprite.x;
         mapData.sprite.y = sprite.y;
         
-        var formData = new FormData();
-        formData.append("username", "MichiganAgain");
+        let formData = new FormData();
         formData.append("mapData", JSON.stringify(mapData));
         formData.append("mapName", "First Map");
         fetch("/maps/insert", {method: "POST", body: formData});
@@ -37,15 +51,15 @@ window.addEventListener("keydown", function (evt) {
 
 window.addEventListener("click", function (evt) {
     if (evt.clientY < canvas.height) {
-        var mouseX = (evt.clientX - camera.xOffset) - ((evt.clientX - camera.xOffset) % 50);
+        let mouseX = (evt.clientX - camera.xOffset) - ((evt.clientX - camera.xOffset) % 50);
         if ((evt.clientX - camera.xOffset) < 0) mouseX -= 50;
         
-        var mouseY = (evt.clientY - camera.yOffset) - ((evt.clientY - camera.yOffset) % 50);
+        let mouseY = (evt.clientY - camera.yOffset) - ((evt.clientY - camera.yOffset) % 50);
         if ((evt.clientY - camera.yOffset) < 0) mouseY -= 50;
 
 
         //check if something is already there
-            for (var i = 0; i < blocks.length; i++) {
+            for (let i = 0; i < blocks.length; i++) {
                 if (blocks[i].x === mouseX && blocks[i].y === mouseY) {
                     blocks.splice(i, 1);
                     break;
@@ -55,7 +69,7 @@ window.addEventListener("click", function (evt) {
                 spriteExists = false;
                 sprite = null;
             }
-            for (var i = 0; i < enemies.length; i++) {
+            for (let i = 0; i < enemies.length; i++) {
                 if (enemies[i].x === mouseX && enemies[i].y === mouseY) {
                     enemies.splice(i, 1);
                     break;
@@ -76,8 +90,8 @@ window.addEventListener("click", function (evt) {
 });
 
 window.addEventListener("mousemove", function (evt) {
-    var mouseX = (evt.clientX - camera.xOffset)
-    var mouseY = (evt.clientY - camera.yOffset)
+    let mouseX = (evt.clientX - camera.xOffset)
+    let mouseY = (evt.clientY - camera.yOffset)
     document.getElementById("coords").innerHTML = "x: " + mouseX + "  y: " + mouseY;
 });
 
@@ -139,12 +153,12 @@ function Camera () {
     this.yOffset = 0;
 }
 
-var spriteExists = false;
-var sprite;
-var snowballs = [];
-var blocks = [];
-var enemies = [];
-var fishies = [];
+let spriteExists = false;
+let sprite;
+let snowballs = [];
+let blocks = [];
+let enemies = [];
+let fishies = [];
 camera = new Camera();
 
 function animate () {

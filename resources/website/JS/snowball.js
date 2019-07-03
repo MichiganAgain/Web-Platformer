@@ -12,10 +12,10 @@ function Snowball (x, y, xVelocity, yVelocity) {
     this.maxCollisions = 50;
     
     this.checkBoxCollision = function () {
-        var topCollision = false;
-        var bottomCollision = false;
-        var leftCollision = false;
-        var rightCollision = false;
+        let topCollision = false;
+        let bottomCollision = false;
+        let leftCollision = false;
+        let rightCollision = false;
         
         for (let block of blocks) {
             //top block

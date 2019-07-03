@@ -1,7 +1,8 @@
 <html>
     
     <head>
-        
+
+        <script src="/client/JS/js.cookie.min.js"></script>
         <script type="text/javascript" src="/client/JS/jQuery.js"></script>
 
         <title>Login</title>
@@ -135,7 +136,7 @@
 
             /////////////////////Page Load / Exit animations/////////////////////////////////
             function pageLoad () {
-                var rnum = Math.floor((Math.random() * 9)) + 1;
+                let rnum = Math.floor((Math.random() * 9)) + 1;
                 $("#profile-picture").attr("src", "/client/images/SaitamaGIF" + rnum + ".gif");
 
                 $("#login-container").animate({opacity: "0"}, 0);
@@ -167,11 +168,12 @@
 
             $("#login-button").click(function () {loginPressed();});
             function loginPressed () {
-                var formData = new FormData();
+                let formData = new FormData();
                 formData.append("username", $("#username").val());
                 formData.append("password", $("#password").val());
-                fetch("/users/select", {method: "POST", body: formData}).then(response => response.json()).then(data => {
-                    if (data.hasOwnProperty('success')) {
+                fetch("/users/verify", {method: "POST", body: formData}).then(response => response.json()).then(data => {
+                    if (data.hasOwnProperty('token')) {
+                        Cookies.set("sessionToken", data.token);
                         exitAnimations();
                         $("#register-button").delay(500).animate({left: "-300px", opacity: "0"}, 1000, function () {
                             window.location.href = "/client/game.html";
@@ -179,8 +181,7 @@
                     }
                     else {
                         $("#input-warning").animate({opacity: "1"}, 100);
-                        console.log(data.error);
-                    }
+                        console.log(data.error);                    }
                 });
             }
 

@@ -13,11 +13,11 @@ function Sprite (x, y) {
     this.dead = false;
     
     this.checkBoxCollision = function () {
-        var topCollision = false;
-        var bottomCollision = false;
-        var leftCollision = false;
-        var rightCollision = false;
-        var bottomCollisionBox = null;
+        let topCollision = false;
+        let bottomCollision = false;
+        let leftCollision = false;
+        let rightCollision = false;
+        let bottomCollisionBox = null;
         
         for (let block of blocks) {
             //top of block

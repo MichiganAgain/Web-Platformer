@@ -132,7 +132,7 @@
             
             ////////////input validations/////////////////////
             /*function validateUsername () {            TSS
-                var username = $("#username").val();
+                let username = $("#username").val();
                 fetch("/users/select", {method: "GET"}).then(response => response.json()).then(data => {
                     for (let jsonObject of data) {
                         if (jsonObject.username == username) {return false; alert();}
@@ -144,7 +144,7 @@
             }*/
 
             function validatePassword () {
-                var password = $("#password").val();
+                let password = $("#password").val();
                 if (password.length < 8) return false;
                 return true;
             }
@@ -152,18 +152,18 @@
 
             $("#register-button").click(function () {registerPressed();});
             function registerPressed () {
-                var validPassword = validatePassword();
+                let validPassword = validatePassword();
                 if (!validPassword) {
                     $("#password-warning").html("Password has to be at least 8 characters long");
                     $("#password-warning").animate({opacity: "1"}, 300);
                 }else $("#password-warning").animate({opacity: "0"}, 300);
 
                 if (validPassword) {
-                    var formData = new FormData();
+                    let formData = new FormData();
                     formData.append("username", $("#username").val());
                     formData.append("password", $("#password").val());
                     fetch("/users/insert", {method: "POST", body: formData}).then(response => response.json()).then(data => {
-                        var validUsername = true;
+                        let validUsername = true;
                         if (data.hasOwnProperty('error')) {validUsername = false; console.log(data.error);}
                         if (!validUsername) {
                             $("#username-warning").html("Username has already been taken");
