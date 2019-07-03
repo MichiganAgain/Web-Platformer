@@ -37,7 +37,7 @@ $("#saveButton").click(function () {
         
         let formData = new FormData();
         formData.append("mapData", JSON.stringify(mapData));
-        formData.append("mapName", "First Map");
+        formData.append("mapName", "4 Map");
         fetch("/maps/insert", {method: "POST", body: formData}).then(response => response.json()).then(data => {
 
         });

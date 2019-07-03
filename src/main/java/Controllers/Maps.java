@@ -43,10 +43,9 @@ public class Maps {
                     ps.setInt(4, blockArray.getJSONObject(i).getInt("y"));
                     ps.execute();
                 }
-                System.out.println("Finished inserting blocks");
 
                 JSONArray enemyArray = jsonObject.getJSONArray("enemies");
-                for (int i = 0; i < blockArray.length(); i++) {
+                for (int i = 0; i < enemyArray.length(); i++) {
                     PreparedStatement ps = database.prepareStatement("INSERT INTO enemies (mapName, x, y) VALUES (?, ?, ?)");
                     ps.setString(1, mapName);
                     ps.setInt(2, enemyArray.getJSONObject(i).getInt("x"));
