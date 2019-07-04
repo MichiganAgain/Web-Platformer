@@ -53,7 +53,7 @@ public class Users {
     }
 
     @POST
-    @Path("verify")
+    @Path("verify") // verify user that already has an account
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     public String verifyUsername (@FormDataParam("username") String username, @FormDataParam("password") String password) {

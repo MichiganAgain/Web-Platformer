@@ -28,6 +28,8 @@ window.addEventListener("keydown", function (evt) {
         sprite.xVelocity = 4;
         keydown = true;
     }
+    else if (evt.keyCode == 82) initWorld();
+    else if (evt.keyCode == 73) $("#mapSelect").css("display", "block");
 });
 
 window.addEventListener("keyup", function (evt) {
