@@ -7,7 +7,7 @@ function Snowball (x, y, xVelocity, yVelocity) {
     this.SIZE = 15;
     this.airResistance = 0.99;
     this.dead = false;
-    this.damage = 25;
+    this.damage = 100;
     this.totalCollisions = 0;
     this.maxCollisions = 50;
     

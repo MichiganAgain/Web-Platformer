@@ -28,8 +28,8 @@ window.addEventListener("keydown", function (evt) {
         sprite.xVelocity = 4;
         keydown = true;
     }
-    else if (evt.keyCode == 82) initWorld();
-    else if (evt.keyCode == 73) $("#mapSelect").css("display", "block");
+    else if (evt.keyCode == 49) initWorld();
+    else if (evt.keyCode == 50) $("#mapSelect").css("display", "block");
 });
 
 window.addEventListener("keyup", function (evt) {
@@ -60,7 +60,7 @@ setInterval(function () {
     if (colorIndex + colorDirection < 0 || colorIndex + colorDirection > colors.length - 1) colorDirection *= -1;
     $("#mainCanvas").css({"background-color": colors[colorIndex]});
     colorIndex += colorDirection;
-}, 1000);
+}, 10000);
 
 let gravity = 0.5;
 let GUARD = 0.001;

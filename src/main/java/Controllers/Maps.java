@@ -77,7 +77,7 @@ public class Maps {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     public String getMap (@FormDataParam("mapOwner") String mapOwner, @FormDataParam("mapName") String mapName) throws Exception {
-        System.out.println(mapOwner + "  " + mapName);
+        System.out.println("Serving map| mapOwner: " + mapOwner + " | mapName: " + mapName);
 
         PreparedStatement bps = database.prepareStatement("SELECT type, x, y FROM blocks WHERE mapName = ?");
         bps.setString(1, mapName);
