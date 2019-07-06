@@ -6,10 +6,20 @@ function Block (x, y, type) {
     this.type = type;
     this.friction = 0;
     this.bounce = 0;
-    if (type === "dirt") {
+    if (type === "grass_dirt") {
+        this.img = document.getElementById("grass_dirt");
+        this.friction = 0;
+        this.bounce = 0;
+    }
+    else if (type === "dirt") {
         this.img = document.getElementById("dirt");
         this.friction = 0;
         this.bounce = 0;
+    }
+    else if (type === "stone") {
+        this.img = document.getElementById("stone");
+        this.friction = 0.4;
+        this.bounce = 0.1;
     }
     else if (type === "ice") {
         this.img = document.getElementById("ice");

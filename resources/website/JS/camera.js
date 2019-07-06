@@ -1,6 +1,6 @@
 function Camera () {
-    this.xOffset = 0;
-    this.yOffset = 0;
+    this.xOffset = (canvas.width / 2) - sprite.x;
+    this.yOffset = (canvas.height / 2) - sprite.y;
     this.shake = false;
     
     this.update = function () {

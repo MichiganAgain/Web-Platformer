@@ -22,7 +22,9 @@ function pageLoad () {
 }
 
 $("#ice").click(function () {mostRecentlySelected = "ice";});
+$("#grass_dirt").click(function () {mostRecentlySelected = "grass_dirt";});
 $("#dirt").click(function () {mostRecentlySelected = "dirt";});
+$("#stone").click(function () {mostRecentlySelected = "stone";});
 $("#slime").click(function () {mostRecentlySelected = "slime";});
 $("#eraser").click(function () {mostRecentlySelected = "eraser";});
 $("#sprite").click(function () {mostRecentlySelected = "sprite";});
@@ -83,7 +85,9 @@ window.addEventListener("click", function (evt) {
 
 
         if (mostRecentlySelected === "ice") blocks.push(new Block(mouseX, mouseY, "ice"));
+        else if (mostRecentlySelected === "grass_dirt") blocks.push(new Block(mouseX, mouseY, "grass_dirt"));
         else if (mostRecentlySelected === "dirt") blocks.push(new Block(mouseX, mouseY, "dirt"));
+        else if (mostRecentlySelected === "stone") blocks.push(new Block(mouseX, mouseY, "stone"));
         else if (mostRecentlySelected === "slime") blocks.push(new Block(mouseX, mouseY, "slime"));
         else if (mostRecentlySelected === "sprite") {
             spriteExists = true; //only for drawing it on the screen
@@ -122,7 +126,9 @@ function Block (x, y, type) {
     this.SIZE = 50;
     this.type = type;
     this.img = document.getElementById("ice");
-    if (type === "dirt") this.img = document.getElementById("dirt");
+    if (type === "grass_dirt") this.img = document.getElementById("grass_dirt");
+    else if (type === "dirt") this.img = document.getElementById("dirt");
+    else if (type === "stone") this.img = document.getElementById("stone");
     else if (type === "ice") this.img = document.getElementById("ice");
     else if (type === "slime") this.img = document.getElementById("slime");
     

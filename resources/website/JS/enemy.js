@@ -147,6 +147,6 @@ function Enemy (x, y) {
         this.y += this.yVelocity;
 
         this.draw();
-        this.myHealthBar.update();
+        //this.myHealthBar.update();
     }
 }
