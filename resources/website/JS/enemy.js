@@ -9,7 +9,7 @@ function Enemy (x, y) {
     this.SIZE = 47;
     this.maxHealth = 100;
     this.health = 100;
-    this.myHealthBar = new healthBar(this);
+    //this.myHealthBar = new healthBar(this);
     this.dead = false;
     this.canJump = false;
     this.intelligence = false;

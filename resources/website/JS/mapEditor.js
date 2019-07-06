@@ -26,6 +26,7 @@ $("#grass_dirt").click(function () {mostRecentlySelected = "grass_dirt";});
 $("#dirt").click(function () {mostRecentlySelected = "dirt";});
 $("#stone").click(function () {mostRecentlySelected = "stone";});
 $("#slime").click(function () {mostRecentlySelected = "slime";});
+$("#lava").click(function () {mostRecentlySelected = "lava";});
 $("#eraser").click(function () {mostRecentlySelected = "eraser";});
 $("#sprite").click(function () {mostRecentlySelected = "sprite";});
 $("#enemy").click(function () {mostRecentlySelected = "enemy";});
@@ -89,6 +90,7 @@ window.addEventListener("click", function (evt) {
         else if (mostRecentlySelected === "dirt") blocks.push(new Block(mouseX, mouseY, "dirt"));
         else if (mostRecentlySelected === "stone") blocks.push(new Block(mouseX, mouseY, "stone"));
         else if (mostRecentlySelected === "slime") blocks.push(new Block(mouseX, mouseY, "slime"));
+        else if (mostRecentlySelected === "lava") blocks.push(new Block(mouseX, mouseY, "lava"));
         else if (mostRecentlySelected === "sprite") {
             spriteExists = true; //only for drawing it on the screen
             sprite = new Sprite(mouseX, mouseY);
@@ -103,62 +105,6 @@ window.addEventListener("mousemove", function (evt) {
     document.getElementById("coords").innerHTML = "x: " + mouseX + "  y: " + mouseY;
 });
 
-
-function Sprite (x, y) {
-    this.x = x;
-    this.y = y;
-    this.XSIZE = 40;
-    this.YSIZE = 49;
-    this.img = document.getElementById("sprite");
-    
-    this.draw = function () {
-        context.drawImage(this.img, this.x + camera.xOffset, this.y + camera.yOffset);
-    }
-    
-    this.update = function () { 
-        this.draw();
-    }
-}
-
-function Block (x, y, type) {
-    this.x = x;
-    this.y = y;
-    this.SIZE = 50;
-    this.type = type;
-    this.img = document.getElementById("ice");
-    if (type === "grass_dirt") this.img = document.getElementById("grass_dirt");
-    else if (type === "dirt") this.img = document.getElementById("dirt");
-    else if (type === "stone") this.img = document.getElementById("stone");
-    else if (type === "ice") this.img = document.getElementById("ice");
-    else if (type === "slime") this.img = document.getElementById("slime");
-    
-    this.draw = function () {
-        context.drawImage(this.img, this.x + camera.xOffset, this.y + camera.yOffset);
-        context.strokeStyle = "#000000";
-        context.lineWidth = 2;
-        context.strokeRect(this.x + camera.xOffset, this.y + camera.yOffset, this.SIZE, this.SIZE);
-    }
-
-    this.update = function () {
-        this.draw();
-    }
-}
-
-function Enemy (x, y) {
-    this.x = x;
-    this.y = y;
-    this.img = document.getElementById("enemy");
-    this.SIZE = 49;
-    
-    this.draw = function () {
-        context.drawImage(this.img, this.x + camera.xOffset, this.y + camera.yOffset);
-    }
-    
-    this.update = function () {
-        this.draw();
-    }
-}
-
 function Camera () {
     this.xOffset = 0;
     this.yOffset = 0;
@@ -169,16 +115,14 @@ let sprite;
 let snowballs = [];
 let blocks = [];
 let enemies = [];
-let fishies = [];
 camera = new Camera();
 
 function animate () {
     requestAnimationFrame(animate);
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    for (let block of blocks) block.update();
-    for (let fish of fishies) fish.update();
-    for (let enemy of enemies) enemy.update();
-    if (spriteExists) sprite.update();
+    for (let block of blocks) block.draw();
+    for (let enemy of enemies) enemy.draw();
+    if (spriteExists) sprite.draw();
 }
 animate();
