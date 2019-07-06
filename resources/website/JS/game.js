@@ -21,12 +21,10 @@ window.addEventListener("keydown", function (evt) {
         sprite.canJump = false;
     }
     else if (evt.keyCode == 65) {
-        sprite.xVelocity = -4;
-        keydown = true;
+        sprite.goLeft = true;
     }
     else if (evt.keyCode == 68) {
-        sprite.xVelocity = 4;
-        keydown = true;
+        sprite.goRight = true;
     }
     else if (evt.keyCode == 49) initWorld();
     else if (evt.keyCode == 50) $("#mapSelect").css("display", "block");
@@ -34,12 +32,10 @@ window.addEventListener("keydown", function (evt) {
 
 window.addEventListener("keyup", function (evt) {
     if (evt.keyCode == 65) {
-        sprite.xMovementVelocity = 0;
-        keydown = false;
+        sprite.goLeft = false;
     }
     else if (evt.keyCode == 68) {
-        sprite.xMovementVelocity = 0;
-        keydown = false;
+        sprite.goRight = false;
     }
 });
 
@@ -64,7 +60,6 @@ setInterval(function () {
 
 let gravity = 0.5;
 let GUARD = 0.001;
-let keydown = false;
 
 var sprite;
 let snowballs = [];
