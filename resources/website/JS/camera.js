@@ -2,6 +2,7 @@ function Camera () {
     this.xOffset = (canvas.width / 2) - sprite.x;
     this.yOffset = (canvas.height / 2) - sprite.y;
     this.shake = false;
+    this.frames = 0; // how many more frames to shake for
     
     this.update = function () {
         this.xOffset = (canvas.width / 2) - sprite.x;

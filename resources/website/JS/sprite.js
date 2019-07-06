@@ -7,7 +7,7 @@ function Sprite (x, y) {
     this.YSIZE = 49;
     this.img = document.getElementById("sprite");
     this.canJump = true;
-    this.friction = 0.99;
+    //this.friction = 0;
     this.airResistance = 0.95;
     this.powers = 0x0;
     this.dead = false;
