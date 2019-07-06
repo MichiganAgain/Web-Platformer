@@ -5,6 +5,7 @@ function Sprite (x, y) {
     this.yVelocity = 0;
     this.goLeft = false;
     this.goRight = false;
+    this.jumping = false;
     this.XSIZE = 40;
     this.YSIZE = 49;
     this.img = document.getElementById("sprite");
@@ -19,7 +20,6 @@ function Sprite (x, y) {
         let bottomCollision = false;
         let leftCollision = false;
         let rightCollision = false;
-        let bottomCollisionBox = null;
         
         for (let block of blocks) {
             //top of block
@@ -108,9 +108,10 @@ function Sprite (x, y) {
     }
     
     this.update = function () {
-        if (this.goLeft && this.goRight) this.xVelocity = 0;
+        if (this.goLeft && this.goRight) this.xVelocity = 0; // the two keys cancel each other out
         else if (this.goLeft) this.xVelocity = -4;
         else if (this.goRight) this.xVelocity = 4;
+        if (this.jumping && this.canJump) this.yVelocity = -12;
         this.yVelocity += gravity;
         
         this.checkBoxCollision();

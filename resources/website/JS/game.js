@@ -17,7 +17,7 @@ $("#mapEditButton").click(function () {window.location.href = "/client/mapEditor
 
 window.addEventListener("keydown", function (evt) {
     if ((evt.keyCode == 32 || evt.keyCode == 87) && sprite.canJump) {
-        sprite.yVelocity = -12;
+        sprite.jumping = true;
         sprite.canJump = false;
     }
     else if (evt.keyCode == 65) {
@@ -31,7 +31,10 @@ window.addEventListener("keydown", function (evt) {
 });
 
 window.addEventListener("keyup", function (evt) {
-    if (evt.keyCode == 65) {
+    if (evt.keyCode == 32 || evt.keyCode == 87) {
+        sprite.jumping = false;
+    }
+    else if (evt.keyCode == 65) {
         sprite.goLeft = false;
     }
     else if (evt.keyCode == 68) {
