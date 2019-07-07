@@ -1,12 +1,12 @@
 function Enemy (x, y) {
     this.x = x;
     this.y = y;
-    this.xMovementVelocity = 2;
+    this.xMovementVelocity = 2; //max speed that it can move
     this.xVelocity = 0;
     this.yVelocity = 0;
     this.jumpForce = 8;
     this.img = document.getElementById("enemy");
-    this.SIZE = 47;
+    this.SIZE = 47; //width and height
     this.maxHealth = 100;
     this.health = 100;
     //this.myHealthBar = new healthBar(this);
@@ -140,10 +140,10 @@ function Enemy (x, y) {
 
         //////////////////////////////////////////////////////////////////////////
 
-        this.checkSnowballCollision()
+        this.checkSnowballCollision();
         if (this.health <= 0) this.dead = true;
 
-        this.x += this.xVelocity;
+        this.x += this.xVelocity; // move x, y after velocities have been adjusted
         this.y += this.yVelocity;
 
         this.draw();

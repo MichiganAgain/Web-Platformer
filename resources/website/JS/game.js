@@ -8,7 +8,7 @@ let text = ["A forced update accidentally deleted all of your files :(", "And yo
 
 let colors = ["#FDA534", "#F7902F", "#F17C2A", "#EC6325", "#F05027", "#FB282E", "#CE172F", "#BB112F", "#A30830", "#940633", "#860537", "#7A053B", "#74053E", "#6D0541", "#600545", "#540543", "#49043D", "#400438", "#350433", "#300531", "#300531", "#20042B", "#0C0225", "#000000", "#000000"];
 let colorIndex = 0;
-let colorDirection = 1;
+let colorDirection = 1; // which way the index will move along the color list
 let gameStarted = false;
 $("#mainCanvas").css({"background-color": colors[0]});
 $("#mainCanvas").animate({opacity: 1}, 1000);
@@ -16,7 +16,7 @@ $("#mainCanvas").animate({opacity: 1}, 1000);
 $("#mapEditButton").click(function () {window.location.href = "/client/mapEditor.html"});
 
 window.addEventListener("keydown", function (evt) {
-    if ((evt.keyCode == 32 || evt.keyCode == 87) && sprite.canJump) {
+    if ((evt.keyCode == 32 || evt.keyCode == 87) && sprite.canJump) { //on space or w press
         sprite.jumping = true;
         sprite.canJump = false;
     }
@@ -26,8 +26,8 @@ window.addEventListener("keydown", function (evt) {
     else if (evt.keyCode == 68) {
         sprite.goRight = true;
     }
-    else if (evt.keyCode == 49) initWorld();
-    else if (evt.keyCode == 50) $("#mapSelect").css("display", "block");
+    else if (evt.keyCode == 49) initWorld(); //on number 1 press
+    else if (evt.keyCode == 50) $("#mapSelect").css("display", "block"); // on number 2 press
 });
 
 window.addEventListener("keyup", function (evt) {
@@ -42,7 +42,7 @@ window.addEventListener("keyup", function (evt) {
     }
 });
 
-window.addEventListener("click", function (evt) {
+window.addEventListener("click", function (evt) { //shoot a snowball by finding mouse angle
     let xMouse = evt.clientX - camera.xOffset;
     let yMouse = evt.clientY - camera.yOffset;
     let xDiff = xMouse - (sprite.x + sprite.XSIZE / 2);
@@ -54,7 +54,7 @@ window.addEventListener("click", function (evt) {
     snowballs.push(new Snowball((sprite.x + sprite.XSIZE / 2)-7, (sprite.y + sprite.YSIZE / 2)-15 - sprite.yVelocity, Math.cos(theta) * velocity + sprite.xVelocity, Math.sin(theta) * velocity + sprite.yVelocity));
 });
 
-setInterval(function () {
+setInterval(function () { //keep updating canvas color
     //$("#mainCanvas").css({"background-color": colors[Math.floor(Math.abs(sprite.y) / 100) % colors.length]});
     if (colorIndex + colorDirection < 0 || colorIndex + colorDirection > colors.length - 1) colorDirection *= -1;
     $("#mainCanvas").css({"background-color": colors[colorIndex]});
@@ -64,17 +64,16 @@ setInterval(function () {
 let gravity = 0.5;
 let GUARD = 0.001;
 
-var sprite;
+let sprite;
 let snowballs = [];
 let blocks = [];
 let enemies = [];
 let camera;
 
-function initWorld () {
+function initWorld () { // initialize the world by getting map data from database
     snowballs = [];
     blocks = [];
     enemies = [];
-    sprite = null;
     var formData = new FormData();
     formData.append("mapOwner", $("#mapOwner").val());
     formData.append("mapName", $("#mapName").val());
@@ -84,28 +83,31 @@ function initWorld () {
         for (let enemy of data.enemies) enemies.push(new Enemy(enemy.x, enemy.y));
         sprite = new Sprite(data.sprite.x, data.sprite.y);
         camera = new Camera();
+        gameStarted = true;
     });
 }
 
-setInterval(function () {animate()}, 15);
+setInterval(function () {animate()}, 15); //animate frame every 15 milliseconds if
+                                                        //game is currently running
 function animate () {
-    console.log("f");
     context.clearRect(0, 0, canvas.width, canvas.height);
-    
-    //camera.update();  moved to sprite
 
-    for (let block of blocks) block.update();
-    for (let i = 0; i < enemies.length; i++) {
-        enemies[i].update();
-        if (enemies[i].dead) enemies.splice(i, 1);
-    }
-    for (let i = 0; i < snowballs.length; i++) {
-        snowballs[i].update();
-        if (snowballs[i].dead) snowballs.splice(i, 1);
-    }
-    sprite.update();
-    if (sprite.dead) {
-        //alert("Oh noo, you tried windows.  " + text[Math.floor(Math.random() * text.length)]);
-        initWorld();
+    if (gameStarted) {
+        //camera.update();  moved to sprite
+        for (let block of blocks) block.update();
+        for (let i = 0; i < enemies.length; i++) {
+            enemies[i].update();
+            if (enemies[i].dead) enemies.splice(i, 1);
+        }
+        for (let i = 0; i < snowballs.length; i++) {
+            snowballs[i].update();
+            if (snowballs[i].dead) snowballs.splice(i, 1);
+        }
+        sprite.update();
+        if (sprite.dead) {
+            //alert("Oh noo, you tried windows.  " + text[Math.floor(Math.random() * text.length)]);
+            gameStarted = false;
+            initWorld();
+        }
     }
 }

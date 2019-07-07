@@ -6,7 +6,7 @@ function Snowball (x, y, xVelocity, yVelocity) {
     this.img = document.getElementById("snowball");
     this.SIZE = 15;
     this.airResistance = 0.99;
-    this.dead = false;
+    this.dead = false; // for when it should disappear
     this.damage = 100;
     this.totalCollisions = 0;
     this.maxCollisions = 50;

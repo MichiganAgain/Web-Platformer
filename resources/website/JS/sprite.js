@@ -29,7 +29,7 @@ function Sprite (x, y) {
                     else if (block.type === "lava") this.dead = true;
                     else this.yVelocity = 0;
                     this.y = block.y - this.YSIZE - GUARD;
-                    if (!this.goLeft && !this.goRight) this.xVelocity *= block.friction;
+                    if (!this.goLeft && !this.goRight) this.xVelocity *= block.friction; // only resiste when no x-axis related keys are pressed
                     topCollision = true;
                 }
                 else if ((this.x + this.XSIZE >= block.x && this.x + this.XSIZE <= block.x + block.SIZE) || (this.x + this.XSIZE + this.xVelocity >= block.x && this.x + this.XSIZE + this.xVelocity <= block.x + block.SIZE)) {
@@ -89,7 +89,7 @@ function Sprite (x, y) {
         }
         if (topCollision) this.canJump = true;
         else this.canJump = false;
-        if (!this.goLeft && !this.goRight) this.xVelocity *= this.airResistance;
+        if (!this.goLeft && !this.goRight) this.xVelocity *= this.airResistance; // only resist whwn no x-axis related keys are pressed
         if (!topCollision && !bottomCollision && !leftCollision && ! rightCollision && Math.abs(this.yVelocity) > 50) camera.shake = true
         else camera.shake = false;
     }
@@ -129,6 +129,6 @@ function Sprite (x, y) {
         this.y += this.yVelocity;
         camera.update();
         
-        this.draw();
+        this.draw(); // draw once everything has been adjusted
     }
 }

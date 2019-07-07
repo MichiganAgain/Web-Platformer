@@ -29,7 +29,7 @@ public class Users {
             return bigInteger.toString(16);
 
         } catch (Exception e) {
-            System.out.println("Failed to has string");
+            System.out.println("Failed to hash string");
             return null;
         }
     }

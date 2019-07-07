@@ -1,4 +1,4 @@
-function healthBar (parent) {
+function healthBar (parent) { // enemy passes a self-reference to the healthBar
     this.parent = parent;
     
     this.draw = function () {

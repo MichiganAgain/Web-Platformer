@@ -6,6 +6,7 @@ function Block (x, y, type) {
     this.type = type;
     this.friction = 0;
     this.bounce = 0;
+    ///////set block attributes
     if (type === "grass_dirt") {
         this.img = document.getElementById("grass_dirt");
         this.friction = 0;
@@ -36,6 +37,7 @@ function Block (x, y, type) {
         this.friction = 0.7;
         this.bounce = 0;
     }
+    /////////////////////////////////////////////////////////////////////////////
     
     this.draw = function () {
         context.drawImage(this.img, this.x + camera.xOffset, this.y + camera.yOffset);

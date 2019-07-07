@@ -83,7 +83,7 @@ public class Maps {
         bps.setString(1, mapName);
         ResultSet blockResults = bps.executeQuery();
         JSONArray blockArray = new JSONArray();
-        while (blockResults.next()) {
+        while (blockResults.next()) {               // getting block data
             JSONObject blockObject = new JSONObject();
             blockObject.put("type", blockResults.getString("type"));
             blockObject.put("x", blockResults.getInt("x"));
@@ -95,7 +95,7 @@ public class Maps {
         eps.setString(1, mapName);
         ResultSet enemyResults = eps.executeQuery();
         JSONArray enemyArray = new JSONArray();
-        while (enemyResults.next()) {
+        while (enemyResults.next()) {              // getting enemy data
             JSONObject enemyObject = new JSONObject();
             enemyObject.put("x", enemyResults.getInt("x"));
             enemyObject.put("y", enemyResults.getInt("y"));
@@ -105,7 +105,7 @@ public class Maps {
         PreparedStatement sps = database.prepareStatement("SELECT x, y FROM sprites WHERE mapName = ?");
         sps.setString(1, mapName);
         ResultSet spriteResult = sps.executeQuery();
-        spriteResult.next();
+        spriteResult.next();                    // getting sprite data
         JSONObject spriteObject = new JSONObject();
         spriteObject.put("x", spriteResult.getInt("x"));
         spriteObject.put("y", spriteResult.getInt("y"));

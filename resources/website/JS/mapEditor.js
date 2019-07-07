@@ -6,6 +6,7 @@ let mostRecentlySelected = null;
 
 $("#GameButton").click(function () {window.location.href = "/client/game.html"});
 
+setInterval(checkLogin, 1000); //check every second for valid session cookie just cos I can
 function checkLogin (onSuccess) {
     let token = Cookies.get("sessionToken");
     if (token !== undefined) {
@@ -56,7 +57,7 @@ window.addEventListener("keydown", function (evt) {
     else if (evt.keyCode === 87) camera.yOffset += 50; //w
 });
 
-window.addEventListener("click", function (evt) {
+window.addEventListener("click", function (evt) { //for placing a block / sprite on canvas
     if (evt.clientY < canvas.height) {
         let mouseX = (evt.clientX - camera.xOffset) - ((evt.clientX - camera.xOffset) % 50);
         if ((evt.clientX - camera.xOffset) < 0) mouseX -= 50;
@@ -92,8 +93,8 @@ window.addEventListener("click", function (evt) {
         else if (mostRecentlySelected === "slime") blocks.push(new Block(mouseX, mouseY, "slime"));
         else if (mostRecentlySelected === "lava") blocks.push(new Block(mouseX, mouseY, "lava"));
         else if (mostRecentlySelected === "sprite") {
-            spriteExists = true; //only for drawing it on the screen
             sprite = new Sprite(mouseX, mouseY);
+            spriteExists = true; //only for drawing it on the screen
         }
         else if (mostRecentlySelected === "enemy") enemies.push(new Enemy(mouseX, mouseY));
     }
