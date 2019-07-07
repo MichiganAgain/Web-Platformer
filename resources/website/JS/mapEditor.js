@@ -14,7 +14,7 @@ function checkLogin (onSuccess) {
                 window.location.href = "/client/login.html";
             }
         });
-    }
+    }else window.location.href = "/client/login.html";
 }
 
 function pageLoad () {

@@ -20,13 +20,15 @@ function Snowball (x, y, xVelocity, yVelocity) {
         for (let block of blocks) {
             //top block
             if (this.y + this.SIZE <= block.y && this.y + this.SIZE + this.yVelocity >= block.y) {
-                if (this.x >= block.x && this.x <= block.x + block.SIZE) {
+                if ((this.x >= block.x && this.x <= block.x + block.SIZE) || (this.x >= block.x && this.x + this.xVelocity <= block.x + block.SIZE)) {
+                    if (block.type === "lava") this.dead = true;
                     this.y = block.y - this.SIZE - GUARD;
                     this.xVelocity *= block.friction;
                     this.yVelocity *= -block.bounce;
                     topCollision = true;
                 }
-                else if (this.x + this.SIZE >= block.x && this.x + this.SIZE <= block.x + block.SIZE) {
+                else if ((this.x + this.SIZE >= block.x && this.x + this.SIZE <= block.x + block.SIZE) || (this.x + this.SIZE >= block.x && this.x + this.SIZE + this.xVelocity <= block.x + block.SIZE)) {
+                    if (block.type === "lava") this.dead = true;
                     this.y = block.y - this.SIZE - GUARD;
                     this.xVelocity *= block.friction;
                     this.yVelocity *= -block.bounce;
@@ -35,12 +37,14 @@ function Snowball (x, y, xVelocity, yVelocity) {
             }
             //bottom block
             if (this.y >= block.y + block.SIZE && this.y + this.yVelocity <= block.y + block.SIZE) {
-                if ((this.x >= block.x && this.x <= block.x + block.SIZE)) {
+                if ((this.x >= block.x && this.x <= block.x + block.SIZE) || (this.x >= block.x && this.x + this.xVelocity <= block.x + block.SIZE)) {
+                    if (block.type === "lava") this.dead = true;
                     this.yVelocity = 0;
                     this.y = block.y + block.SIZE + GUARD;
                     bottomCollision = true;
                 }
-                else if ((this.x + this.SIZE >= block.x && this.x + this.SIZE <= block.x + block.SIZE)) {
+                else if ((this.x + this.SIZE >= block.x && this.x + this.SIZE <= block.x + block.SIZE) || (this.x + this.SIZE >= block.x && this.x + this.SIZE + this.xVelocity <= block.x + block.SIZE)) {
+                    if (block.type === "lava") this.dead = true;
                     this.yVelocity = 0;
                     this.y = block.y + block.SIZE + GUARD;
                     bottomCollision = true;
@@ -49,10 +53,12 @@ function Snowball (x, y, xVelocity, yVelocity) {
             //left block
             if (this.x + this.SIZE <= block.x && this.x + this.SIZE + this.xVelocity >= block.x) {
                 if ((this.y >= block.y && this.y <= block.y + block.SIZE)) {
+                    if (block.type === "lava") this.dead = true;
                     this.x = block.x - this.SIZE - GUARD;
                     leftCollision = true;
                 }
                 else if ((this.y + this.SIZE >= block.y && this.y + this.SIZE <= block.y + block.SIZE)) {
+                    if (block.type === "lava") this.dead = true;
                     this.x = block.x - this.SIZE - GUARD;
                     leftCollision = true;
                 }
@@ -60,10 +66,12 @@ function Snowball (x, y, xVelocity, yVelocity) {
             //right block
             if (this.x >= block.x + block.SIZE && this.x + this.xVelocity <= block.x + block.SIZE) {
                 if ((this.y >= block.y && this.y <= block.y + block.SIZE)) {
+                    if (block.type === "lava") this.dead = true;
                     this.x = block.x + block.SIZE + GUARD;
                     rightCollision = true;
                 }
                 else if ((this.y + this.SIZE >= block.y && this.y + this.SIZE <= block.y + block.SIZE)) {
+                    if (block.type === "lava") this.dead = true;
                     this.x = block.x + block.SIZE + GUARD;
                     rightCollision = true;
                 }

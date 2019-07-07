@@ -33,7 +33,7 @@ function Block (x, y, type) {
     }
     else if (type === "lava") {
         this.img = document.getElementById("lava");
-        this.friction = 0;
+        this.friction = 0.7;
         this.bounce = 0;
     }
     
