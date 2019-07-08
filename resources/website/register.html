@@ -88,6 +88,11 @@
                 <input type="password" class="text-input" id="password" placeholder="Password">
                 <div class="clear-float"></div>
 
+                <div class="warning-text" id="password-match-warning">Passwords don't match</div>
+                <div class="clear-float"></div>
+                <input type="password" class="text-input" id="passwordConfirm" placeholder="Confirm Password">
+                <div class="clear-float"></div>
+
                 <button id="register-button" class="button">Register</button>
 
             </div>
@@ -100,15 +105,22 @@
             });
 
             ////SETUP ANIMATIONS ON PAGE LOAD//////////////////////
-            $("#register-container").animate({opacity: "0"}, 0);
+            $(window).bind("pageshow", function(event) { // needed for Safari as page load not triggered on back button press
+                if (event.originalEvent.persisted) {
+                    window.location.reload();
+                }
+            });
+            $("#register-container").animate({opacity: "0"}, 0); //make sure opacity is 0.  could do first with CSS
             $("#register-container").animate({opacity: "1"}, 1000);
             $("#username-warning").animate({opacity: "0"}, 0);
             $("#password-warning").animate({opacity: "0"}, 0);
+            $("#password-match-warning").animate({opacity: "0"}, 0);
             $("#email-warning").animate({opacity: "0"}, 0);
 
             $("#username").delay(100).animate({left: "0px", opacity: "1"}, 1000);
             $("#password").delay(200).animate({left: "0px", opacity: "1"}, 1000);
-            $("#register-button").delay(400).animate({left: "0px", opacity: "1"}, 1000);
+            $("#passwordConfirm").delay(300).animate({left: "0px", opacity: "1"}, 1000);
+            $("#register-button").delay(500).animate({left: "0px", opacity: "1"}, 1000);
             ///////////////////////////////////////////////////////////////////////////////
 
             ////General animations/////////////////////////////////////////////
@@ -129,24 +141,17 @@
             });
             ////////////////////////////////////////////////////////////////////
 
-            
-            ////////////input validations/////////////////////
-            /*function validateUsername () {            TSS
-                let username = $("#username").val();
-                fetch("/users/select", {method: "GET"}).then(response => response.json()).then(data => {
-                    for (let jsonObject of data) {
-                        if (jsonObject.username == username) {return false; alert();}
-                    }
-                    // PUT IT HERE! (return true;)
-                });
-                return true;
-                //get usernames from database and check if it has already been chosen
-            }*/
 
+            ////////////input validations/////////////////////
             function validatePassword () {
                 let password = $("#password").val();
                 if (password.length < 8) return false;
                 return true;
+            }
+
+            function checkPasswordMatch () {
+                if ($("#password").val() === $("#passwordConfirm").val()) return true;
+                return false;
             }
             //////////////////////////////////////////////////////////////////////////////
 
@@ -158,7 +163,13 @@
                     $("#password-warning").animate({opacity: "1"}, 300);
                 }else $("#password-warning").animate({opacity: "0"}, 300);
 
-                if (validPassword) {
+                let passwordsMatch = checkPasswordMatch();
+                if (!passwordsMatch) {
+                    $("#password-match-warning").html("Passwords do not match");
+                    $("#password-match-warning").animate({opacity: "1"}, 300);
+                }else $("#password-match-warning").animate({opacity: "0"}, 300);
+
+                if (validPassword && passwordsMatch) {
                     let formData = new FormData();
                     formData.append("username", $("#username").val());
                     formData.append("password", $("#password").val());
@@ -174,7 +185,8 @@
                             $("#register-button").css("border", "2px black inset");
                             $("#username").delay(100).animate({left: "-300px", opacity: "0"}, 1000);
                             $("#password").delay(200).animate({left: "-300px", opacity: "0"}, 1000);
-                            $("#register-button").delay(400).animate({left: "-300px", opacity: "0"}, 1000, function () {
+                            $("#passwordConfirm").delay(300).animate({left: "-300px", opacity: "0"}, 1000);
+                            $("#register-button").delay(500).animate({left: "-300px", opacity: "0"}, 1000, function () {
                                 window.location.href = "login.html";
                             });
                         }

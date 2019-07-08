@@ -31,6 +31,7 @@ $("#lava").click(function () {mostRecentlySelected = "lava";});
 $("#eraser").click(function () {mostRecentlySelected = "eraser";});
 $("#sprite").click(function () {mostRecentlySelected = "sprite";});
 $("#enemy").click(function () {mostRecentlySelected = "enemy";});
+$("#tux").click(function () {mostRecentlySelected = "tux";});
 
 $("#saveButton").click(function () {
     if (spriteExists) {
@@ -97,6 +98,7 @@ window.addEventListener("click", function (evt) { //for placing a block / sprite
             spriteExists = true; //only for drawing it on the screen
         }
         else if (mostRecentlySelected === "enemy") enemies.push(new Enemy(mouseX, mouseY));
+        else if (mostRecentlySelected === "tux") enemies.push(new Tux(mouseX, mouseY));
     }
 });
 
@@ -112,7 +114,9 @@ function Camera () {
 }
 
 let spriteExists = false;
+let tuxExists = false;
 let sprite;
+let tux;
 let snowballs = [];
 let blocks = [];
 let enemies = [];
@@ -125,5 +129,6 @@ function animate () {
     for (let block of blocks) block.draw();
     for (let enemy of enemies) enemy.draw();
     if (spriteExists) sprite.draw();
+    if (tuxExists) tux.draw();
 }
 animate();

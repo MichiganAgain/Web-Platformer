@@ -10,57 +10,65 @@ let colors = ["#FDA534", "#F7902F", "#F17C2A", "#EC6325", "#F05027", "#FB282E", 
 let colorIndex = 0;
 let colorDirection = 1; // which way the index will move along the color list
 let gameStarted = false;
-$("#mainCanvas").css({"background-color": colors[0]});
+$("#mainCanvas").css({"background-color": "#555555"});
 $("#mainCanvas").animate({opacity: 1}, 1000);
 
 $("#mapEditButton").click(function () {window.location.href = "/client/mapEditor.html"});
 
 window.addEventListener("keydown", function (evt) {
-    if ((evt.keyCode == 32 || evt.keyCode == 87) && sprite.canJump) { //on space or w press
+    if ((evt.keyCode === 32 || evt.keyCode === 87) && sprite.canJump) { //on space or w press
         sprite.jumping = true;
         sprite.canJump = false;
     }
-    else if (evt.keyCode == 65) {
+    else if (evt.keyCode === 65) {
         sprite.goLeft = true;
     }
-    else if (evt.keyCode == 68) {
+    else if (evt.keyCode === 68) {
         sprite.goRight = true;
     }
-    else if (evt.keyCode == 49) initWorld(); //on number 1 press
-    else if (evt.keyCode == 50) $("#mapSelect").css("display", "block"); // on number 2 press
+    else if (evt.keyCode === 49) initWorld(); //on number 1 press
+    else if (evt.keyCode === 50) $("#mapSelect").css("display", "block"); // on number 2 press
 });
 
 window.addEventListener("keyup", function (evt) {
-    if (evt.keyCode == 32 || evt.keyCode == 87) {
+    if (evt.keyCode === 32 || evt.keyCode === 87) {
         sprite.jumping = false;
     }
-    else if (evt.keyCode == 65) {
+    else if (evt.keyCode === 65) {
         sprite.goLeft = false;
     }
-    else if (evt.keyCode == 68) {
+    else if (evt.keyCode === 68) {
         sprite.goRight = false;
     }
 });
 
 window.addEventListener("click", function (evt) { //shoot a snowball by finding mouse angle
-    let xMouse = evt.clientX - camera.xOffset;
-    let yMouse = evt.clientY - camera.yOffset;
+    xMouse = evt.clientX - camera.xOffset;
+    yMouse = evt.clientY - camera.yOffset;
+    shoot();
+});
+
+function shoot () {
     let xDiff = xMouse - (sprite.x + sprite.XSIZE / 2);
     let yDiff = yMouse - (sprite.y + sprite.YSIZE / 2);
     let theta = Math.atan2(yDiff, xDiff);
     let velocity = 15;
-    
+
     //blocks.push(new Block(xMouse, yMouse));
     snowballs.push(new Snowball((sprite.x + sprite.XSIZE / 2)-7, (sprite.y + sprite.YSIZE / 2)-15 - sprite.yVelocity, Math.cos(theta) * velocity + sprite.xVelocity, Math.sin(theta) * velocity + sprite.yVelocity));
-});
+}
 
-setInterval(function () { //keep updating canvas color
+/*setInterval(function () { //keep updating canvas color
     //$("#mainCanvas").css({"background-color": colors[Math.floor(Math.abs(sprite.y) / 100) % colors.length]});
     if (colorIndex + colorDirection < 0 || colorIndex + colorDirection > colors.length - 1) colorDirection *= -1;
     $("#mainCanvas").css({"background-color": colors[colorIndex]});
     colorIndex += colorDirection;
-}, 10000);
+}, 10000);*/
 
+let startTime;
+
+let xMouse;
+let yMouse;
 let gravity = 0.5;
 let GUARD = 0.001;
 
@@ -84,6 +92,7 @@ function initWorld () { // initialize the world by getting map data from databas
         sprite = new Sprite(data.sprite.x, data.sprite.y);
         camera = new Camera();
         gameStarted = true;
+        startTime = new Date().getTime();
     });
 }
 

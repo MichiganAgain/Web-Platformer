@@ -131,7 +131,7 @@ function Enemy (x, y) {
 
         if (sprite.x < this.x) this.xVelocity = -this.xMovementVelocity;
         else if (sprite.x > this.x) this.xVelocity = this.xMovementVelocity;
-        if ((sprite.y < this.y - 5 && this.canJump === true) || (this.leftCollision && sprite.x > this.x && this.topCollision) || (this.rightCollision && sprite.x < this.x && this.topCollision)) {
+        if ((this.leftCollision && sprite.x > this.x && this.topCollision) || (this.rightCollision && sprite.x < this.x && this.topCollision)) {
             this.yVelocity = -this.jumpForce;
             this.canJump = false;
         }

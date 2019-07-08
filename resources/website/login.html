@@ -4,6 +4,8 @@
 
         <script src="/client/JS/js.cookie.min.js"></script>
         <script type="text/javascript" src="/client/JS/jQuery.js"></script>
+        <link rel="stylesheet" href="/client/CSS/jquery-ui.min.css">
+        <script src="/client/JS/jquery-ui.min.js"></script>
 
         <title>Login</title>
 
@@ -76,6 +78,8 @@
                 opacity: 0;
             }
 
+            #button-container {padding: 10px;}
+
         </style>
 
     </head>
@@ -88,22 +92,31 @@
                 
                 <img src="" id="profile-picture">
                 <div class="clear-float"></div>
-                <p id="input-warning">Invalid username or password</p>
-                <div class="clear-float"></div>
-                <input type="text" class="text-input" id="username" placeholder="Username">
-                <div class="clear-float"></div>
-                <input type="password" class="text-input" id="password" placeholder="Password">
+
+                <div id="text-container">
+                    <p id="input-warning">Invalid username or password</p>
+                    <div class="clear-float"></div>
+                    <input type="text" class="text-input" id="username" placeholder="Username">
+                    <div class="clear-float"></div>
+                    <input type="password" class="text-input" id="password" placeholder="Password">
+                </div>
+
                 <div class="clear-float"></div>
 
-                <button id="login-button" class="button">Login</button>
-                <div class="clear-float"></div>
-                <button id="register-button" class="button">Register</button>
+                <div id="button-container">
+                    <button id="login-button" class="button">Login</button>
+                    <div class="clear-float"></div>
+                    <button id="register-button" class="button">Register</button>
+                </div>
 
             </div>
 
         </div>
         
         <script type="text/javascript">
+            $("#profile-picture").draggable();
+            $("#text-container").draggable();
+            $("#button-container").draggable();
             window.addEventListener("keydown", function (evt) {
                 if (evt.keyCode == 13) {loginPressed();}
             });
@@ -135,6 +148,11 @@
             ///////////////////////////////////////////////////////////////////////////////////////////////////
 
             /////////////////////Page Load / Exit animations/////////////////////////////////
+            $(window).bind("pageshow", function(event) { // needed for Safari as page load not triggered on back button press
+                if (event.originalEvent.persisted) {
+                    window.location.reload();
+                }
+            });
             function pageLoad () {
                 let rnum = Math.floor((Math.random() * 9)) + 1;
                 $("#profile-picture").attr("src", "/client/images/SaitamaGIF" + rnum + ".gif");
