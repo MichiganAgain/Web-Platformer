@@ -12,6 +12,18 @@ import java.sql.ResultSet;
 
 @Path("maps/")
 public class Maps {
+    public static int getMapID (String mapName, String username) {
+        try {
+            PreparedStatement getMapID = database.prepareStatement("SELECT mapID FROM maps WHERE mapName=? AND username=?");
+            getMapID.setString(1, mapName);
+            getMapID.setString(2, username);
+            ResultSet resultSet = getMapID.executeQuery();
+            return resultSet.getInt(1);
+        } catch (Exception e) {
+            System.out.println("Failed to get mapID");
+            return -1;
+        }
+    }
     @POST
     @Path("insert")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -20,11 +32,14 @@ public class Maps {
         try {
             String username = Users.validateCookieMonster(sessionToken);
             if (username != null) {
+                int mapID;
                 //first create map, worry about updates later
                 PreparedStatement insertMap = database.prepareStatement("INSERT INTO maps (mapName, username) VALUES (?, ?)");
                 insertMap.setString(1, mapName);
                 insertMap.setString(2, username);
                 insertMap.executeUpdate();
+
+                mapID = getMapID(mapName, username);
 
                 JSONObject jsonObject = new JSONObject(mapData);
 
@@ -32,8 +47,8 @@ public class Maps {
 
                 JSONArray blockArray = jsonObject.getJSONArray("blocks");
                 for (int i = 0; i < blockArray.length(); i++) {
-                    PreparedStatement ps = database.prepareStatement("INSERT INTO blocks (mapName, type, x, y) VALUES (?, ?, ?, ?)");
-                    ps.setString(1, mapName);
+                    PreparedStatement ps = database.prepareStatement("INSERT INTO blocks (mapID, type, x, y) VALUES (?, ?, ?, ?)");
+                    ps.setInt(1, mapID);
                     ps.setString(2, blockArray.getJSONObject(i).getString("type"));
                     ps.setInt(3, blockArray.getJSONObject(i).getInt("x"));
                     ps.setInt(4, blockArray.getJSONObject(i).getInt("y"));
@@ -42,16 +57,16 @@ public class Maps {
 
                 JSONArray enemyArray = jsonObject.getJSONArray("enemies");
                 for (int i = 0; i < enemyArray.length(); i++) {
-                    PreparedStatement ps = database.prepareStatement("INSERT INTO enemies (mapName, x, y) VALUES (?, ?, ?)");
-                    ps.setString(1, mapName);
+                    PreparedStatement ps = database.prepareStatement("INSERT INTO enemies (mapID, x, y) VALUES (?, ?, ?)");
+                    ps.setInt(1, mapID);
                     ps.setInt(2, enemyArray.getJSONObject(i).getInt("x"));
                     ps.setInt(3, enemyArray.getJSONObject(i).getInt("y"));
                     ps.execute();
                 }
 
-                PreparedStatement ps = database.prepareStatement("INSERT INTO sprites (mapName, x, y) VALUES (?, ?, ?)");
+                PreparedStatement ps = database.prepareStatement("INSERT INTO sprites (mapID, x, y) VALUES (?, ?, ?)");
                 JSONObject spriteObject = jsonObject.getJSONObject("sprite");
-                ps.setString(1, mapName);
+                ps.setInt(1, mapID);
                 ps.setInt(2, spriteObject.getInt("x"));
                 ps.setInt(3, spriteObject.getInt("y"));
                 ps.execute();
@@ -77,10 +92,13 @@ public class Maps {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     public String getMap (@FormDataParam("mapOwner") String mapOwner, @FormDataParam("mapName") String mapName) throws Exception {
+        int mapID;
         System.out.println("Serving map| mapOwner: " + mapOwner + " | mapName: " + mapName);
 
-        PreparedStatement bps = database.prepareStatement("SELECT type, x, y FROM blocks WHERE mapName = ?");
-        bps.setString(1, mapName);
+        mapID = getMapID(mapName, mapOwner);
+
+        PreparedStatement bps = database.prepareStatement("SELECT type, x, y FROM blocks WHERE mapID = ?");
+        bps.setInt(1, mapID);
         ResultSet blockResults = bps.executeQuery();
         JSONArray blockArray = new JSONArray();
         while (blockResults.next()) {               // getting block data
@@ -91,8 +109,8 @@ public class Maps {
             blockArray.put(blockObject);
         }
 
-        PreparedStatement eps = database.prepareStatement("SELECT x, y FROM enemies WHERE mapName = ?");
-        eps.setString(1, mapName);
+        PreparedStatement eps = database.prepareStatement("SELECT x, y FROM enemies WHERE mapID = ?");
+        eps.setInt(1, mapID);
         ResultSet enemyResults = eps.executeQuery();
         JSONArray enemyArray = new JSONArray();
         while (enemyResults.next()) {              // getting enemy data
@@ -102,8 +120,8 @@ public class Maps {
             enemyArray.put(enemyObject);
         }
 
-        PreparedStatement sps = database.prepareStatement("SELECT x, y FROM sprites WHERE mapName = ?");
-        sps.setString(1, mapName);
+        PreparedStatement sps = database.prepareStatement("SELECT x, y FROM sprites WHERE mapID = ?");
+        sps.setInt(1, mapID);
         ResultSet spriteResult = sps.executeQuery();
         spriteResult.next();                    // getting sprite data
         JSONObject spriteObject = new JSONObject();

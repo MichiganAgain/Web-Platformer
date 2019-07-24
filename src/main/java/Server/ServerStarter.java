@@ -54,6 +54,6 @@ public class ServerStarter {
             database.close();
             System.out.println("Database closed");
 
-        } catch (Exception e) {System.out.println("Failed to close database"); }
+        } catch (Exception e) { System.out.println("Failed to close database"); }
     }
 }
