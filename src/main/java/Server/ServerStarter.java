@@ -15,7 +15,7 @@ public class ServerStarter {
     public static Connection database = null;
 
     public static void main (String args[]) {
-        connect("myDatabase.db");
+        connect("myDatabase2.db");
 
         ResourceConfig resourceConfig = new ResourceConfig();
         resourceConfig.packages("Controllers");

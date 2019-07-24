@@ -47,7 +47,7 @@ public class Users {
             return "{\"success\": \"successfully added user\"}";
 
         } catch (Exception e) {
-            System.out.println("Failed to insert into users table");
+            System.out.println(e.getMessage());
             return "{\"error\": \"Error: username taken\"}";
         }
     }
