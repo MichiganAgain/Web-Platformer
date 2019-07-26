@@ -15,7 +15,7 @@ public class ServerStarter {
     public static Connection database = null;
 
     public static void main (String args[]) {
-        connect("myDatabase.db");
+        connect("myDatabase2.db");
 
         ResourceConfig resourceConfig = new ResourceConfig();
         resourceConfig.packages("Controllers");
@@ -41,7 +41,7 @@ public class ServerStarter {
         try {
             Class.forName("org.sqlite.JDBC");
             SQLiteConfig sqLiteConfig = new SQLiteConfig();
-            sqLiteConfig.enforceForeignKeys(true);
+            sqLiteConfig.enforceForeignKeys(true)
 
             database = DriverManager.getConnection("jdbc:sqlite:resources/" + databaseName, sqLiteConfig.toProperties());
             System.out.println("Connected to database");
@@ -54,6 +54,6 @@ public class ServerStarter {
             database.close();
             System.out.println("Database closed");
 
-        } catch (Exception e) {System.out.println("Failed to close database"); }
+        } catch (Exception e) { System.out.println("Failed to close database"); }
     }
 }
