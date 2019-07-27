@@ -69,7 +69,8 @@ let startTime;
 
 let xMouse;
 let yMouse;
-let gravity = 0.5;
+let xGravity = 0.3;
+let yGravity = 0.5;
 let GUARD = 0.001;
 
 let sprite;

@@ -72,8 +72,8 @@ function Enemy (x, y) {
     }
     
     this.update = function () {
-        //this.xVelocity *= this.airResistance;
-        this.yVelocity += gravity;
+        this.xVelocity += xGravity;
+        this.yVelocity += yGravity;
 
         /////movement stuff//////////
 

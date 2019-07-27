@@ -47,7 +47,7 @@ function Sprite (x, y) {
                     this.x = block.x - this.XSIZE - GUARD;
                     leftCollision = true;
                 }
-                else if (this.x >= block.x + block.XSIZE && this.x + this.xVelocity <= block.x + block.SIZE) {
+                else if (this.x >= block.x + block.SIZE && this.x + this.xVelocity <= block.x + block.SIZE) {
                     if (block.type === "lava") this.dead = true;
                     this.xVelocity = 0;
                     this.x = block.x + block.SIZE + GUARD;
@@ -79,7 +79,8 @@ function Sprite (x, y) {
         else if (this.goLeft) this.xVelocity = -4;
         else if (this.goRight) this.xVelocity = 4;
         if (this.jumping && this.canJump) this.yVelocity = -12;
-        this.yVelocity += gravity;
+        this.xVelocity += xGravity;
+        this.yVelocity += yGravity;
         
         this.checkBoxCollision();
         this.checkEnemyCollision();
