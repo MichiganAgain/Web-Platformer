@@ -18,63 +18,36 @@ function Enemy (x, y) {
     this.bottomCollision = false;
     this.leftCollision = false;
     this.rightCollision = false;
-    
+
     this.checkBoxCollision = function () {
         this.topCollision = false;
         this.bottomCollision = false;
         this.leftCollision = false;
         this.rightCollision = false;
-        
+
         for (let block of blocks) {
-            //top block
-            if (this.y + this.SIZE <= block.y && this.y + this.SIZE + this.yVelocity >= block.y) {
-                if ((this.x >= block.x && this.x <= block.x + block.SIZE)) {
+            //top and bottom first
+            if (this.x + this.SIZE >= block.x && this.x <= block.x + block.SIZE) {
+                if (this.y + this.SIZE <= block.y && this.y + this.SIZE + this.yVelocity >= block.y) {
                     this.y = block.y - this.SIZE - GUARD;
-                    //this.yVelocity *= -block.bounce;
+                    this.yVelocity *= -block.bounce;
                     this.yVelocity = 0;
                     this.topCollision = true;
                 }
-                else if ((this.x + this.SIZE >= block.x && this.x + this.SIZE <= block.x + block.SIZE)) {
-                    //this.yVelocity *= -block.bounce;
-                    this.yVelocity = 0;
-                    this.y = block.y - this.SIZE - GUARD;
-                    this.topCollision = true;
-                }
-            }
-            //bottom block
-            if (this.y >= block.y + block.SIZE && this.y + this.yVelocity <= block.y + block.SIZE) {
-                if ((this.x >= block.x && this.x <= block.x + block.SIZE)) {
-                    this.yVelocity = 0;
-                    this.y = block.y + block.SIZE + GUARD;
-                    this.bottomCollision = true;
-                }
-                else if ((this.x + this.SIZE >= block.x && this.x + this.SIZE <= block.x + block.SIZE)) {
+                else if (this.y >= block.y + block.SIZE && this.y + this.yVelocity <= block.y + block.SIZE) {
                     this.yVelocity = 0;
                     this.y = block.y + block.SIZE + GUARD;
                     this.bottomCollision = true;
                 }
             }
-            //left block
-            if (this.x + this.SIZE <= block.x && this.x + this.SIZE + this.xVelocity >= block.x) {
-                if ((this.y >= block.y && this.y <= block.y + block.SIZE)) {
+            //now for left and right
+            if (this.y + this.SIZE >= block.y && this.y <= block.y + block.SIZE) {
+                if (this.x + this.SIZE <= block.x && this.x + this.SIZE + this.xVelocity >= block.x) {
                     this.x = block.x - this.SIZE - GUARD;
                     this.xVelocity = 0;
                     this.leftCollision = true;
                 }
-                else if ((this.y + this.SIZE >= block.y && this.y + this.SIZE <= block.y + block.SIZE)) {
-                    this.x = block.x - this.SIZE - GUARD;
-                    this.xVelocity = 0;
-                    this.leftCollision = true;
-                }
-            }
-            //right block
-            if (this.x >= block.x + block.SIZE && this.x + this.xVelocity <= block.x + block.SIZE) {
-                if ((this.y >= block.y && this.y <= block.y + block.SIZE)) {
-                    this.x = block.x + block.SIZE + GUARD;
-                    this.xVelocity = 0;
-                    this.rightCollision = true;
-                }
-                else if ((this.y + this.SIZE >= block.y && this.y + this.SIZE <= block.y + block.SIZE)) {
+                else if (this.x >= block.x + block.SIZE && this.x + this.xVelocity <= block.x + block.SIZE) {
                     this.x = block.x + block.SIZE + GUARD;
                     this.xVelocity = 0;
                     this.rightCollision = true;
@@ -82,40 +55,18 @@ function Enemy (x, y) {
             }
         }
     }
-    
+
     this.checkSnowballCollision = function () {
         for (let snowball of snowballs) {
-            if (snowball.x >= this.x && snowball.x <= this.x + this.SIZE) { //top left of snowball
-                if (snowball.y >= this.y && snowball.y <= this.y + this.SIZE) {
+            if (this.x + this.SIZE >= snowball.x && this.x <= snowball.x + snowball.SIZE) {
+                if (this.y + this.SIZE >= snowball.y && this.y <= snowball.y + snowball.SIZE) {
                     this.health -= snowball.damage;
                     snowball.dead = true;
-                    return;
-                }
-            }
-            if (snowball.x >= this.x && snowball.x <= this.x + this.SIZE) { //bottom left of snowball
-                if (snowball.y + snowball.SIZE >= this.y && snowball.y + snowball.SIZE <= this.y + this.SIZE) {
-                    this.health -= snowball.damage;
-                    snowball.dead = true;
-                    return;
-                }
-            }
-            if (snowball.x + snowball.SIZE >= this.x && snowball.x + snowball.SIZE <= this.x + this.SIZE) { //bottom right of snowball
-                if (snowball.y + snowball.SIZE >= this.y && snowball.y + snowball.SIZE <= this.y + this.SIZE) {
-                    this.health -= snowball.damage;
-                    snowball.dead = true;
-                    return;
-                }
-            }
-            if (snowball.x + snowball.SIZE >= this.x && snowball.x + snowball.SIZE <= this.x + this.SIZE) { //top right of snowball
-                if (snowball.y >= this.y && snowball.y <= this.y + this.SIZE) {
-                    this.health -= snowball.damage;
-                    snowball.dead = true;
-                    return;
                 }
             }
         }
     }
-    
+
     this.draw = function () {
         context.drawImage(this.img, this.x + camera.xOffset, this.y + camera.yOffset);
     }

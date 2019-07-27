@@ -99,8 +99,9 @@ function initWorld () { // initialize the world by getting map data from databas
 }
 
 function completedWorld () {
+    let finishTime = (new Date().getTime()) - startTime;
     gameStarted = false;
-    alert("World complete!");
+    //alert("World complete!" + "  Finished in " + (finishTime / 1000) + " seconds!");
 }
 
 setInterval(function () {animate();}, 15); //animate frame every 15 milliseconds if
