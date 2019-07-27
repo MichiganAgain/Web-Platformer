@@ -66,10 +66,11 @@ function shoot () {
 }, 10000);*/
 
 let startTime;
+let mapID;
 
 let xMouse;
 let yMouse;
-let xGravity = 0.3;
+let xGravity = 0.0;
 let yGravity = 0.5;
 let GUARD = 0.001;
 
@@ -84,7 +85,7 @@ function initWorld () { // initialize the world by getting map data from databas
     snowballs = [];
     blocks = [];
     enemies = [];
-    var formData = new FormData();
+    let formData = new FormData();
     formData.append("mapOwner", $("#mapOwner").val());
     formData.append("mapName", $("#mapName").val());
     $("#mapSelect").css("display", "none");
@@ -96,12 +97,25 @@ function initWorld () { // initialize the world by getting map data from databas
         camera = new Camera();
         gameStarted = true;
         startTime = new Date().getTime();
+        mapID = data.mapID;
     });
 }
 
 function completedWorld () {
-    let finishTime = (new Date().getTime()) - startTime;
     gameStarted = false;
+    let finishTime = ((new Date().getTime()) - startTime) / 1000;
+    let formData = new FormData();
+    formData.append("mapID", mapID);
+    formData.append("score", finishTime);
+    fetch("/scores/getScores/" + mapID, {method: 'GET'}).then(response => response.json()).then(data => {
+        document.getElementById("leaderboard").innerHTML += "<tr><th>Username</th><th>Score</th></tr>";
+        for (let obj of data.scores) {
+            document.getElementById("leaderboard").innerHTML += "<tr><td>" + obj.username + "</td><td>" + obj.score + "</td></tr>";
+        }
+    });
+    fetch("/scores/insert", {method: 'POST', body: formData}).then(response => response.json()).then(data => {
+        //alert("Sent scores");
+    });
     //alert("World complete!" + "  Finished in " + (finishTime / 1000) + " seconds!");
 }
 

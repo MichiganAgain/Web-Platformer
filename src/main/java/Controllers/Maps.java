@@ -149,8 +149,10 @@ public class Maps {
         mapData.put("enemies", enemyArray);
         mapData.put("sprite", spriteObject);
         mapData.put("tux", tuxObject);
+        mapData.put("mapID", mapID);
 
         return mapData.toString();
+        // mapData has blocks, enemies, sprites, tuxs and mapID
         //return "{'blocks': " + blockArray + ", 'enemies': " + enemyArray + ", 'sprite': " + spriteObject + "}";
     }
 }
