@@ -99,7 +99,7 @@ function initWorld () { // initialize the world by getting map data from databas
 }
 
 function completedWorld () {
-
+    alert("World complete!");
 }
 
 setInterval(function () {animate();}, 15); //animate frame every 15 milliseconds if

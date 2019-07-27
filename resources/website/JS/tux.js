@@ -5,7 +5,11 @@ function Tux (x, y) {
     this.img = document.getElementById("tux");
 
     this.checkSpriteCollision = function () {
-        if ((sprite.x + sprite.XSIZE >= this.x && sprite.x <= this.x) || (sprite.x))
+        if (sprite.x + sprite.XSIZE >= this.x && sprite.x <= this.x + this.SIZE) {
+            if (sprite.y + sprite.YSIZE >= this.y && sprite.y <= this.y + this.SIZE) {
+                return true;
+            }
+        }
     }
 
     this.draw = function () {
@@ -13,7 +17,7 @@ function Tux (x, y) {
     }
 
     this.update = function () {
-        this.checkSpriteCollision();
+        if (this.checkSpriteCollision()) completedWorld();
         this.draw();
     }
 }
