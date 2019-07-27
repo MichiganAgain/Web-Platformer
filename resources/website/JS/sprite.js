@@ -14,17 +14,17 @@ function Sprite (x, y) {
     this.airResistance = 0.95;
     this.powers = 0x0;
     this.dead = false;
-    
+
     this.checkBoxCollision = function () {
         let topCollision = false;
         let bottomCollision = false;
         let leftCollision = false;
         let rightCollision = false;
-        
+
         for (let block of blocks) {
-            //top of block
-            if (this.y + this.YSIZE <= block.y && this.y + this.YSIZE + this.yVelocity >= block.y) {
-                if ((this.x >= block.x && this.x <= block.x + block.SIZE) || (this.x + this.xVelocity >= block.x && this.x + this.xVelocity <= block.x + block.SIZE)) {
+            //top and bottom first
+            if (this.x + this.XSIZE >= block.x && this.x <= block.x + block.SIZE) {
+                if (this.y + this.YSIZE <= block.y && this.y + this.YSIZE + this.yVelocity >= block.y) {
                     if (block.type === "slime" && this.yVelocity > 2) this.yVelocity *= -block.bounce;
                     else if (block.type === "lava") this.dead = true;
                     else this.yVelocity = 0;
@@ -32,54 +32,22 @@ function Sprite (x, y) {
                     if (!this.goLeft && !this.goRight) this.xVelocity *= block.friction; // only resiste when no x-axis related keys are pressed
                     topCollision = true;
                 }
-                else if ((this.x + this.XSIZE >= block.x && this.x + this.XSIZE <= block.x + block.SIZE) || (this.x + this.XSIZE + this.xVelocity >= block.x && this.x + this.XSIZE + this.xVelocity <= block.x + block.SIZE)) {
-                    if (block.type === "slime") this.yVelocity *= -block.bounce;
-                    else if (block.type === "lava") this.dead = true;
-                    else this.yVelocity = 0;
-                    this.y = block.y - this.YSIZE - GUARD;
-                    if (!this.goLeft && !this.goRight) this.xVelocity *= block.friction;
-                    topCollision = true;
-                }
-            }
-            //bottom block
-            if (this.y >= block.y + block.SIZE && this.y + this.yVelocity <= block.y + block.SIZE) {
-                if ((this.x >= block.x && this.x <= block.x + block.SIZE)) {
-                    if (block.type === "lava") this.dead = true;
-                    this.yVelocity = 0;
-                    this.y = block.y + block.SIZE + GUARD;
-                    bottomCollision = true;
-                }
-                else if ((this.x + this.XSIZE >= block.x && this.x + this.XSIZE <= block.x + block.SIZE)) {
+                else if (this.y >= block.y + block.SIZE && this.y + this.yVelocity <= block.y + block.SIZE) {
                     if (block.type === "lava") this.dead = true;
                     this.yVelocity = 0;
                     this.y = block.y + block.SIZE + GUARD;
                     bottomCollision = true;
                 }
             }
-            //left block
-            if (this.x + this.XSIZE <= block.x && this.x + this.XSIZE + this.xVelocity >= block.x) {
-                if ((this.y >= block.y && this.y <= block.y + block.SIZE) || (this.y + this.yVelocity >= block.y && this.y + this.yVelocity <= block.y + block.SIZE)) {
+            //now for left and right
+            if (this.y + this.YSIZE >= block.y && this.y <= block.y + block.SIZE) {
+                if (this.x + this.XSIZE <= block.x && this.x + this.XSIZE + this.xVelocity >= block.x) {
                     if (block.type === "lava") this.dead = true;
                     this.xVelocity = 0;
                     this.x = block.x - this.XSIZE - GUARD;
                     leftCollision = true;
                 }
-                else if ((this.y + this.YSIZE >= block.y && this.y + this.YSIZE <= block.y + block.SIZE) || (this.y + this.YSIZE + this.yVelocity >= block.y && this.y + this.YSIZE + this.yVelocity <= block.y + block.SIZE)) {
-                    if (block.type === "lava") this.dead = true;
-                    this.xVelocity = 0;
-                    this.x = block.x - this.XSIZE - GUARD;
-                    leftCollision = true;
-                }
-            }
-            //right block
-            if (this.x >= block.x + block.SIZE && this.x + this.xVelocity <= block.x + block.SIZE) {
-                if ((this.y >= block.y && this.y <= block.y + block.SIZE) || (this.y + this.yVelocity >= block.y && this.y + this.yVelocity <= block.y + block.SIZE)) {
-                    if (block.type === "lava") this.dead = true;
-                    this.xVelocity = 0;
-                    this.x = block.x + block.SIZE + GUARD;
-                    rightCollision = true;
-                }
-                else if ((this.y + this.YSIZE >= block.y && this.y + this.YSIZE + this.yVelocity <= block.y + block.SIZE) || (this.y + this.YSIZE + this.yVelocity >= block.y && this.y + this.YSIZE <= block.y + block.SIZE)) {
+                else if (this.x >= block.x + block.XSIZE && this.x + this.xVelocity <= block.x + block.SIZE) {
                     if (block.type === "lava") this.dead = true;
                     this.xVelocity = 0;
                     this.x = block.x + block.SIZE + GUARD;
@@ -93,6 +61,85 @@ function Sprite (x, y) {
         if (!topCollision && !bottomCollision && !leftCollision && ! rightCollision && Math.abs(this.yVelocity) > 50) camera.shake = true
         else camera.shake = false;
     }
+    
+    // this.checkBoxCollision = function () {
+    //     let topCollision = false;
+    //     let bottomCollision = false;
+    //     let leftCollision = false;
+    //     let rightCollision = false;
+    //
+    //     for (let block of blocks) {
+    //         //top of block
+    //         if (this.y + this.YSIZE <= block.y && this.y + this.YSIZE + this.yVelocity >= block.y) {
+    //             if ((this.x >= block.x && this.x <= block.x + block.SIZE) || (this.x + this.xVelocity >= block.x && this.x + this.xVelocity <= block.x + block.SIZE)) {
+    //                 if (block.type === "slime" && this.yVelocity > 2) this.yVelocity *= -block.bounce;
+    //                 else if (block.type === "lava") this.dead = true;
+    //                 else this.yVelocity = 0;
+    //                 this.y = block.y - this.YSIZE - GUARD;
+    //                 if (!this.goLeft && !this.goRight) this.xVelocity *= block.friction; // only resiste when no x-axis related keys are pressed
+    //                 topCollision = true;
+    //             }
+    //             else if ((this.x + this.XSIZE >= block.x && this.x + this.XSIZE <= block.x + block.SIZE) || (this.x + this.XSIZE + this.xVelocity >= block.x && this.x + this.XSIZE + this.xVelocity <= block.x + block.SIZE)) {
+    //                 if (block.type === "slime") this.yVelocity *= -block.bounce;
+    //                 else if (block.type === "lava") this.dead = true;
+    //                 else this.yVelocity = 0;
+    //                 this.y = block.y - this.YSIZE - GUARD;
+    //                 if (!this.goLeft && !this.goRight) this.xVelocity *= block.friction;
+    //                 topCollision = true;
+    //             }
+    //         }
+    //         //bottom block
+    //         if (this.y >= block.y + block.SIZE && this.y + this.yVelocity <= block.y + block.SIZE) {
+    //             if ((this.x >= block.x && this.x <= block.x + block.SIZE)) {
+    //                 if (block.type === "lava") this.dead = true;
+    //                 this.yVelocity = 0;
+    //                 this.y = block.y + block.SIZE + GUARD;
+    //                 bottomCollision = true;
+    //             }
+    //             else if ((this.x + this.XSIZE >= block.x && this.x + this.XSIZE <= block.x + block.SIZE)) {
+    //                 if (block.type === "lava") this.dead = true;
+    //                 this.yVelocity = 0;
+    //                 this.y = block.y + block.SIZE + GUARD;
+    //                 bottomCollision = true;
+    //             }
+    //         }
+    //         //left block
+    //         if (this.x + this.XSIZE <= block.x && this.x + this.XSIZE + this.xVelocity >= block.x) {
+    //             if ((this.y >= block.y && this.y <= block.y + block.SIZE) || (this.y + this.yVelocity >= block.y && this.y + this.yVelocity <= block.y + block.SIZE)) {
+    //                 if (block.type === "lava") this.dead = true;
+    //                 this.xVelocity = 0;
+    //                 this.x = block.x - this.XSIZE - GUARD;
+    //                 leftCollision = true;
+    //             }
+    //             else if ((this.y + this.YSIZE >= block.y && this.y + this.YSIZE <= block.y + block.SIZE) || (this.y + this.YSIZE + this.yVelocity >= block.y && this.y + this.YSIZE + this.yVelocity <= block.y + block.SIZE)) {
+    //                 if (block.type === "lava") this.dead = true;
+    //                 this.xVelocity = 0;
+    //                 this.x = block.x - this.XSIZE - GUARD;
+    //                 leftCollision = true;
+    //             }
+    //         }
+    //         //right block
+    //         if (this.x >= block.x + block.SIZE && this.x + this.xVelocity <= block.x + block.SIZE) {
+    //             if ((this.y >= block.y && this.y <= block.y + block.SIZE) || (this.y + this.yVelocity >= block.y && this.y + this.yVelocity <= block.y + block.SIZE)) {
+    //                 if (block.type === "lava") this.dead = true;
+    //                 this.xVelocity = 0;
+    //                 this.x = block.x + block.SIZE + GUARD;
+    //                 rightCollision = true;
+    //             }
+    //             else if ((this.y + this.YSIZE >= block.y && this.y + this.YSIZE + this.yVelocity <= block.y + block.SIZE) || (this.y + this.YSIZE + this.yVelocity >= block.y && this.y + this.YSIZE <= block.y + block.SIZE)) {
+    //                 if (block.type === "lava") this.dead = true;
+    //                 this.xVelocity = 0;
+    //                 this.x = block.x + block.SIZE + GUARD;
+    //                 rightCollision = true;
+    //             }
+    //         }
+    //     }
+    //     if (topCollision) this.canJump = true;
+    //     else this.canJump = false;
+    //     if (!this.goLeft && !this.goRight) this.xVelocity *= this.airResistance; // only resist whwn no x-axis related keys are pressed
+    //     if (!topCollision && !bottomCollision && !leftCollision && ! rightCollision && Math.abs(this.yVelocity) > 50) camera.shake = true
+    //     else camera.shake = false;
+    // }
     
     this.checkEnemyCollision = function () {
         for (let enemy of enemies) {

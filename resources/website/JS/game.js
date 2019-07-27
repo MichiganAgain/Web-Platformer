@@ -99,15 +99,15 @@ function initWorld () { // initialize the world by getting map data from databas
 }
 
 function completedWorld () {
+    gameStarted = false;
     alert("World complete!");
 }
 
 setInterval(function () {animate();}, 15); //animate frame every 15 milliseconds if
                                                         //game is currently running
 function animate () {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-
     if (gameStarted) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
         //camera.update();  moved to sprite
         for (let block of blocks) block.update();
         for (let i = 0; i < enemies.length; i++) {
