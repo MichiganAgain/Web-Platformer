@@ -73,6 +73,7 @@ let gravity = 0.5;
 let GUARD = 0.001;
 
 let sprite;
+let tux;
 let snowballs = [];
 let blocks = [];
 let enemies = [];
@@ -90,13 +91,18 @@ function initWorld () { // initialize the world by getting map data from databas
         for (let block of data.blocks) blocks.push(new Block(block.x, block.y, block.type));
         for (let enemy of data.enemies) enemies.push(new Enemy(enemy.x, enemy.y));
         sprite = new Sprite(data.sprite.x, data.sprite.y);
+        tux = new Tux(data.tux.x, data.tux.y);
         camera = new Camera();
         gameStarted = true;
         startTime = new Date().getTime();
     });
 }
 
-setInterval(function () {animate()}, 15); //animate frame every 15 milliseconds if
+function completedWorld () {
+
+}
+
+setInterval(function () {animate();}, 15); //animate frame every 15 milliseconds if
                                                         //game is currently running
 function animate () {
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -112,6 +118,7 @@ function animate () {
             snowballs[i].update();
             if (snowballs[i].dead) snowballs.splice(i, 1);
         }
+        tux.update();
         sprite.update();
         if (sprite.dead) {
             //alert("Oh noo, you tried windows.  " + text[Math.floor(Math.random() * text.length)]);

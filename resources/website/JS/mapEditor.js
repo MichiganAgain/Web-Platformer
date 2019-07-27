@@ -34,14 +34,16 @@ $("#enemy").click(function () {mostRecentlySelected = "enemy";});
 $("#tux").click(function () {mostRecentlySelected = "tux";});
 
 $("#saveButton").click(function () {
-    if (spriteExists) {
-        let mapData = {"blocks": [], sprite: {"x": 0, "y": 0}, "enemies": []};
+    if (spriteExists && tuxExists) {
+        let mapData = {"blocks": [], "sprite": {"x": 0, "y": 0}, "tux": {"x": 0, "y": 0}, "enemies": []};
 
         for (let block of blocks) mapData.blocks.push({"type": block.type, "x": block.x, "y": block.y});
         for (let enemy of enemies) mapData.enemies.push({"x": enemy.x, "y": enemy.y});
         mapData.sprite.x = sprite.x;
         mapData.sprite.y = sprite.y;
-        
+        mapData.tux.x = tux.x;
+        mapData.tux.y = tux.y;
+
         let formData = new FormData();
         formData.append("mapName", $("#mapName").val());
         formData.append("mapData", JSON.stringify(mapData));
@@ -78,6 +80,10 @@ window.addEventListener("click", function (evt) { //for placing a block / sprite
                 spriteExists = false;
                 sprite = null;
             }
+            if (tuxExists && tux.x === mouseX && tux.y === mouseY) {
+                tuxExists = false;
+                tux = null;
+            }
             for (let i = 0; i < enemies.length; i++) {
                 if (enemies[i].x === mouseX && enemies[i].y === mouseY) {
                     enemies.splice(i, 1);
@@ -98,7 +104,10 @@ window.addEventListener("click", function (evt) { //for placing a block / sprite
             spriteExists = true; //only for drawing it on the screen
         }
         else if (mostRecentlySelected === "enemy") enemies.push(new Enemy(mouseX, mouseY));
-        else if (mostRecentlySelected === "tux") enemies.push(new Tux(mouseX, mouseY));
+        else if (mostRecentlySelected === "tux") {
+            tux = new Tux(mouseX, mouseY);
+            tuxExists = true;
+        }
     }
 });
 

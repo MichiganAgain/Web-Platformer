@@ -64,12 +64,19 @@ public class Maps {
                     ps.execute();
                 }
 
-                PreparedStatement ps = database.prepareStatement("INSERT INTO sprites (mapID, x, y) VALUES (?, ?, ?)");
+                PreparedStatement pss = database.prepareStatement("INSERT INTO sprites (mapID, x, y) VALUES (?, ?, ?)");
                 JSONObject spriteObject = jsonObject.getJSONObject("sprite");
-                ps.setInt(1, mapID);
-                ps.setInt(2, spriteObject.getInt("x"));
-                ps.setInt(3, spriteObject.getInt("y"));
-                ps.execute();
+                pss.setInt(1, mapID);
+                pss.setInt(2, spriteObject.getInt("x"));
+                pss.setInt(3, spriteObject.getInt("y"));
+                pss.execute();
+
+                PreparedStatement pst = database.prepareStatement("INSERT INTO tuxs (mapID, x, y) VALUES (?, ?, ?)");
+                JSONObject tuxObject = jsonObject.getJSONObject("tux");
+                pst.setInt(1, mapID);
+                pst.setInt(2, tuxObject.getInt("x"));
+                pst.setInt(3, tuxObject.getInt("y"));
+                pst.execute();
 
                 database.commit();
                 database.setAutoCommit(true);
@@ -128,11 +135,20 @@ public class Maps {
         spriteObject.put("x", spriteResult.getInt("x"));
         spriteObject.put("y", spriteResult.getInt("y"));
 
+        PreparedStatement tps = database.prepareStatement("SELECT x, y FROM tuxs WHERE mapID = ?");
+        tps.setInt(1, mapID);
+        ResultSet tuxResult = tps.executeQuery();
+        tuxResult.next();
+        JSONObject tuxObject = new JSONObject();
+        tuxObject.put("x", tuxResult.getInt("x"));
+        tuxObject.put("y", tuxResult.getInt("y"));
+
         JSONObject mapData = new JSONObject();
 
         mapData.put("blocks", blockArray);
         mapData.put("enemies", enemyArray);
         mapData.put("sprite", spriteObject);
+        mapData.put("tux", tuxObject);
 
         return mapData.toString();
         //return "{'blocks': " + blockArray + ", 'enemies': " + enemyArray + ", 'sprite': " + spriteObject + "}";

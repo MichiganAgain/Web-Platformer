@@ -41,7 +41,7 @@ public class ServerStarter {
         try {
             Class.forName("org.sqlite.JDBC");
             SQLiteConfig sqLiteConfig = new SQLiteConfig();
-            sqLiteConfig.enforceForeignKeys(true)
+            sqLiteConfig.enforceForeignKeys(true);
 
             database = DriverManager.getConnection("jdbc:sqlite:resources/" + databaseName, sqLiteConfig.toProperties());
             System.out.println("Connected to database");
