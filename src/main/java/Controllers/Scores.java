@@ -11,6 +11,7 @@ import java.security.MessageDigest;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.UUID;
+import java.time.LocalDate;
 import javax.ws.rs.core.Cookie;
 
 @Path("scores/")
@@ -18,14 +19,16 @@ public class Scores {
     @POST
     @Path("insert")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public static String insertScore (@CookieParam("sessionToken") Cookie sessionCookie, @FormDataParam("mapID") int mapID, @FormDataParam("score") float score) {
+    public String insertScore (@CookieParam("sessionToken") Cookie sessionCookie, @FormDataParam("mapID") int mapID, @FormDataParam("score") float score) {
         try {
             String username = validateCookieMonster(sessionCookie);
             if (username != null) {
-                PreparedStatement ps = database.prepareStatement("INSERT INTO scores (username, mapID, score) VALUES (?, ?, ?)");
+                LocalDate localDate = LocalDate.now();
+                PreparedStatement ps = database.prepareStatement("INSERT INTO scores (username, mapID, score, date) VALUES (?, ?, ?, ?)");
                 ps.setString(1, username);
                 ps.setInt(2, mapID);
                 ps.setFloat(3, score);
+                ps.setString(4, date.toString());
                 ps.execute();
 
                 return "{\"success\": \"Successfully added score to the database\"}";
@@ -43,7 +46,7 @@ public class Scores {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public static String getScores (@PathParam("mapID") int mapID) {
         try {
-            PreparedStatement ps = database.prepareStatement("SELECT username, score FROM scores WHERE mapID=?");
+            PreparedStatement ps = database.prepareStatement("SELECT username, score, date FROM scores WHERE mapID=?");
             ps.setInt(1, mapID);
             ResultSet scoreResults = ps.executeQuery();
 
@@ -52,6 +55,7 @@ public class Scores {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("username", scoreResults.getString("username"));
                 jsonObject.put("score", scoreResults.getFloat("score"));
+                jsonObject.put("date", scoreResults.getString("date"));
                 jsonArray.put(jsonObject);
             }
 

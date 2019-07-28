@@ -108,9 +108,9 @@ function completedWorld () {
     formData.append("mapID", mapID);
     formData.append("score", finishTime);
     fetch("/scores/getScores/" + mapID, {method: 'GET'}).then(response => response.json()).then(data => {
-        document.getElementById("leaderboard").innerHTML += "<tr><th>Username</th><th>Score</th></tr>";
+        document.getElementById("leaderboard").innerHTML += "<tr><th>Username</th><th>Score</th><th>Date</th></tr>";
         for (let obj of data.scores) {
-            document.getElementById("leaderboard").innerHTML += "<tr><td>" + obj.username + "</td><td>" + obj.score + "</td></tr>";
+            document.getElementById("leaderboard").innerHTML += "<tr><td>" + obj.username + "</td><td>" + obj.score + "</td><td>" + obj.date + "</td></tr>";
         }
     });
     fetch("/scores/insert", {method: 'POST', body: formData}).then(response => response.json()).then(data => {
