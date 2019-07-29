@@ -31,7 +31,7 @@ public class Scores {
                 ps.setString(4, localDate.toString());
                 ps.execute();
 
-                return "{\"success\": \"Successfully added score to the database\"}";
+                return "{\"username\": \"" + username + "\"}";
             } else {
                 return "{\"error\": \"Invalid sessionCookie\"}";
             }

@@ -3,7 +3,9 @@
 
     <head>
 
+        <script src="/client/JS/js.cookie.min.js"></script>
         <script type="text/javascript" src="/client/JS/jQuery.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Bowlby+One+SC&display=swap" rel="stylesheet">
 
         <title>Tux Game</title>
 
@@ -23,25 +25,80 @@
                 display: none;
             }
 
+            td {
+                padding-left: 50px;
+            }
+
+            #your-time {
+                color: #D4AF37;
+            }
+
+            .button {
+                border-radius: 3px;
+                background-color: #FF7700;
+                color: white;
+                text-align: center;
+                background-size: 200%;
+                transition: 0.3s;
+                box-shadow: 7px 7px rgba(0, 0, 0, 0.5);
+                border: none;
+                cursor: pointer;
+            }
+
+            .button:hover {
+                background-position: right;
+                box-shadow: 2px 2px rgba(0, 0, 0, 0.9);
+            }
+
             #leaderboard-container {
                 position: absolute;
                 left: 50%;
                 top: 50%;
                 transform: translate(-50%, -50%);
-                padding: 100px;
+                padding: 50px 100px;
                 border-radius: 7px;
-                background-image: linear-gradient(to bottom left, #000000, #333333, #000000);
-                background-size: 200%;
-                transition: 1s;
+                background-color: #444444;
+                display: none;
+                font-family: 'Bowlby One SC', cursive;
+                z-index: 0;
             }
 
-            #leaderboard-container:hover {
-                background-position: top right;
+            #menu {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                padding: 10px;
+                border-radius: 7px;
+                background-color: #444444;
+                display: none;
+                font-family: 'Bowlby One SC', cursive;
+                z-index: 1;
             }
 
-            .score-object {
-
+            #restart-button {
+                float: left;
+                background-image: linear-gradient(to left, #458B00, #7CFC00, #458B00);
+                z-index: -1;
             }
+
+            #logout-button {
+                float: left;
+                background-image: linear-gradient(to left, #458B00, #7CFC00, #458B00);
+            }
+
+            .leaderboard-button {
+                width: 30%;
+                display: inline-block;
+                position: relative;
+                left: 35%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                padding: 10px;
+                margin-right: 20px;
+            }
+
+            .margin-top {margin-top: 50px;}
         
         </style>
 
@@ -77,9 +134,24 @@
         <script src="/client/JS/camera.js"></script>
         <script src="/client/JS/game.js"></script>
 
+        <div id="menu">
+
+            <button id="restart-button" class="button">Restart</button>
+            <button id="logout-button" class="button">Log Out</button>
+
+        </div>
+
         <div id="leaderboard-container">
 
+            <table id="leaderboard-table">
 
+
+
+            </table>
+
+            <div class="margin-top"></div>
+            <button id="restart-button" class="button leaderboard-button">Restart</button>
+            <button id="logout-button" class="button leaderboard-button">Log Out</button>
 
         </div>
 

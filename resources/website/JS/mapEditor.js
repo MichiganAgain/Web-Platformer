@@ -11,9 +11,10 @@ function checkLogin (onSuccess) {
     let token = Cookies.get("sessionToken");
     if (token !== undefined) {
         fetch("/users/check", {method: "GET"}).then(response => response.json()).then(data => {
-            if (data.hasOwnProperty("error")) {
-                window.location.href = "/client/login.html";
+            if (data.hasOwnProperty("username")) {
+                username = data.username;
             }
+            else window.location.href = "/client/login.html";
         });
     }else window.location.href = "/client/login.html";
 }
@@ -129,6 +130,7 @@ let tux;
 let snowballs = [];
 let blocks = [];
 let enemies = [];
+let username;
 camera = new Camera();
 
 function animate () {

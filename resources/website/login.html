@@ -4,8 +4,9 @@
 
         <script src="/client/JS/js.cookie.min.js"></script>
         <script type="text/javascript" src="/client/JS/jQuery.js"></script>
-        <link rel="stylesheet" href="/client/CSS/jquery-ui.min.css">
         <script src="/client/JS/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="/client/CSS/jquery-ui.min.css">
+        <link rel="stylesheet" href="/client/CSS/button.css">
 
         <title>Login</title>
 
@@ -52,27 +53,6 @@
 
             input[type="text"]::placeholder {
                 text-align: center;
-            }
-
-            .button {
-                width: 40%;
-                height: 4%;
-                /*border: 4px black outset;*/
-                border-radius: 3px;
-                background-color: #FF7700;
-                color: white;
-                text-align: center;
-                position: relative;
-                left: 70%;
-                margin-bottom: 15px;
-                background-size: 200%;
-                transition: 0.1s;
-                box-shadow: 7px 7px rgba(0, 0, 0, 0.5);
-            }
-
-            .button:hover {
-                background-position: right;
-                box-shadow: 3px 3px rgba(0, 0, 0, 0.9);
             }
 
             #login-button {
@@ -211,7 +191,8 @@
                     }
                     else {
                         $("#input-warning").animate({opacity: "1"}, 100);
-                        console.log(data.error);                    }
+                        console.log(data.error);
+                    }
                 });
             }
 
