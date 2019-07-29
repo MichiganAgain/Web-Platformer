@@ -23,7 +23,15 @@ function pageLoad () {
     checkLogin();
 }
 
-$("#leaderboard-button").click(function () {window.location.href = "/client/mapEditor.html"});
+function loadMapEditor () {
+    window.location.href = "/client/mapEditor.html"
+}
+
+function logout () {
+    fetch("/users/logout", {method: 'POST'}).then(response => response.json()).then(data => {
+
+    });
+}
 
 window.addEventListener("keydown", function (evt) {
     if ((evt.keyCode === 32 || evt.keyCode === 87) && sprite.canJump) { //on space or w press
@@ -159,6 +167,8 @@ setInterval(function () {animate();}, 15); //animate frame every 15 milliseconds
                                                         //game is currently running
 function animate () {
     if (gameRunning && !leaderBoardShowing) {
+        canvas.width = window.innerWidth - 4;
+        canvas.height = window.innerHeight - 4;
         context.clearRect(0, 0, canvas.width, canvas.height);
         //camera.update();  moved to sprite
         for (let block of blocks) block.update();

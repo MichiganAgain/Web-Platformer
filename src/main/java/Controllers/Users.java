@@ -88,7 +88,18 @@ public class Users {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     public static String logout (@CookieParam("sessionToken") Cookie sessionCookie) {
-
+        try {
+            if (sessionCookie != null) {
+                String token = sessionCookie.getValue();
+                PreparedStatement ps = database.prepareStatement("UpdAtE users SeT sessionToken=nULL wHeRE sessionToken=?");
+                ps.setString(1, token);
+                ps.executeUpdate();
+                return "{\"success\": \"Successfully removed sessionCookie from database\"}";
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return "{\"error\": \"Failed to remove sessionCookie from database\"}";
     }
 
     public static String validateCookieMonster (Cookie cookieSession) {
