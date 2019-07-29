@@ -25,12 +25,43 @@
                 display: none;
             }
 
-            td {
+            td, th {
                 padding-left: 50px;
+            }
+
+            tr {
+                border: 300px black solid;
             }
 
             #your-time {
                 color: #D4AF37;
+            }
+
+            #leaderboard-container {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                padding: 50px 100px;
+                border-radius: 7px;
+                background-color: #444444;
+                display: none;
+                font-family: 'Bowlby One SC', cursive;
+                z-index: 0;
+            }
+
+            #menu {
+                width: 20%;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                padding: 50px;
+                border-radius: 7px;
+                background-color: #444444;
+                display: none;
+                font-family: 'Bowlby One SC', cursive;
+                z-index: 1;
             }
 
             .button {
@@ -50,52 +81,46 @@
                 box-shadow: 2px 2px rgba(0, 0, 0, 0.9);
             }
 
-            #leaderboard-container {
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                transform: translate(-50%, -50%);
-                padding: 50px 100px;
-                border-radius: 7px;
-                background-color: #444444;
-                display: none;
-                font-family: 'Bowlby One SC', cursive;
-                z-index: 0;
-            }
-
-            #menu {
-                position: absolute;
-                left: 50%;
+            .leaderboard-button {
+                width: 20%;
+                display: inline-block;
+                position: relative;
+                left: 20%;
                 top: 50%;
                 transform: translate(-50%, -50%);
                 padding: 10px;
-                border-radius: 7px;
-                background-color: #444444;
-                display: none;
-                font-family: 'Bowlby One SC', cursive;
-                z-index: 1;
+                margin-right: 10px;
             }
 
             #restart-button {
-                float: left;
                 background-image: linear-gradient(to left, #458B00, #7CFC00, #458B00);
-                z-index: -1;
+            }
+
+            #leaderboard-restart-button {
+                background-image: linear-gradient(to left, #458B00, #7CFC00, #458B00);
+            }
+
+            #new-map-button {
+                background-image: linear-gradient(to left, #458B00, #7CFC00, #458B00);
+            }
+
+            #leaderboard-new-map-button {
+                background-image: linear-gradient(to left, #458B00, #7CFC00, #458B00);
+            }
+
+            #create-map-button {
+                background-image: linear-gradient(to left, #458B00, #7CFC00, #458B00);
+            }
+            #leaderboard-create-map-button {
+                background-image: linear-gradient(to left, #458B00, #7CFC00, #458B00);
             }
 
             #logout-button {
-                float: left;
-                background-image: linear-gradient(to left, #458B00, #7CFC00, #458B00);
+                background-image: linear-gradient(to left, #FFC112, #EF5A24, #FFA312);
             }
 
-            .leaderboard-button {
-                width: 30%;
-                display: inline-block;
-                position: relative;
-                left: 35%;
-                top: 50%;
-                transform: translate(-50%, -50%);
-                padding: 10px;
-                margin-right: 20px;
+            #leaderboard-logout-button {
+                background-image: linear-gradient(to left, #FFC112, #EF5A24, #FFA312);
             }
 
             .margin-top {margin-top: 50px;}
@@ -136,8 +161,8 @@
 
         <div id="menu">
 
-            <button id="restart-button" class="button">Restart</button>
-            <button id="logout-button" class="button">Log Out</button>
+            <button id="restart-button" class="button" onclick="initWorld()">Restart</button>
+            <button id="logout-button" class="button logout-button">Log Out</button>
 
         </div>
 
@@ -148,8 +173,10 @@
             </table>
 
             <div class="margin-top"></div>
-            <button id="restart-button" class="button leaderboard-button">Restart</button>
-            <button id="logout-button" class="button leaderboard-button">Log Out</button>
+            <button id="leaderboard-restart-button" class="button leaderboard-button" onclick="initWorld()">Retry</button>
+            <button id="leaderboard-new-map-button" class="button leaderboard-button">New Map</button>
+            <button id="leaderboard-create-map-button" class="button leaderboard-button">Create Map</button>
+            <button id="leaderboard-logout-button" class="button leaderboard-button">Log Out</button>
 
         </div>
 

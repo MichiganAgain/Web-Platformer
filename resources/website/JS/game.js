@@ -3,10 +3,6 @@ canvas.width = window.innerWidth - 4;
 canvas.height = window.innerHeight - 4;
 let context = canvas.getContext("2d");
 
-let colors = ["#FDA534", "#F7902F", "#F17C2A", "#EC6325", "#F05027", "#FB282E", "#CE172F", "#BB112F", "#A30830", "#940633", "#860537", "#7A053B", "#74053E", "#6D0541", "#600545", "#540543", "#49043D", "#400438", "#350433", "#300531", "#300531", "#20042B", "#0C0225", "#000000", "#000000"];
-let colorIndex = 0;
-let colorDirection = 1; // which way the index will move along the color list
-let gameRunning = false;
 $("#mainCanvas").css({"background-color": "#555555"});
 $("#mainCanvas").animate({opacity: 1}, 1000);
 
@@ -27,7 +23,7 @@ function pageLoad () {
     checkLogin();
 }
 
-$("#mapEditButton").click(function () {window.location.href = "/client/mapEditor.html"});
+$("#leaderboard-button").click(function () {window.location.href = "/client/mapEditor.html"});
 
 window.addEventListener("keydown", function (evt) {
     if ((evt.keyCode === 32 || evt.keyCode === 87) && sprite.canJump) { //on space or w press
@@ -94,6 +90,7 @@ function shoot () {
 let username;
 let startTime;
 let mapID;
+let gameRunning = false;
 let menuShowing = false;
 let leaderBoardShowing = false;
 
@@ -112,7 +109,9 @@ let camera;
 
 function initWorld () { // initialize the world by getting map data from database
     $("#leaderboard-container").css({"display": "none"});
+    $("#menu").css({"display": "none"});
     leaderBoardShowing = false;
+    menuShowing = false;
     document.getElementById('leaderboard-table').innerHTML = "";
     snowballs = [];
     blocks = [];
@@ -143,16 +142,16 @@ function completedWorld () {
     fetch("/scores/getScores/" + mapID, {method: 'GET'}).then(response => response.json()).then(data => {
         document.getElementById("leaderboard-table").innerHTML += "<tr><th><u>Username</u></th><th><u>Score</u></th><th><u>Date</u></th></tr>";
         for (var i = 0; i < ((data.scores.length >= 9) ? 9: data.scores.length); i++) {
-            document.getElementById("leaderboard-table").innerHTML += "<tr><td>" + data.scores[i].username + "</td><td>" + data.scores[i].score + "</td><td>" + data.scores[i].date + "</td></tr>";
+            document.getElementById("leaderboard-table").innerHTML += "<tr><td>" + data.scores[i].username + "</td><td>" + data.scores[i].score.toString().substring(0, 5) + "</td><td>" + data.scores[i].date + "</td></tr>";
         }
         var currDate = "2019-05-14";
-        document.getElementById("leaderboard-table").innerHTML += "<tr id='your-time'><td>" + username + "</td><td>" + finishTime + "</td><td>" + currDate + "</td></tr>";
+        document.getElementById("leaderboard-table").innerHTML += "<tr id='your-time'><td>" + username + "</td><td>" + finishTime.toString().substring(0, 5) + "</td><td>" + currDate + "</td></tr>";
         $("#leaderboard-container").css({"display": "inline-block"});
         leaderBoardShowing = true;
+    });
 
-        fetch("/scores/insert", {method: 'POST', body: formData}).then(response => response.json()).then(data => {
+    fetch("/scores/insert", {method: 'POST', body: formData}).then(response => response.json()).then(data => {
 
-        });
     });
 }
 

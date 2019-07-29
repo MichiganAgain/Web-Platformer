@@ -83,6 +83,14 @@ public class Users {
         }
     }
 
+    @POST
+    @Path("logout")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public static String logout (@CookieParam("sessionToken") Cookie sessionCookie) {
+
+    }
+
     public static String validateCookieMonster (Cookie cookieSession) {
         if (cookieSession != null) {
             try {
