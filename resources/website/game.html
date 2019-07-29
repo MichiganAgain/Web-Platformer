@@ -22,6 +22,26 @@
             img {
                 display: none;
             }
+
+            #leaderboard-container {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                padding: 100px;
+                border-radius: 7px;
+                background-image: linear-gradient(to bottom left, #000000, #333333, #000000);
+                background-size: 200%;
+                transition: 1s;
+            }
+
+            #leaderboard-container:hover {
+                background-position: top right;
+            }
+
+            .score-object {
+
+            }
         
         </style>
 
@@ -57,11 +77,11 @@
         <script src="/client/JS/camera.js"></script>
         <script src="/client/JS/game.js"></script>
 
-        <table id="leaderboard">
+        <div id="leaderboard-container">
 
 
 
-        </table>
+        </div>
 
     </body>
 

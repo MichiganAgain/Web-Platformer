@@ -28,6 +28,7 @@ window.addEventListener("keydown", function (evt) {
     }
     else if (evt.keyCode === 49) initWorld(); //on number 1 press
     else if (evt.keyCode === 50) $("#mapSelect").css("display", "block"); // on number 2 press
+    else if (evt.keyCode === 27) {}
 });
 
 window.addEventListener("keyup", function (evt) {
@@ -108,13 +109,12 @@ function completedWorld () {
     formData.append("mapID", mapID);
     formData.append("score", finishTime);
     fetch("/scores/getScores/" + mapID, {method: 'GET'}).then(response => response.json()).then(data => {
-        document.getElementById("leaderboard").innerHTML += "<tr><th>Username</th><th>Score</th><th>Date</th></tr>";
         for (let obj of data.scores) {
-            document.getElementById("leaderboard").innerHTML += "<tr><td>" + obj.username + "</td><td>" + obj.score + "</td><td>" + obj.date + "</td></tr>";
+            document.getElementById("leaderboard-container").innerHTML += "<div id='score-object'>" + obj.username + "" + obj.score + "" + obj.date + "</div>";
+            fetch("/scores/insert", {method: 'POST', body: formData}).then(response => response.json()).then(data => {
+                //alert("Sent scores");
+            });
         }
-    });
-    fetch("/scores/insert", {method: 'POST', body: formData}).then(response => response.json()).then(data => {
-        //alert("Sent scores");
     });
     //alert("World complete!" + "  Finished in " + (finishTime / 1000) + " seconds!");
 }

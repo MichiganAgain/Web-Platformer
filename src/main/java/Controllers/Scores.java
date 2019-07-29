@@ -28,7 +28,7 @@ public class Scores {
                 ps.setString(1, username);
                 ps.setInt(2, mapID);
                 ps.setFloat(3, score);
-                ps.setString(4, date.toString());
+                ps.setString(4, localDate.toString());
                 ps.execute();
 
                 return "{\"success\": \"Successfully added score to the database\"}";
