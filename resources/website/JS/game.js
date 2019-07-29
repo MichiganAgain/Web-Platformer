@@ -116,7 +116,6 @@ function completedWorld () {
             });
         }
     });
-    //alert("World complete!" + "  Finished in " + (finishTime / 1000) + " seconds!");
 }
 
 setInterval(function () {animate();}, 15); //animate frame every 15 milliseconds if
