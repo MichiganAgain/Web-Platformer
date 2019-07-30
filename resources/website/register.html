@@ -37,7 +37,6 @@
                 padding: 2%;
                 text-align: center;
                 position: relative;
-                left: 70%;
             }
 
             .warning-text {
@@ -48,13 +47,52 @@
                 text-align: center;
             }
 
+            #username {
+                animation-name: slide-in;
+                animation-delay: 0.3s;
+                animation-duration: 1s;
+                animation-fill-mode: both;
+                opacity: 0;
+            }
+
+            #password {
+                animation-name: slide-in;
+                animation-delay: 0.6s;
+                animation-duration: 1s;
+                animation-fill-mode: both;
+                opacity: 0;
+            }
+
+            #passwordConfirm {
+                animation-name: slide-in;
+                animation-delay: 0.9s;
+                animation-duration: 1s;
+                animation-fill-mode: both;
+                opacity: 0;
+            }
+
             #register-button {
-                /*background-color: #FF7700;
-                background-color: #FF3300;*/
                 background-image: linear-gradient(to left, #FFC112, #EF5A24, #FFA312);
+                animation-name: slide-in;
+                animation-delay: 1.2s;
+                animation-duration: 1s;
+                animation-fill-mode: both;
+                opacity: 0;
             }
 
             .clear-float {float: none;}
+
+            @keyframes slide-in {
+                from {
+                    opacity: 0;
+                    margin-left: 100%;
+                }
+
+                to {
+                    opacity: 1;
+                    margin-left: 0%;
+                }
+            }
 
         </style>
 
@@ -93,31 +131,17 @@
             });
 
             ////SETUP ANIMATIONS ON PAGE LOAD//////////////////////
-            $(window).bind("pageshow", function(event) { // needed for Safari as page load not triggered on back button press
+            $(window).bind("pageshow", function(event) { // needed for Safari as page load not triggered on back-press
                 if (event.originalEvent.persisted) {
                     window.location.reload();
                 }
             });
-            $("#register-container").animate({opacity: "0"}, 0); //make sure opacity is 0.  could do first with CSS
-            $("#register-container").animate({opacity: "1"}, 1000);
             $("#username-warning").animate({opacity: "0"}, 0);
             $("#password-warning").animate({opacity: "0"}, 0);
             $("#password-match-warning").animate({opacity: "0"}, 0);
             $("#email-warning").animate({opacity: "0"}, 0);
 
-            $("#username").delay(100).animate({left: "0px", opacity: "1"}, 1000);
-            $("#password").delay(200).animate({left: "0px", opacity: "1"}, 1000);
-            $("#passwordConfirm").delay(300).animate({left: "0px", opacity: "1"}, 1000);
-            $("#register-button").delay(500).animate({left: "0px", opacity: "1"}, 1000);
             ///////////////////////////////////////////////////////////////////////////////
-
-            ////General animations/////////////////////////////////////////////
-            // $(".button").hover(function () {
-            //     $(this).animate({width: "50%", borderRadius: "9px"}, 50);
-            //
-            // }, function () {
-            //     $(this).animate({width: "40%", borderRadius: "2px"}, 50);
-            // });
 
             $(".text-input").hover(function () {
                 //$(this).animate({borderRadius: "5px"}, 50);

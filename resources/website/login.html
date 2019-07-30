@@ -61,7 +61,7 @@
 
             #username {
                 animation-name: slide-in;
-                animation-delay: 0.5s;
+                animation-delay: 0.3s;
                 animation-duration: 1s;
                 animation-fill-mode: both;
                 opacity: 0;
@@ -69,7 +69,7 @@
 
             #password {
                 animation-name: slide-in;
-                animation-delay: 1s;
+                animation-delay: 0.6s;
                 animation-duration: 1s;
                 animation-fill-mode: both;
                 opacity: 0;
@@ -78,7 +78,7 @@
             #login-button {
                 background-image: linear-gradient(to left, #FFC312, #EE5A24, #FFC312);
                 animation-name: slide-in;
-                animation-delay: 1.5s;
+                animation-delay: 0.9s;
                 animation-duration: 1s;
                 animation-fill-mode: both;
                 opacity: 0;
@@ -87,7 +87,7 @@
             #register-button {
                 background-image: linear-gradient(to left, #FFC112, #EF5A24, #FFA312);
                 animation-name: slide-in;
-                animation-delay: 2s;
+                animation-delay: 1.2s;
                 animation-duration: 1s;
                 animation-fill-mode: both;
                 opacity: 0;
@@ -102,6 +102,14 @@
 
             #button-container {padding: 10px;}
 
+            .slide-out {
+                animation-name: slide-out;
+                animation-delay: 1.2s;
+                animation-duration: 1s;
+                animation-fill-mode: both;
+                opacity: 1;
+            }
+
             @keyframes slide-in {
                 from {
                     opacity: 0;
@@ -114,12 +122,24 @@
                 }
             }
 
+            @keyframes slide-out {
+                from {
+                    opacity: 0;
+                    margin-right: 0%;
+                }
+
+                to {
+                    opacity: 1;
+                    margin-right: 100%;
+                }
+            }
+
         </style>
 
     </head>
 
     <body onload="pageLoad()">
-
+        <button class="button">Login</button>
         <div id="wrapper">
             
             <div id="login-container">
@@ -155,15 +175,6 @@
                 if (evt.keyCode == 13) {loginPressed();}
             });
 
-
-            ////////General Animations ///////////////////////////////////////////////////////
-            // $(".button").hover(function () {
-            //     $(this).animate({width: "50%", borderRadius: "9px"}, 50);
-            //
-            // }, function () {
-            //     $(this).animate({width: "40%", borderRadius: "2px"}, 50);
-            // });
-
             $(".text-input").hover(function () {
                 //$(this).animate({borderRadius: "5px"}, 50);
                 $(this).animate({width: "60%"}, 50);
@@ -172,14 +183,6 @@
                 //$(this).animate({borderRadius: "10px"}, 50);
                 $(this).animate({width: "50%"}, 50);
             });
-
-            // $("#profile-picture").hover(function () {
-            //     $(this).animate({width: "35%"}, 50);
-            //
-            // }, function () {
-            //     $(this).animate({width: "30%"}, 50);
-            // });
-            ///////////////////////////////////////////////////////////////////////////////////////////////////
 
             /////////////////////Page Load / Exit animations/////////////////////////////////
             $(window).bind("pageshow", function(event) { // needed for Safari as page load not triggered on back button press
@@ -190,30 +193,20 @@
             function pageLoad () {
                 let rnum = Math.floor((Math.random() * 9)) + 1;
                 $("#profile-picture").attr("src", "/client/images/SaitamaGIF" + rnum + ".gif");
-
-                //$("#login-container").animate({opacity: "0"}, 0);
-                //$("#login-container").animate({opacity: "1"}, 1000);
-
-                //$("#profile-picture").animate({left: "0px", opacity: "1"}, 1000);
-                // $("#username").delay(100).animate({left: "0px", opacity: "1"}, 1000);
-                // $("#password").delay(200).animate({left: "0px", opacity: "1"}, 1000);
-                // $("#login-button").delay(300).animate({left: "0px", opacity: "1"}, 1000);
-                // $("#register-button").delay(500).animate({left: "0px", opacity: "1"}, 1000);
             }
 
             function exitAnimations () {
                 $("#input-warning").animate({opacity: "0"}, 100);
-                $("#register-button").css("border", "2px black inset");
-                $("#profile-picture").animate({left: "-300px", opacity: "0"}, 1000);
-                $("#username").delay(100).animate({left: "-300px", opacity: "0"}, 1000);
-                $("#password").delay(200).animate({left: "-300px", opacity: "0"}, 1000);
-                $("#login-button").delay(300).animate({left: "-300px", opacity: "0"}, 1000);
+                $("#profile-picture").animate({left: "-300px", opacity: "0"}, 500);
+                $("#username").delay(300).animate({left: "-300px", opacity: "0"}, 500);
+                $("#password").delay(600).animate({left: "-300px", opacity: "0"}, 500);
+                $("#login-button").delay(900).animate({left: "-300px", opacity: "0"}, 500);
             }
             ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             $("#register-button").click(function () {
                 exitAnimations();
-                $("#register-button").delay(500).animate({left: "-300px", opacity: "0"}, 1000, function () {
+                $("#register-button").delay(1200).animate({left: "-300px", opacity: "0"}, 500, function () {
                     window.location.href = "/client/register.html";
                 });
             });
