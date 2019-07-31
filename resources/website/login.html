@@ -42,6 +42,11 @@
                 position: relative;
                 animation-name: slide-in;
                 animation-duration: 1s;
+                transition: 0.1s;
+            }
+
+            .text-input:hover {
+                width: 60%;
             }
 
             input[type="text"]::placeholder {
@@ -122,24 +127,12 @@
                 }
             }
 
-            @keyframes slide-out {
-                from {
-                    opacity: 0;
-                    margin-right: 0%;
-                }
-
-                to {
-                    opacity: 1;
-                    margin-right: 100%;
-                }
-            }
-
         </style>
 
     </head>
 
     <body onload="pageLoad()">
-        <button class="button">Login</button>
+
         <div id="wrapper">
             
             <div id="login-container">
@@ -175,15 +168,6 @@
                 if (evt.keyCode == 13) {loginPressed();}
             });
 
-            $(".text-input").hover(function () {
-                //$(this).animate({borderRadius: "5px"}, 50);
-                $(this).animate({width: "60%"}, 50);
-
-            }, function () {
-                //$(this).animate({borderRadius: "10px"}, 50);
-                $(this).animate({width: "50%"}, 50);
-            });
-
             /////////////////////Page Load / Exit animations/////////////////////////////////
             $(window).bind("pageshow", function(event) { // needed for Safari as page load not triggered on back button press
                 if (event.originalEvent.persisted) {
@@ -191,7 +175,7 @@
                 }
             });
             function pageLoad () {
-                let rnum = Math.floor((Math.random() * 9)) + 1;
+                let rnum = Math.floor((Math.random() * 8)) + 1;
                 $("#profile-picture").attr("src", "/client/images/SaitamaGIF" + rnum + ".gif");
             }
 

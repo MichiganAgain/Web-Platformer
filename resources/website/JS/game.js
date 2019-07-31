@@ -152,14 +152,14 @@ function completedWorld () {
         for (var i = 0; i < ((data.scores.length >= 9) ? 9: data.scores.length); i++) {
             document.getElementById("leaderboard-table").innerHTML += "<tr><td>" + data.scores[i].username + "</td><td>" + data.scores[i].score.toString().substring(0, 5) + "</td><td>" + data.scores[i].date + "</td></tr>";
         }
-        var currDate = "2019-05-14";
-        document.getElementById("leaderboard-table").innerHTML += "<tr id='your-time'><td>" + username + "</td><td>" + finishTime.toString().substring(0, 5) + "</td><td>" + currDate + "</td></tr>";
+
+        document.getElementById("leaderboard-table").innerHTML += "<tr id='your-time'><td>" + username + "</td><td>" + finishTime.toString().substring(0, 5) + "</td><td>Today</td></tr>";
         $("#leaderboard-container").css({"display": "inline-block"});
         leaderBoardShowing = true;
-    });
 
-    fetch("/scores/insert", {method: 'POST', body: formData}).then(response => response.json()).then(data => {
+        fetch("/scores/insert", {method: 'POST', body: formData}).then(response => response.json()).then(data => {
 
+        });
     });
 }
 

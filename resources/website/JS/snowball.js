@@ -9,7 +9,7 @@ function Snowball (x, y, xVelocity, yVelocity) {
     this.dead = false; // for when it should disappear
     this.damage = 100;
     this.totalCollisions = 0;
-    this.maxCollisions = 50;
+    this.maxCollisions = 50;    // until it disappears
 
     this.checkBoxCollision = function () {
         let topCollision = false;
