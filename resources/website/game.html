@@ -14,11 +14,12 @@
             body {
                 margin: 0;
                 background-color: #444444;
+                opacity: 0;
             }
 
             canvas {
                 background-color: #3A3A3F;
-                opacity: 0;
+                opacity: 1;
             }
             
             img {
@@ -66,29 +67,62 @@
                 padding: 50px;
                 border-radius: 7px;
                 background-color: #444444;
-                display: none;
                 font-family: 'Bowlby One SC', cursive;
                 z-index: 1;
                 border: 3px black solid;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 7px 7px rgba(0, 0, 0, 0.3);
+            }
+
+            #menu:hover {
+                box-shadow: 2px 2px rgba(0, 0, 0, 0.6);
+            }
+
+            .text-input {
+                margin-bottom: 5%;
+                background-color: #555555;
+                border: none;
+                border-radius: 10px;
+                width: 50%;
+                height: 25px;
+                color: white;
+                padding: 2%;
+                text-align: center;
+                position: relative;
+                animation-name: slide-in;
+                animation-duration: 1s;
+                transition: 0.1s;
+            }
+
+            .text-input:hover {
+                width: 60%;
             }
 
             .button {
+                width: 50%;
+                height: 25px;
                 border-radius: 3px;
                 background-color: #FF7700;
                 color: white;
                 text-align: center;
+                position: relative;
+                margin-bottom: 5px;
                 background-size: 200%;
                 transition: 0.3s;
-                box-shadow: 7px 7px rgba(0, 0, 0, 0.5);
+                box-shadow: 7px 7px rgba(0, 0, 0, 0.3);
                 border: none;
                 cursor: pointer;
             }
 
             .button:hover {
                 background-position: right;
-                box-shadow: 2px 2px rgba(0, 0, 0, 0.9);
+                box-shadow: 2px 2px rgba(0, 0, 0, 0.6);
             }
+
             .button:active {
+                background-position: right;
+                transition: 0s;
                 box-shadow: 0px 0px rgba(0, 0, 0, 0.9);
             }
 
@@ -101,6 +135,10 @@
                 transform: translate(-50%, -50%);
                 padding: 10px;
                 margin-right: 10px;
+            }
+
+            #loadButton {
+                background-image: linear-gradient(to left, #458B00, #7CFC00, #458B00);
             }
 
             #restart-button {
@@ -135,19 +173,26 @@
             }
 
             .margin-top {margin-top: 50px;}
+            .clear-float {float: none;}
         
         </style>
 
     </head>
 
     <body>
+    <div id="leaderboard-container">
 
-        <div id="mapSelect">
-            <input type="text" id="mapOwner" placeholder="mapOwner">
-            <input type="text" id="mapName" placeholder="mapName">
-            <button id="loadButton" onclick="initWorld()">load map</button>
-            <button id="mapEditButton">Map Editor</button>
-        </div>
+        <table id="leaderboard-table">
+
+        </table>
+
+        <div class="margin-top"></div>
+        <button id="leaderboard-restart-button" class="button leaderboard-button" onclick="initWorld()">Retry</button>
+        <button id="leaderboard-new-map-button" class="button leaderboard-button" onclick="showMenu()">Choose Map</button>
+        <button id="leaderboard-create-map-button" class="button leaderboard-button" onclick="loadMapEditor()">Create Map</button>
+        <button id="leaderboard-logout-button" class="button leaderboard-button" onclick="logout()">Log Out</button>
+
+    </div>
 
         <canvas id="mainCanvas"></canvas>
         <img id="ice" src="/client/images/minecraft_ice.png">
@@ -172,24 +217,20 @@
 
         <div id="menu">
 
-            <button id="restart-button" class="button" onclick="initWorld()">Restart</button>
+            <input type="text" class="text-input" id="mapOwner" placeholder="Map Owner">
+            <input type="text" class="text-input" id="mapName" placeholder="Map Name">
+
+            <div class="clear-float"</div>
+            <button id="loadButton" class="button" onclick="initWorld()">Play</button>
+            <div class="clear-float"</div>
+            <button id="optionButton" class="button">Options</button>
+            <div class="clear-float"</div>
+
             <button id="logout-button" class="button logout-button" onclick="logout()">Log Out</button>
 
         </div>
 
-        <div id="leaderboard-container">
 
-            <table id="leaderboard-table">
-
-            </table>
-
-            <div class="margin-top"></div>
-            <button id="leaderboard-restart-button" class="button leaderboard-button" onclick="initWorld()">Retry</button>
-            <button id="leaderboard-new-map-button" class="button leaderboard-button">Choose Map</button>
-            <button id="leaderboard-create-map-button" class="button leaderboard-button" onclick="loadMapEditor()">Create Map</button>
-            <button id="leaderboard-logout-button" class="button leaderboard-button" onclick="logout()">Log Out</button>
-
-        </div>
 
     </body>
 

@@ -3,8 +3,8 @@ canvas.width = window.innerWidth - 4;
 canvas.height = window.innerHeight - 4;
 let context = canvas.getContext("2d");
 
-$("#mainCanvas").css({"background-color": "#555555"});
-$("#mainCanvas").animate({opacity: 1}, 1000);
+$("#mainCanvas").animate({opacity: 0}, 3000);
+$("body").animate({opacity: 1}, 1000);
 
 setInterval(checkLogin, 1000); //check every second for valid session cookie just cos I can
 function checkLogin (onSuccess) {
@@ -33,27 +33,32 @@ function logout () {
     });
 }
 
+function showMenu () {
+
+    $("#menu").css("display", "inline-block");
+    menuShowing = true;
+}
+
 window.addEventListener("keydown", function (evt) {
-    if ((evt.keyCode === 32 || evt.keyCode === 87) && sprite.canJump) { //on space or w press
-        sprite.jumping = true;
-        sprite.canJump = false;
+    if (gameRunning) {
+        if ((evt.keyCode === 32 || evt.keyCode === 87) && sprite.canJump) { //on space or w press
+            sprite.jumping = true;
+            sprite.canJump = false;
+        } else if (evt.keyCode === 65) {
+            sprite.goLeft = true;
+        } else if (evt.keyCode === 68) {
+            sprite.goRight = true;
+        }
     }
-    else if (evt.keyCode === 65) {
-        sprite.goLeft = true;
-    }
-    else if (evt.keyCode === 68) {
-        sprite.goRight = true;
-    }
-    else if (evt.keyCode === 49) initWorld(); //on number 1 press
-    else if (evt.keyCode === 50) $("#mapSelect").css("display", "block"); // on number 2 press
-    else if (evt.keyCode === 27) {
+
+    if (evt.keyCode === 27) {
         if (!menuShowing) {
             gameRunning = false;
             $("#menu").css("display", "inline-block");
             menuShowing = true;
         }
         else {
-            gameRunning = true;
+            if (!gameCompleted) gameRunning = true;
             $("#menu").css("display", "none");
             menuShowing = false;
         }
@@ -61,21 +66,23 @@ window.addEventListener("keydown", function (evt) {
 });
 
 window.addEventListener("keyup", function (evt) {
-    if (evt.keyCode === 32 || evt.keyCode === 87) {
-        sprite.jumping = false;
-    }
-    else if (evt.keyCode === 65) {
-        sprite.goLeft = false;
-    }
-    else if (evt.keyCode === 68) {
-        sprite.goRight = false;
+    if (gameRunning) {
+        if (evt.keyCode === 32 || evt.keyCode === 87) {
+            sprite.jumping = false;
+        } else if (evt.keyCode === 65) {
+            sprite.goLeft = false;
+        } else if (evt.keyCode === 68) {
+            sprite.goRight = false;
+        }
     }
 });
 
 window.addEventListener("click", function (evt) { //shoot a snowball by finding mouse angle
-    xMouse = evt.clientX - camera.xOffset;
-    yMouse = evt.clientY - camera.yOffset;
-    shoot();
+    if (gameRunning) {
+        xMouse = evt.clientX - camera.xOffset;
+        yMouse = evt.clientY - camera.yOffset;
+        shoot();
+    }
 });
 
 function shoot () {
@@ -99,6 +106,7 @@ let username;
 let startTime;
 let mapID;
 let gameRunning = false;
+let gameCompleted = false;
 let menuShowing = false;
 let leaderBoardShowing = false;
 
@@ -142,6 +150,7 @@ function initWorld () { // initialize the world by getting map data from databas
 
 function completedWorld () {
     gameRunning = false;
+    gameCompleted = true;
     let finishTime = ((new Date().getTime()) - startTime) / 1000;
     let formData = new FormData();
     formData.append("mapID", mapID);
@@ -150,7 +159,7 @@ function completedWorld () {
     fetch("/scores/getScores/" + mapID, {method: 'GET'}).then(response => response.json()).then(data => {
         document.getElementById("leaderboard-table").innerHTML += "<tr><th><u>Username</u></th><th><u>Score</u></th><th><u>Date</u></th></tr>";
         for (var i = 0; i < ((data.scores.length >= 9) ? 9: data.scores.length); i++) {
-            document.getElementById("leaderboard-table").innerHTML += "<tr><td>" + data.scores[i].username + "</td><td>" + data.scores[i].score.toString().substring(0, 5) + "</td><td>" + data.scores[i].date + "</td></tr>";
+            document.getElementById("leaderboard-table").innerHTML += "<tr><td>" + data.scores[i].username + "</td><td>" + data.scores[i].score.toString().substring(0, 6) + "</td><td>" + data.scores[i].date + "</td></tr>";
         }
 
         document.getElementById("leaderboard-table").innerHTML += "<tr id='your-time'><td>" + username + "</td><td>" + finishTime.toString().substring(0, 5) + "</td><td>Today</td></tr>";
