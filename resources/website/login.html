@@ -62,6 +62,15 @@
                 animation-duration: 1s;
                 animation-fill-mode: both;
                 opacity: 0;
+                box-shadow: 4px 4px rgba(0, 0, 0, 0.3);
+            }
+
+            #profile-picture:hover {
+                box-shadow: 2px 2px rgba(0, 0, 0, 0.6);
+            }
+
+            #profile-picture:active {
+                box-shadow: 0px 0px rgba(0, 0, 0, 0.6);
             }
 
             #username {
@@ -106,14 +115,6 @@
             }
 
             #button-container {padding: 10px;}
-
-            .slide-out {
-                animation-name: slide-out;
-                animation-delay: 1.2s;
-                animation-duration: 1s;
-                animation-fill-mode: both;
-                opacity: 1;
-            }
 
             @keyframes slide-in {
                 from {
@@ -161,6 +162,7 @@
         </div>
         
         <script type="text/javascript">
+            var i = 0;
             $("#profile-picture").draggable();
             $("#text-container").draggable();
             $("#button-container").draggable();
@@ -175,24 +177,14 @@
                 }
             });
             function pageLoad () {
-                let rnum = Math.floor((Math.random() * 8)) + 1;
+                let rnum = Math.floor((Math.random() * 7)) + 1;
                 $("#profile-picture").attr("src", "/client/images/SaitamaGIF" + rnum + ".gif");
             }
 
-            function exitAnimations () {
-                $("#input-warning").animate({opacity: "0"}, 100);
-                $("#profile-picture").animate({left: "-300px", opacity: "0"}, 500);
-                $("#username").delay(300).animate({left: "-300px", opacity: "0"}, 500);
-                $("#password").delay(600).animate({left: "-300px", opacity: "0"}, 500);
-                $("#login-button").delay(900).animate({left: "-300px", opacity: "0"}, 500);
-            }
             ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             $("#register-button").click(function () {
-                exitAnimations();
-                $("#register-button").delay(1200).animate({left: "-300px", opacity: "0"}, 500, function () {
-                    window.location.href = "/client/register.html";
-                });
+                window.location.href = "/client/register.html";
             });
 
             $("#login-button").click(function () {loginPressed();});
@@ -203,10 +195,7 @@
                 fetch("/users/verify", {method: "POST", body: formData}).then(response => response.json()).then(data => {
                     if (data.hasOwnProperty('token')) {
                         Cookies.set("sessionToken", data.token);
-                        exitAnimations();
-                        $("#register-button").delay(500).animate({left: "-300px", opacity: "0"}, 1000, function () {
-                            window.location.href = "/client/game.html";
-                        });
+                        window.location.href = "/client/game.html";
                     }
                     else {
                         $("#input-warning").animate({opacity: "1"}, 100);

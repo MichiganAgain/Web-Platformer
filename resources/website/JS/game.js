@@ -3,8 +3,7 @@ canvas.width = window.innerWidth - 4;
 canvas.height = window.innerHeight - 4;
 let context = canvas.getContext("2d");
 
-$("#mainCanvas").animate({opacity: 0}, 3000);
-$("body").animate({opacity: 1}, 1000);
+$("#menu").animate({opacity: 1}, 3000);
 
 setInterval(checkLogin, 1000); //check every second for valid session cookie just cos I can
 function checkLogin (onSuccess) {
@@ -48,6 +47,8 @@ window.addEventListener("keydown", function (evt) {
             sprite.goLeft = true;
         } else if (evt.keyCode === 68) {
             sprite.goRight = true;
+        } else if (evt.keyCode === 82) {
+            initWorld();
         }
     }
 
