@@ -29,7 +29,6 @@
             .text-input {
                 margin-bottom: 2%;
                 background-color: #555555;
-                border: 1px black solid;
                 border-radius: 10px;
                 width: 30%;
                 height: 5%;
@@ -37,6 +36,7 @@
                 padding: 2%;
                 text-align: center;
                 position: relative;
+                border: none;
             }
 
             .warning-text {
@@ -72,6 +72,7 @@
             }
 
             #register-button {
+                margin-top: 20px;
                 background-image: linear-gradient(to left, #FFC112, #EF5A24, #FFA312);
                 animation-name: slide-in;
                 animation-delay: 1.2s;
@@ -193,14 +194,7 @@
                             $("#username-warning").animate({opacity: "1"}, 300);
                         }
                         else {
-                            $("#username-warning").animate({opacity: "0"}, 300);
-                            $("#register-button").css("border", "2px black inset");
-                            $("#username").delay(100).animate({left: "-300px", opacity: "0"}, 1000);
-                            $("#password").delay(200).animate({left: "-300px", opacity: "0"}, 1000);
-                            $("#passwordConfirm").delay(300).animate({left: "-300px", opacity: "0"}, 1000);
-                            $("#register-button").delay(500).animate({left: "-300px", opacity: "0"}, 1000, function () {
-                                window.location.href = "login.html";
-                            });
+                            window.location.href = "login.html";
                         }
                     });
                 }

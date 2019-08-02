@@ -33,6 +33,11 @@
                 border: 300px black solid;
             }
 
+            .helpText {
+                position: absolute;
+                font-family: 'Bowlby One SC', cursive;
+            }
+
             #your-time {
                 color: #D4AF37;
             }
@@ -78,6 +83,10 @@
                 box-shadow: 2px 2px rgba(0, 0, 0, 0.6);
             }
 
+            #menu:active {
+                box-shadow: 0px 0px rgba(0, 0, 0, 0.6);
+            }
+
             .text-input {
                 margin-bottom: 5%;
                 background-color: #555555;
@@ -100,7 +109,6 @@
 
             .button {
                 width: 50%;
-
                 border-radius: 3px;
                 background-color: #FF7700;
                 color: white;
@@ -109,20 +117,17 @@
                 margin-bottom: 5px;
                 background-size: 200%;
                 transition: 0.3s;
-                box-shadow: 7px 7px rgba(0, 0, 0, 0.3);
                 border: none;
                 cursor: pointer;
             }
 
             .button:hover {
                 background-position: right;
-                box-shadow: 2px 2px rgba(0, 0, 0, 0.6);
             }
 
             .button:active {
                 background-position: right;
                 transition: 0s;
-                box-shadow: 0px 0px rgba(0, 0, 0, 0.9);
             }
 
             .leaderboard-button {
@@ -134,16 +139,23 @@
                 transform: translate(-50%, -50%);
                 padding: 10px;
                 margin-right: 10px;
+                box-shadow: 7px 7px rgba(0, 0, 0, 0.3);
+            }
+
+            .leaderboard-button:hover {
+                background-position: right;
+                box-shadow: 2px 2px rgba(0, 0, 0, 0.3);
+            }
+
+            .leaderboard-button:active {
+                box-shadow: 0px 0px rgba(0, 0, 0, 0.3);
+                background-position: right;
+                transition: 0s;
             }
 
             #loadButton {
                 background-image: linear-gradient(to left, #FFB112, #EFAA24, #FFB312);
-                height: 25px;
-            }
-
-            #optionButton {
-                background-image: linear-gradient(to left, #FFC112, #EF5A24, #FFA312);
-                height: 25px;
+                height: 30px;
             }
 
             #leaderboard-restart-button {
@@ -159,7 +171,8 @@
             }
 
             #create-map-button {
-                background-image: linear-gradient(to left, #458B00, #7CFC00, #458B00);
+                background-image: linear-gradient(to left, #FFC112, #EF5A24, #FFA312);
+                height: 30px;
             }
             #leaderboard-create-map-button {
                 background-image: linear-gradient(to left, #458B00, #7CFC00, #458B00);
@@ -167,6 +180,7 @@
 
             #logout-button {
                 background-image: linear-gradient(to left, #FF7112, #FF3A24, #FF7312);
+                height: 30px;
             }
 
             #leaderboard-logout-button {
@@ -181,19 +195,23 @@
     </head>
 
     <body>
-    <div id="leaderboard-container">
 
-        <table id="leaderboard-table">
+        <span class="helpText">Menu [ESC]</span>
+        <p class="helpText">Restart [R]</p>
 
-        </table>
+        <div id="leaderboard-container">
 
-        <div class="margin-top"></div>
-        <button id="leaderboard-restart-button" class="button leaderboard-button" onclick="initWorld()">Retry</button>
-        <button id="leaderboard-new-map-button" class="button leaderboard-button" onclick="showMenu()">Choose Map</button>
-        <button id="leaderboard-create-map-button" class="button leaderboard-button" onclick="loadMapEditor()">Create Map</button>
-        <button id="leaderboard-logout-button" class="button leaderboard-button" onclick="logout()">Log Out</button>
+            <table id="leaderboard-table">
 
-    </div>
+            </table>
+
+            <div class="margin-top"></div>
+            <button id="leaderboard-restart-button" class="button leaderboard-button" onclick="initWorld()">Retry</button>
+            <button id="leaderboard-new-map-button" class="button leaderboard-button" onclick="showMenu()">Choose Map</button>
+            <button id="leaderboard-create-map-button" class="button leaderboard-button" onclick="loadMapEditor()">Create Map</button>
+            <button id="leaderboard-logout-button" class="button leaderboard-button" onclick="logout()">Log Out</button>
+
+        </div>
 
         <canvas id="mainCanvas"></canvas>
         <img id="ice" src="/client/images/minecraft_ice.png">
@@ -224,7 +242,7 @@
             <div class="clear-float"</div>
             <button id="loadButton" class="button" onclick="initWorld()">Play</button>
             <div class="clear-float"</div>
-            <button id="optionButton" class="button">Options</button>
+            <button id="create-map-button" class="button" onclick="loadMapEditor()">Create Map</button>
             <div class="clear-float"</div>
 
             <button id="logout-button" class="button logout-button" onclick="logout()">Log Out</button>

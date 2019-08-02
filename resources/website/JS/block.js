@@ -24,7 +24,7 @@ function Block (x, y, type) {
     }
     else if (type === "ice") {
         this.img = document.getElementById("ice");
-        this.friction = 0.9;
+        this.friction = 0.95;
         this.bounce = 0.3;
     }
     else if (type === "slime") {

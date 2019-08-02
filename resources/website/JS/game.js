@@ -33,7 +33,8 @@ function logout () {
 }
 
 function showMenu () {
-
+    document.getElementById("mapOwner").value = "";
+    document.getElementById("mapName").value = "";
     $("#menu").css("display", "inline-block");
     menuShowing = true;
 }
