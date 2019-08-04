@@ -49,7 +49,8 @@ $("#saveButton").click(function () {
         formData.append("mapName", $("#mapName").val());
         formData.append("mapData", JSON.stringify(mapData));
         fetch("/maps/insert", {method: "POST", body: formData}).then(response => response.json()).then(data => {
-
+            if (data.hasOwnProperty('success')) alert("Map saved");
+            else alert("Map not saved");
         });
     }
 });
