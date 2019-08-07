@@ -145,21 +145,22 @@ function initWorld () { // initialize the world by getting map data from databas
         tux = new Tux(data.tux.x, data.tux.y);
         camera = new Camera();
         gameRunning = true;
-        startTime = new Date().getTime();
         mapID = data.mapID;
+        startTime = new Date().getTime();
     });
 }
 
 function completedWorld () {
+    let finishTime = ((new Date().getTime()) - startTime) / 1000;
     gameRunning = false;
     gameCompleted = true;
-    let finishTime = ((new Date().getTime()) - startTime) / 1000;
     let formData = new FormData();
     formData.append("mapID", mapID);
     formData.append("score", finishTime);
 
     var pos;
     var scoreInserted = false;
+    var rowsToShow = 10;
 
     fetch("/scores/getScores/" + mapID, {method: 'GET'}).then(response => response.json()).then(data => {
         // first find users position in leader-board
@@ -169,7 +170,7 @@ function completedWorld () {
         ////////////////////////////////////////////////
 
         document.getElementById("leaderboard-table").innerHTML += "<tr><th><u>Pos</u></th><th><u>Username</u></th><th><u>Score</u></th><th><u>Date</u></th></tr>";
-        for (var i = 0; i < ((data.scores.length >= 9) ? 9: data.scores.length); i++) {
+        for (var i = 0; i < ((data.scores.length >= rowsToShow - 1) ? rowsToShow - 1: data.scores.length); i++) {
             if (i == pos) {
                 scoreInserted = true;
                 document.getElementById("leaderboard-table").innerHTML += "<tr id='your-time'><td>" + (pos + 1) + "</td><td>" + username + "</td><td>" + finishTime.toString().substring(0, 5) + "</td><td>Today</td></tr>";
@@ -177,7 +178,7 @@ function completedWorld () {
             document.getElementById("leaderboard-table").innerHTML += "<tr><td>" + ((scoreInserted) ? (i + 2): (i + 1)) + "</td><td>" + data.scores[i].username + "</td><td>" + data.scores[i].score.toString().substring(0, 6) + "</td><td>" + data.scores[i].date + "</td></tr>";
         }
 
-        if (!scoreInserted) document.getElementById("leaderboard-table").innerHTML += "<tr id='your-time'><td>..." + (pos + 1) + "</td><td>" + username + "</td><td>" + finishTime.toString().substring(0, 5) + "</td><td>Today</td></tr>";
+        if (!scoreInserted) document.getElementById("leaderboard-table").innerHTML += "<tr id='your-time'><td>" + ((pos < rowsToShow) ? "": "..") + (pos + 1) + "</td><td>" + username + "</td><td>" + finishTime.toString().substring(0, 5) + "</td><td>Today</td></tr>";
 
         $("#leaderboard-container").css({"display": "inline-block"});
         leaderBoardShowing = true;

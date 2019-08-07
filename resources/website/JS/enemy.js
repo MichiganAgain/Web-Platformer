@@ -4,7 +4,7 @@ function Enemy (x, y) {
     this.xMovementVelocity = 2; //max speed that it can move
     this.xVelocity = 0;
     this.yVelocity = 0;
-    this.jumpForce = 8;
+    this.jumpForce = 10;
     this.img = document.getElementById("enemy");
     this.SIZE = 47; //width and height
     this.maxHealth = 100;

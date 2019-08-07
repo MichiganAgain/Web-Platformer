@@ -30,7 +30,7 @@ function Block (x, y, type) {
     else if (type === "slime") {
         this.img = document.getElementById("slime");
         this.friction = 0.3;
-        this.bounce = 0.5;
+        this.bounce = 0.7;
     }
     else if (type === "lava") {
         this.img = document.getElementById("lava");
