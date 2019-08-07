@@ -158,13 +158,27 @@ function completedWorld () {
     formData.append("mapID", mapID);
     formData.append("score", finishTime);
 
+    var pos;
+    var scoreInserted = false;
+
     fetch("/scores/getScores/" + mapID, {method: 'GET'}).then(response => response.json()).then(data => {
-        document.getElementById("leaderboard-table").innerHTML += "<tr><th><u>Username</u></th><th><u>Score</u></th><th><u>Date</u></th></tr>";
+        // first find users position in leader-board
+        for (pos = 0; pos < data.scores.length; pos++) {
+            if (data.scores[pos].score > finishTime) break;
+        }
+        ////////////////////////////////////////////////
+
+        document.getElementById("leaderboard-table").innerHTML += "<tr><th><u>Pos</u></th><th><u>Username</u></th><th><u>Score</u></th><th><u>Date</u></th></tr>";
         for (var i = 0; i < ((data.scores.length >= 9) ? 9: data.scores.length); i++) {
-            document.getElementById("leaderboard-table").innerHTML += "<tr><td>" + data.scores[i].username + "</td><td>" + data.scores[i].score.toString().substring(0, 6) + "</td><td>" + data.scores[i].date + "</td></tr>";
+            if (i == pos) {
+                scoreInserted = true;
+                document.getElementById("leaderboard-table").innerHTML += "<tr id='your-time'><td>" + (pos + 1) + "</td><td>" + username + "</td><td>" + finishTime.toString().substring(0, 5) + "</td><td>Today</td></tr>";
+            }
+            document.getElementById("leaderboard-table").innerHTML += "<tr><td>" + ((scoreInserted) ? (i + 2): (i + 1)) + "</td><td>" + data.scores[i].username + "</td><td>" + data.scores[i].score.toString().substring(0, 6) + "</td><td>" + data.scores[i].date + "</td></tr>";
         }
 
-        document.getElementById("leaderboard-table").innerHTML += "<tr id='your-time'><td>" + username + "</td><td>" + finishTime.toString().substring(0, 5) + "</td><td>Today</td></tr>";
+        if (!scoreInserted) document.getElementById("leaderboard-table").innerHTML += "<tr id='your-time'><td>..." + (pos + 1) + "</td><td>" + username + "</td><td>" + finishTime.toString().substring(0, 5) + "</td><td>Today</td></tr>";
+
         $("#leaderboard-container").css({"display": "inline-block"});
         leaderBoardShowing = true;
 

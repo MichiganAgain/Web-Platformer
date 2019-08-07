@@ -46,7 +46,7 @@ public class Scores {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public static String getScores (@PathParam("mapID") int mapID) {
         try {
-            PreparedStatement ps = database.prepareStatement("SELECT username, score, date FROM scores WHERE mapID=?");
+            PreparedStatement ps = database.prepareStatement("SELECT username, score, date FROM scores WHERE mapID=? ORDER BY score ASC");
             ps.setInt(1, mapID);
             ResultSet scoreResults = ps.executeQuery();
 

@@ -37,15 +37,16 @@
                 text-align: center;
                 position: relative;
                 border: none;
+                transition: 0.1s;
+                background-image: linear-gradient(to right, #4A4A4F, #3E3D42);
             }
 
-            .warning-text {
-                color: red;
+            .text-input:hover {
+                width: 40%;
             }
 
-            input[type="text"]::placeholder {
-                text-align: center;
-            }
+            input[type="text"]::placeholder {text-align: center;}
+            .warning-text {color: red;}
 
             #username {
                 animation-name: slide-in;
@@ -143,17 +144,6 @@
             $("#email-warning").animate({opacity: "0"}, 0);
 
             ///////////////////////////////////////////////////////////////////////////////
-
-            $(".text-input").hover(function () {
-                //$(this).animate({borderRadius: "5px"}, 50);
-                $(this).animate({width: "40%"}, 50);
-
-            }, function () {
-                //$(this).animate({borderRadius: "10px"}, 50);
-                $(this).animate({width: "30%"}, 50);
-            });
-            ////////////////////////////////////////////////////////////////////
-
 
             ////////////input validations/////////////////////
             function validatePassword () {

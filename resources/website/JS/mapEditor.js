@@ -49,7 +49,10 @@ $("#saveButton").click(function () {
         formData.append("mapName", $("#mapName").val());
         formData.append("mapData", JSON.stringify(mapData));
         fetch("/maps/insert", {method: "POST", body: formData}).then(response => response.json()).then(data => {
-            if (data.hasOwnProperty('success')) alert("Map saved");
+            if (data.hasOwnProperty('success')) {
+                alert("Map saved\nMap Name: " + $("#mapName").val() + "\nUsername: " + username);
+                allContentSaved = true;
+            }
             else alert("Map not saved");
         });
     }
@@ -64,9 +67,10 @@ window.addEventListener("keydown", function (evt) {
 
 window.addEventListener("click", function (evt) { //for placing a block / sprite on canvas
     if (evt.clientY < canvas.height) {
+        allContentSaved = false;
         let mouseX = (evt.clientX - camera.xOffset) - ((evt.clientX - camera.xOffset) % 50);
         if ((evt.clientX - camera.xOffset) < 0) mouseX -= 50;
-        
+
         let mouseY = (evt.clientY - camera.yOffset) - ((evt.clientY - camera.yOffset) % 50);
         if ((evt.clientY - camera.yOffset) < 0) mouseY -= 50;
 
@@ -124,6 +128,7 @@ function Camera () {
     this.yOffset = 0;
 }
 
+let allContentSaved = true;
 let spriteExists = false;
 let tuxExists = false;
 let sprite;

@@ -12,7 +12,7 @@ function Enemy (x, y) {
     //this.myHealthBar = new healthBar(this);
     this.dead = false;
     this.canJump = false;
-    this.intelligence = false;
+    this.intelligent = false;
 
     this.topCollision = false;
     this.bottomCollision = false;
