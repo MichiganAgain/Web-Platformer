@@ -2,7 +2,6 @@ let canvas = document.getElementById("mainCanvas")
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight * 0.85;
 let context = canvas.getContext("2d");
-let mostRecentlySelected = null;
 
 $("#GameButton").click(function () {window.location.href = "/client/game.html"});
 
@@ -59,10 +58,19 @@ $("#saveButton").click(function () {
 });
 
 window.addEventListener("keydown", function (evt) {
-    if (evt.keyCode === 65) camera.xOffset += 50; //a
-    else if (evt.keyCode === 68) camera.xOffset -= 50; //d
-    else if (evt.keyCode === 83) camera.yOffset -= 50; //s
-    else if (evt.keyCode === 87) camera.yOffset += 50; //w
+    if (evt.keyCode === 65) leftPressed = true; //a
+    else if (evt.keyCode === 68) rightPressed = true; //d
+    else if (evt.keyCode === 83) downPressed = true; //s
+    else if (evt.keyCode === 87) upPressed = true; //w
+    else if (evt.keyCode === 16) shiftPressed = true; //shift
+});
+
+window.addEventListener("keyup", function (evt) {
+    if (evt.keyCode === 65) leftPressed = false; //a
+    else if (evt.keyCode === 68) rightPressed = false; //d
+    else if (evt.keyCode === 83) downPressed = false; //s
+    else if (evt.keyCode === 87) upPressed = false; //w
+    else if (evt.keyCode === 16) shiftPressed = false; //shift
 });
 
 window.addEventListener("click", function (evt) { //for placing a block / sprite on canvas
@@ -123,25 +131,56 @@ window.addEventListener("mousemove", function (evt) {
     document.getElementById("coords").innerHTML = "x: " + mouseX + "  y: " + mouseY;
 });
 
+function loadMap () {
+    blocks = [];
+    enemies = [];
+    let formData = new FormData();
+    formData.append("mapOwner", $("#importMapOwner").val());
+    formData.append("mapName", $("#importMapName").val());
+
+    fetch("/maps/getMap", {method: "POST", body: formData}).then(response => response.json()).then(data => {
+        for (let block of data.blocks) blocks.push(new Block(block.x, block.y, block.type));
+        for (let enemy of data.enemies) enemies.push(new Enemy(enemy.x, enemy.y));
+        sprite = new Sprite(data.sprite.x, data.sprite.y);
+        tux = new Tux(data.tux.x, data.tux.y);
+        spriteExists = tuxExists = true;
+        camera.xOffset = (canvas.width / 2) - sprite.x;
+        camera.yOffset = (canvas.height / 2) - sprite.y;
+    });
+}
+
 function Camera () {
     this.xOffset = 0;
     this.yOffset = 0;
 }
 
+let movementSpeed = 6;
+let leftPressed = false;
+let rightPressed = false;
+let upPressed = false;
+let downPressed = false;
+let shiftPressed = false;
+
 let allContentSaved = true;
+let mostRecentlySelected = null;
+
 let spriteExists = false;
 let tuxExists = false;
 let sprite;
 let tux;
-let snowballs = [];
 let blocks = [];
 let enemies = [];
 let username;
-camera = new Camera();
+let camera = new Camera();
 
 function animate () {
     requestAnimationFrame(animate);
     context.clearRect(0, 0, canvas.width, canvas.height);
+
+    if (leftPressed) camera.xOffset += (shiftPressed) ? movementSpeed * 2: movementSpeed;
+    if (rightPressed) camera.xOffset -= (shiftPressed) ? movementSpeed * 2: movementSpeed;
+    if (upPressed) camera.yOffset += (shiftPressed) ? movementSpeed * 2: movementSpeed;
+    if (downPressed) camera.yOffset -= (shiftPressed) ? movementSpeed * 2: movementSpeed;
 
     for (let block of blocks) block.draw();
     for (let enemy of enemies) enemy.draw();

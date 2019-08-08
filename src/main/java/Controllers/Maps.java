@@ -32,8 +32,35 @@ public class Maps {
         try {
             String username = Users.validateCookieMonster(sessionToken);
             if (username != null) {
-                int mapID;
-                //first create map, worry about updates later
+                int mapID = getMapID(mapName, username);
+
+                if (mapID != -1) {  // if map already exists then delete everything related to that map
+                    database.setAutoCommit(false);
+
+                    PreparedStatement deleteBlocks = database.prepareStatement("DELETE FROM blocks WHERE mapID=?");
+                    deleteBlocks.setInt(1, mapID);
+                    deleteBlocks.executeUpdate();
+
+                    PreparedStatement deleteEnemies = database.prepareStatement("DELETE FROM enemies WHERE mapID=?");
+                    deleteEnemies.setInt(1, mapID);
+                    deleteEnemies.executeUpdate();
+
+                    PreparedStatement deleteScores = database.prepareStatement("DELETE FROM scores WHERE mapID=?");
+                    deleteScores.setInt(1, mapID);
+                    deleteScores.executeUpdate();
+
+                    PreparedStatement deleteSprite = database.prepareStatement("DELETE FROM sprites WHERE mapID=?");
+                    deleteSprite.setInt(1, mapID);
+                    deleteSprite.executeUpdate();
+
+                    PreparedStatement deleteTux = database.prepareStatement("DELETE FROM tuxs WHERE mapID=?");
+                    deleteTux.setInt(1, mapID);
+                    deleteTux.executeUpdate();
+
+                    database.commit();
+                    database.setAutoCommit(true);
+                }
+
                 PreparedStatement insertMap = database.prepareStatement("INSERT INTO maps (mapName, username) VALUES (?, ?)");
                 insertMap.setString(1, mapName);
                 insertMap.setString(2, username);
@@ -42,7 +69,6 @@ public class Maps {
                 mapID = getMapID(mapName, username);
 
                 JSONObject jsonObject = new JSONObject(mapData);
-
                 database.setAutoCommit(false);
 
                 JSONArray blockArray = jsonObject.getJSONArray("blocks");
