@@ -92,6 +92,7 @@ function Enemy (x, y) {
         //////////////////////////////////////////////////////////////////////////
 
         this.checkSnowballCollision();
+        if (this.y < topLimit || this.y > bottomLimit || this.x < leftLimit || this.x > rightLimit) this.dead = true;
         if (this.health <= 0) this.dead = true;
 
         this.x += this.xVelocity; // move x, y after velocities have been adjusted

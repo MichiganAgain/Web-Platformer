@@ -62,6 +62,7 @@ function Snowball (x, y, xVelocity, yVelocity) {
 
         this.checkBoxCollision();
 
+        if (this.y < topLimit || this.y > bottomLimit || this.x < leftLimit || this.x > rightLimit) this.dead = true;
         if (this.totalCollisions > this.maxCollisions) this.dead = true;
 
         this.x += this.xVelocity;

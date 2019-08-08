@@ -84,6 +84,7 @@ function Sprite (x, y) {
         
         this.checkBoxCollision();
         this.checkEnemyCollision();
+        if (this.y < topLimit || this.y > bottomLimit || this.x < leftLimit || this.x > rightLimit) this.dead = true;
 
         this.x += this.xVelocity;
         this.y += this.yVelocity;

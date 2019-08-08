@@ -20,7 +20,7 @@ function checkLogin (onSuccess) {
 
 function logout () {
     fetch("/users/logout", {method: 'POST'}).then(response => response.json()).then(data => {
-
+        window.location.href = "/client/login.html";
     });
 }
 

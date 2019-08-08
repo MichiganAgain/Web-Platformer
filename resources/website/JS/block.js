@@ -19,7 +19,7 @@ function Block (x, y, type) {
     }
     else if (type === "stone") {
         this.img = document.getElementById("stone");
-        this.friction = 0.4;
+        this.friction = 0.5;
         this.bounce = 0.1;
     }
     else if (type === "ice") {

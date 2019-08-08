@@ -28,7 +28,7 @@ function loadMapEditor () {
 
 function logout () {
     fetch("/users/logout", {method: 'POST'}).then(response => response.json()).then(data => {
-
+        window.location.href = "/client/login.html";
     });
 }
 
@@ -117,6 +117,11 @@ let yMouse;
 let xGravity = 0.0;
 let yGravity = 0.5;
 let GUARD = 0.001;
+
+let topLimit = -50000;
+let bottomLimit = 50000;
+let leftLimit = -50000;
+let rightLimit = 50000;
 
 let sprite;
 let tux;
