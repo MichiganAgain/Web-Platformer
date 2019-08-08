@@ -57,6 +57,10 @@ public class Maps {
                     deleteTux.setInt(1, mapID);
                     deleteTux.executeUpdate();
 
+                    PreparedStatement deleteMap = database.prepareStatement("DELETE FROM maps WHERE mapID=?");
+                    deleteMap.setInt(1, mapID);
+                    deleteMap.executeUpdate();
+
                     database.commit();
                     database.setAutoCommit(true);
                 }

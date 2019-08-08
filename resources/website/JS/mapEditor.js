@@ -18,6 +18,12 @@ function checkLogin (onSuccess) {
     }else window.location.href = "/client/login.html";
 }
 
+function logout () {
+    fetch("/users/logout", {method: 'POST'}).then(response => response.json()).then(data => {
+
+    });
+}
+
 function pageLoad () {
     checkLogin();
 }
@@ -33,8 +39,8 @@ $("#sprite").click(function () {mostRecentlySelected = "sprite";});
 $("#enemy").click(function () {mostRecentlySelected = "enemy";});
 $("#tux").click(function () {mostRecentlySelected = "tux";});
 
-$("#saveButton").click(function () {
-    if (spriteExists && tuxExists) {
+function saveMap () {
+    if (spriteExists && tuxExists && $("#mapName").val() !== "") {
         let mapData = {"blocks": [], "sprite": {"x": 0, "y": 0}, "tux": {"x": 0, "y": 0}, "enemies": []};
 
         for (let block of blocks) mapData.blocks.push({"type": block.type, "x": block.x, "y": block.y});
@@ -55,7 +61,7 @@ $("#saveButton").click(function () {
             else alert("Map not saved");
         });
     }
-});
+}
 
 window.addEventListener("keydown", function (evt) {
     if (evt.keyCode === 65) leftPressed = true; //a
@@ -63,6 +69,16 @@ window.addEventListener("keydown", function (evt) {
     else if (evt.keyCode === 83) downPressed = true; //s
     else if (evt.keyCode === 87) upPressed = true; //w
     else if (evt.keyCode === 16) shiftPressed = true; //shift
+    else if (evt.keyCode === 27) {
+        if (!menuShowing) {
+            $("#menu").css("display", "inline-block");
+            menuShowing = true;
+        }
+        else {
+            $("#menu").css("display", "none");
+            menuShowing = false;
+        }
+    }
 });
 
 window.addEventListener("keyup", function (evt) {
@@ -74,7 +90,7 @@ window.addEventListener("keyup", function (evt) {
 });
 
 window.addEventListener("click", function (evt) { //for placing a block / sprite on canvas
-    if (evt.clientY < canvas.height) {
+    if (evt.clientY < canvas.height && !menuShowing) {
         allContentSaved = false;
         let mouseX = (evt.clientX - camera.xOffset) - ((evt.clientX - camera.xOffset) % 50);
         if ((evt.clientX - camera.xOffset) < 0) mouseX -= 50;
@@ -132,6 +148,8 @@ window.addEventListener("mousemove", function (evt) {
 });
 
 function loadMap () {
+    $("#menu").css({"display": "none"});
+    menuShowing = false;
     blocks = [];
     enemies = [];
     let formData = new FormData();
@@ -161,6 +179,7 @@ let upPressed = false;
 let downPressed = false;
 let shiftPressed = false;
 
+let menuShowing = false;
 let allContentSaved = true;
 let mostRecentlySelected = null;
 
@@ -177,10 +196,10 @@ function animate () {
     requestAnimationFrame(animate);
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (leftPressed) camera.xOffset += (shiftPressed) ? movementSpeed * 2: movementSpeed;
-    if (rightPressed) camera.xOffset -= (shiftPressed) ? movementSpeed * 2: movementSpeed;
-    if (upPressed) camera.yOffset += (shiftPressed) ? movementSpeed * 2: movementSpeed;
-    if (downPressed) camera.yOffset -= (shiftPressed) ? movementSpeed * 2: movementSpeed;
+    if (leftPressed) camera.xOffset += (shiftPressed) ? movementSpeed * 4: movementSpeed;
+    if (rightPressed) camera.xOffset -= (shiftPressed) ? movementSpeed * 4: movementSpeed;
+    if (upPressed) camera.yOffset += (shiftPressed) ? movementSpeed * 4: movementSpeed;
+    if (downPressed) camera.yOffset -= (shiftPressed) ? movementSpeed * 4: movementSpeed;
 
     for (let block of blocks) block.draw();
     for (let enemy of enemies) enemy.draw();

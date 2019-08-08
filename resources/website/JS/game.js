@@ -130,6 +130,7 @@ function initWorld () { // initialize the world by getting map data from databas
     $("#menu").css({"display": "none"});
     leaderBoardShowing = false;
     menuShowing = false;
+    gameCompleted = false;
     document.getElementById('leaderboard-table').innerHTML = "";
     snowballs = [];
     blocks = [];

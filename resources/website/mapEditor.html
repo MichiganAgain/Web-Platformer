@@ -5,6 +5,7 @@
 
         <script src="/client/JS/js.cookie.min.js"></script>
         <script src="/client/JS/jQuery.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Bowlby+One+SC&display=swap" rel="stylesheet">
         
         <title>Tux Game - Map Editior</title>
 
@@ -29,6 +30,7 @@
 
             img:hover {
                 box-shadow: 2px 2px rgba(0, 0, 0, 0.6);
+                border: 3px solid black;
             }
 
             img:active {
@@ -39,6 +41,14 @@
                 position: absolute;
                 margin-left: 5px;
                 margin-top: 5px;
+                font-family: 'Bowlby One SC', cursive;
+            }
+
+            #menuHelp {
+                position: absolute;
+                margin-left: 5px;
+                margin-top: 25px;
+                font-family: 'Bowlby One SC', cursive;
             }
 
             .wrapper {
@@ -46,6 +56,67 @@
             }
 
             .clearFloat {float: none;}
+
+            #menu {
+                width: 20%;
+                display: none;
+                background-color: #2b2b2b;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+
+                border: 3px black solid;
+                border-radius: 5px;
+                padding: 50px;
+            }
+
+            #logoutButton {background-color: red;}
+
+            .button {
+                width: 100%;
+                height: 30px;
+                border-radius: 3px;
+                background-color: #FF7700;
+                color: white;
+                text-align: center;
+                position: relative;
+                margin-bottom: 15px;
+                background-size: 200%;
+                transition: 0.35s;
+                box-shadow: 7px 7px rgba(0, 0, 0, 0.3);
+                border: none;
+                cursor: pointer;
+            }
+
+            .button:hover {
+                background-position: right;
+                box-shadow: 2px 2px rgba(0, 0, 0, 0.6);
+            }
+
+            .button:active {
+                transition: 0s;
+                background-position: right;
+                box-shadow: 0px 0px rgba(0, 0, 0, 0.9);
+            }
+
+            .text-input {
+                margin-bottom: 5%;
+                background-color: #555555;
+                border: none;
+                border-radius: 10px;
+                width: 100%;
+                height: 5%;
+                color: white;
+                padding: 2%;
+                text-align: center;
+                position: relative;
+                animation-name: slide-in;
+                animation-duration: 1s;
+                transition: 0.1s;
+                background-image: linear-gradient(to right, #4A4A4F, #3E3D42);
+            }
+
         
         </style>
 
@@ -54,6 +125,7 @@
     <body onload="pageLoad()">
 
         <p id="coords">x: 0   y: 0</p>
+        <p id="menuHelp">Menu [ESC]</p>
         <canvas id="mainCanvas"></canvas>
 
         <div class="wrapper">
@@ -69,15 +141,25 @@
             <img id="enemy" src="/client/images/enemy.png">
             <img id="tux" src="/client/images/Tux.png">
 
-            <br><br>
-            <input id="saveButton" type="button" value="SAVE">
-            <input type="text" id="mapName" placeholder="mapName">
-            <button id="GameButton">Game</button>
+            <div id="menu">
+                <input type="text" id="mapName" class="text-input" placeholder="mapName">
+                <br>
+                <button id="saveButton" class="button" onclick="saveMap()">Save</button>
 
-            <br>
-            <input id="importMapOwner" type="text" placeholder="Map Owner">
-            <input id="importMapName" type="text" placeholder="Map Name">
-            <button id="loadMap" onclick="loadMap()">Load Existing Map</button>
+                <hr>
+                <br>
+
+                <input id="importMapOwner" class="text-input" type="text" placeholder="Map Owner">
+                <br>
+                <input id="importMapName" class="text-input" type="text" placeholder="Map Name">
+                <br>
+                <button id="loadMap" class="button" onclick="loadMap()">Load Existing Map</button>
+
+                <hr>
+                <br>
+                <button id="GameButton" class="button">Play Game</button>
+                <button id="logoutButton" class="button" onclick="logout()">Logout</button>
+            </div>
 
         </div>
 
