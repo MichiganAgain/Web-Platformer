@@ -56,7 +56,7 @@ function saveMap () {
         formData.append("mapData", JSON.stringify(mapData));
         fetch("/maps/insert", {method: "POST", body: formData}).then(response => response.json()).then(data => {
             if (data.hasOwnProperty('success')) {
-                alert("Map saved\nMap Name: " + $("#mapName").val() + "\nUsername: " + username);
+                alert("Map saved\nUsername: " + username + "\nMap Name: " + $("#mapName").val());
                 allContentSaved = true;
             }
             else alert("Map not saved");
@@ -91,32 +91,32 @@ window.addEventListener("keyup", function (evt) {
 });
 
 window.addEventListener("click", function (evt) { //for placing a block / sprite on canvas
-    if (evt.clientY < canvas.height && !menuShowing) {
+    if (evt.clientY < canvas.height && xMouse <= rightLimit && xMouse >= leftLimit && yMouse >= topLimit && yMouse <= bottomLimit && !menuShowing) {
         allContentSaved = false;
-        let mouseX = (evt.clientX - camera.xOffset) - ((evt.clientX - camera.xOffset) % 50);
-        if ((evt.clientX - camera.xOffset) < 0) mouseX -= 50;
+        let xMouse = (evt.clientX - camera.xOffset) - ((evt.clientX - camera.xOffset) % 50);
+        if ((evt.clientX - camera.xOffset) < 0) xMouse -= 50;
 
-        let mouseY = (evt.clientY - camera.yOffset) - ((evt.clientY - camera.yOffset) % 50);
-        if ((evt.clientY - camera.yOffset) < 0) mouseY -= 50;
+        let yMouse = (evt.clientY - camera.yOffset) - ((evt.clientY - camera.yOffset) % 50);
+        if ((evt.clientY - camera.yOffset) < 0) yMouse -= 50;
 
 
         //check if something is already there
             for (let i = 0; i < blocks.length; i++) {
-                if (blocks[i].x === mouseX && blocks[i].y === mouseY) {
+                if (blocks[i].x === xMouse && blocks[i].y === yMouse) {
                     blocks.splice(i, 1);
                     break;
                 }
             }
-            if (spriteExists && sprite.x === mouseX && sprite.y === mouseY) {
+            if (spriteExists && sprite.x === xMouse && sprite.y === yMouse) {
                 spriteExists = false;
                 sprite = null;
             }
-            if (tuxExists && tux.x === mouseX && tux.y === mouseY) {
+            if (tuxExists && tux.x === xMouse && tux.y === yMouse) {
                 tuxExists = false;
                 tux = null;
             }
             for (let i = 0; i < enemies.length; i++) {
-                if (enemies[i].x === mouseX && enemies[i].y === mouseY) {
+                if (enemies[i].x === xMouse && enemies[i].y === yMouse) {
                     enemies.splice(i, 1);
                     break;
                 }
@@ -124,29 +124,29 @@ window.addEventListener("click", function (evt) { //for placing a block / sprite
         /////////////////////////////////////////////
 
 
-        if (mostRecentlySelected === "ice") blocks.push(new Block(mouseX, mouseY, "ice"));
-        else if (mostRecentlySelected === "grass_dirt") blocks.push(new Block(mouseX, mouseY, "grass_dirt"));
-        else if (mostRecentlySelected === "dirt") blocks.push(new Block(mouseX, mouseY, "dirt"));
-        else if (mostRecentlySelected === "stone") blocks.push(new Block(mouseX, mouseY, "stone"));
-        else if (mostRecentlySelected === "oak_plank") blocks.push(new Block(mouseX, mouseY, "oak_plank"));
-        else if (mostRecentlySelected === "slime") blocks.push(new Block(mouseX, mouseY, "slime"));
-        else if (mostRecentlySelected === "lava") blocks.push(new Block(mouseX, mouseY, "lava"));
+        if (mostRecentlySelected === "ice") blocks.push(new Block(xMouse, yMouse, "ice"));
+        else if (mostRecentlySelected === "grass_dirt") blocks.push(new Block(xMouse, yMouse, "grass_dirt"));
+        else if (mostRecentlySelected === "dirt") blocks.push(new Block(xMouse, yMouse, "dirt"));
+        else if (mostRecentlySelected === "stone") blocks.push(new Block(xMouse, yMouse, "stone"));
+        else if (mostRecentlySelected === "oak_plank") blocks.push(new Block(xMouse, yMouse, "oak_plank"));
+        else if (mostRecentlySelected === "slime") blocks.push(new Block(xMouse, yMouse, "slime"));
+        else if (mostRecentlySelected === "lava") blocks.push(new Block(xMouse, yMouse, "lava"));
         else if (mostRecentlySelected === "sprite") {
-            sprite = new Sprite(mouseX, mouseY);
+            sprite = new Sprite(xMouse, yMouse);
             spriteExists = true; //only for drawing it on the screen
         }
-        else if (mostRecentlySelected === "enemy") enemies.push(new Enemy(mouseX, mouseY));
+        else if (mostRecentlySelected === "enemy") enemies.push(new Enemy(xMouse, yMouse));
         else if (mostRecentlySelected === "tux") {
-            tux = new Tux(mouseX, mouseY);
+            tux = new Tux(xMouse, yMouse);
             tuxExists = true;
         }
     }
 });
 
 window.addEventListener("mousemove", function (evt) {
-    let mouseX = (evt.clientX - camera.xOffset)
-    let mouseY = (evt.clientY - camera.yOffset)
-    document.getElementById("coords").innerHTML = "x: " + mouseX + "  y: " + mouseY;
+    xMouse = (evt.clientX - camera.xOffset);
+    yMouse = (evt.clientY - camera.yOffset);
+    document.getElementById("coords").innerHTML = "x: " + xMouse + "  y: " + yMouse;
 });
 
 function loadMap () {
@@ -183,16 +183,23 @@ function Camera () {
     this.yOffset = 0;
 }
 
-let movementSpeed = 6;
+let xMouse = 0;
+let yMouse = 0;
 let leftPressed = false;
 let rightPressed = false;
 let upPressed = false;
 let downPressed = false;
 let shiftPressed = false;
+let movementSpeed = 6;
 
 let menuShowing = false;
 let allContentSaved = true;
 let mostRecentlySelected = null;
+
+let topLimit = -50000;
+let bottomLimit = 50000;
+let leftLimit = -50000;
+let rightLimit = 50000;
 
 let spriteExists = false;
 let tuxExists = false;
@@ -207,10 +214,10 @@ function animate () {
     requestAnimationFrame(animate);
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (leftPressed) camera.xOffset += (shiftPressed) ? movementSpeed * 4: movementSpeed;
-    if (rightPressed) camera.xOffset -= (shiftPressed) ? movementSpeed * 4: movementSpeed;
-    if (upPressed) camera.yOffset += (shiftPressed) ? movementSpeed * 4: movementSpeed;
-    if (downPressed) camera.yOffset -= (shiftPressed) ? movementSpeed * 4: movementSpeed;
+    if (leftPressed) camera.xOffset += (shiftPressed) ? movementSpeed * 40: movementSpeed;
+    if (rightPressed) camera.xOffset -= (shiftPressed) ? movementSpeed * 40: movementSpeed;
+    if (upPressed) camera.yOffset += (shiftPressed) ? movementSpeed * 40: movementSpeed;
+    if (downPressed) camera.yOffset -= (shiftPressed) ? movementSpeed * 40: movementSpeed;
 
     for (let block of blocks) block.draw();
     for (let enemy of enemies) enemy.draw();
