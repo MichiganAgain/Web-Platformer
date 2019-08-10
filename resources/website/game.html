@@ -33,7 +33,11 @@
                 border: 300px black solid;
             }
 
-            .helpText {
+            p {
+                margin: 0px 0px 0px 5px;
+            }
+
+            #helpText {
                 position: absolute;
                 font-family: 'Bowlby One SC', cursive;
             }
@@ -185,8 +189,13 @@
 
     <body>
 
-        <span class="helpText">Menu [ESC]</span>
-        <p class="helpText">Restart [R]</p>
+        <div id="helpText">
+
+            <p>Menu [ESC]</p>
+            <p>Restart [R]</p>
+            <p id="usernameDisplay">Username: </p>
+
+        </div>
 
         <div id="leaderboard-container">
 
@@ -207,6 +216,7 @@
         <img id="grass_dirt" src="/client/images/minecraft_grass_block.png">
         <img id="dirt" src="/client/images/minecraft_dirt.png">
         <img id="stone" src="/client/images/minecraft_stone.png">
+        <img id="oak_plank" src="/client/images/minecraft_oak_plank.png">
         <img id="slime" src="/client/images/minecraft_slime_block.png">
         <img id="lava" src="/client/images/minecraft_lava.gif">
         <img id="snowball" src="/client/images/snowball.png">

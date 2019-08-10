@@ -32,8 +32,9 @@ $("#ice").click(function () {mostRecentlySelected = "ice";});
 $("#grass_dirt").click(function () {mostRecentlySelected = "grass_dirt";});
 $("#dirt").click(function () {mostRecentlySelected = "dirt";});
 $("#stone").click(function () {mostRecentlySelected = "stone";});
-$("#slime").click(function () {mostRecentlySelected = "slime";});
+$("#oak_plank").click(function () {mostRecentlySelected = "oak_plank";});
 $("#lava").click(function () {mostRecentlySelected = "lava";});
+$("#slime").click(function () {mostRecentlySelected = "slime";});
 $("#eraser").click(function () {mostRecentlySelected = "eraser";});
 $("#sprite").click(function () {mostRecentlySelected = "sprite";});
 $("#enemy").click(function () {mostRecentlySelected = "enemy";});
@@ -127,6 +128,7 @@ window.addEventListener("click", function (evt) { //for placing a block / sprite
         else if (mostRecentlySelected === "grass_dirt") blocks.push(new Block(mouseX, mouseY, "grass_dirt"));
         else if (mostRecentlySelected === "dirt") blocks.push(new Block(mouseX, mouseY, "dirt"));
         else if (mostRecentlySelected === "stone") blocks.push(new Block(mouseX, mouseY, "stone"));
+        else if (mostRecentlySelected === "oak_plank") blocks.push(new Block(mouseX, mouseY, "oak_plank"));
         else if (mostRecentlySelected === "slime") blocks.push(new Block(mouseX, mouseY, "slime"));
         else if (mostRecentlySelected === "lava") blocks.push(new Block(mouseX, mouseY, "lava"));
         else if (mostRecentlySelected === "sprite") {
@@ -165,6 +167,15 @@ function loadMap () {
         camera.xOffset = (canvas.width / 2) - sprite.x;
         camera.yOffset = (canvas.height / 2) - sprite.y;
     });
+}
+
+function clearCanvas () {
+    blocks = [];
+    enemies = [];
+    sprite = null;
+    spriteExists = false;
+    tux = null;
+    tuxExists = false;
 }
 
 function Camera () {

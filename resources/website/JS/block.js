@@ -22,6 +22,11 @@ function Block (x, y, type) {
         this.friction = 0.5;
         this.bounce = 0.1;
     }
+    else if (type === "oak_plank") {
+        this.img = document.getElementById("oak_plank");
+        this.friction = 0.5;
+        this.bounce = 0.1;
+    }
     else if (type === "ice") {
         this.img = document.getElementById("ice");
         this.friction = 0.95;

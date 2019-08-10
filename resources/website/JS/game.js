@@ -12,6 +12,7 @@ function checkLogin (onSuccess) {
         fetch("/users/check", {method: "GET"}).then(response => response.json()).then(data => {
             if (data.hasOwnProperty("username")) {
                 username = data.username;
+                document.getElementById("usernameDisplay").innerHTML = "Username: " + username;
             }
             else window.location.href = "/client/login.html";
     });
@@ -23,7 +24,7 @@ function pageLoad () {
 }
 
 function loadMapEditor () {
-    window.location.href = "/client/mapEditor.html"
+    window.location.href = "/client/mapEditor.html";
 }
 
 function logout () {
