@@ -1,6 +1,6 @@
 let canvas = document.getElementById("mainCanvas")
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight * 0.85;
+// canvas.width = window.innerWidth;
+// canvas.height = window.innerHeight * 0.85;
 let context = canvas.getContext("2d");
 
 $("#GameButton").click(function () {window.location.href = "/client/game.html"});
@@ -33,6 +33,8 @@ $("#grass_dirt").click(function () {mostRecentlySelected = "grass_dirt";});
 $("#dirt").click(function () {mostRecentlySelected = "dirt";});
 $("#stone").click(function () {mostRecentlySelected = "stone";});
 $("#oak_plank").click(function () {mostRecentlySelected = "oak_plank";});
+$("#oak").click(function () {mostRecentlySelected = "oak";});
+$("#oak_leaf").click(function () {mostRecentlySelected = "oak_leaf";});
 $("#lava").click(function () {mostRecentlySelected = "lava";});
 $("#slime").click(function () {mostRecentlySelected = "slime";});
 $("#eraser").click(function () {mostRecentlySelected = "eraser";});
@@ -62,23 +64,28 @@ function saveMap () {
             else alert("Map not saved");
         });
     }
+    else if (!spriteExists && !tuxExists) alert("Penguin dude and Tux need to be placed :P");
+    else if (!spriteExists) alert("Penguin dude needs to be placed :P");
+    else if (!tuxExists) alert("Tux needs to be placed :P");
+    else if ($("#mapName").val() === "") alert("The map name can't be empty :|");
 }
 
 window.addEventListener("keydown", function (evt) {
-    if (evt.keyCode === 65) leftPressed = true; //a
-    else if (evt.keyCode === 68) rightPressed = true; //d
-    else if (evt.keyCode === 83) downPressed = true; //s
-    else if (evt.keyCode === 87) upPressed = true; //w
-    else if (evt.keyCode === 16) shiftPressed = true; //shift
-    else if (evt.keyCode === 27) {
+    if (evt.keyCode === 27) {
         if (!menuShowing) {
             $("#menu").css("display", "inline-block");
             menuShowing = true;
-        }
-        else {
+        } else {
             $("#menu").css("display", "none");
             menuShowing = false;
         }
+    }
+    if (!menuShowing) {
+        if (evt.keyCode === 65) leftPressed = true; //a
+        else if (evt.keyCode === 68) rightPressed = true; //d
+        else if (evt.keyCode === 83) downPressed = true; //s
+        else if (evt.keyCode === 87) upPressed = true; //w
+        else if (evt.keyCode === 16) {shiftPressed = true;alert(mostRecentlySelected);} //shift
     }
 });
 
@@ -123,15 +130,7 @@ window.addEventListener("click", function (evt) { //for placing a block / sprite
             }
         /////////////////////////////////////////////
 
-
-        if (mostRecentlySelected === "ice") blocks.push(new Block(xMouse, yMouse, "ice"));
-        else if (mostRecentlySelected === "grass_dirt") blocks.push(new Block(xMouse, yMouse, "grass_dirt"));
-        else if (mostRecentlySelected === "dirt") blocks.push(new Block(xMouse, yMouse, "dirt"));
-        else if (mostRecentlySelected === "stone") blocks.push(new Block(xMouse, yMouse, "stone"));
-        else if (mostRecentlySelected === "oak_plank") blocks.push(new Block(xMouse, yMouse, "oak_plank"));
-        else if (mostRecentlySelected === "slime") blocks.push(new Block(xMouse, yMouse, "slime"));
-        else if (mostRecentlySelected === "lava") blocks.push(new Block(xMouse, yMouse, "lava"));
-        else if (mostRecentlySelected === "sprite") {
+        if (mostRecentlySelected === "sprite") {
             sprite = new Sprite(xMouse, yMouse);
             spriteExists = true; //only for drawing it on the screen
         }
@@ -140,6 +139,8 @@ window.addEventListener("click", function (evt) { //for placing a block / sprite
             tux = new Tux(xMouse, yMouse);
             tuxExists = true;
         }
+        else if (mostRecentlySelected === "eraser") mostRecentlySelected = null;
+        else if (mostRecentlySelected === "ice" || mostRecentlySelected === "grass_dirt" || mostRecentlySelected === "dirt" || mostRecentlySelected === "stone" || mostRecentlySelected === "oak_plank" || mostRecentlySelected === "oak" || mostRecentlySelected === "oak_leaf" || mostRecentlySelected === "lava" || mostRecentlySelected === "slime") blocks.push(new Block(xMouse, yMouse, mostRecentlySelected));
     }
 });
 
@@ -176,6 +177,10 @@ function clearCanvas () {
     spriteExists = false;
     tux = null;
     tuxExists = false;
+
+    mostRecentlySelected = null;
+    $("#menu").css("display", "none");
+    menuShowing = false;
 }
 
 function Camera () {
@@ -214,10 +219,10 @@ function animate () {
     requestAnimationFrame(animate);
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (leftPressed) camera.xOffset += (shiftPressed) ? movementSpeed * 40: movementSpeed;
-    if (rightPressed) camera.xOffset -= (shiftPressed) ? movementSpeed * 40: movementSpeed;
-    if (upPressed) camera.yOffset += (shiftPressed) ? movementSpeed * 40: movementSpeed;
-    if (downPressed) camera.yOffset -= (shiftPressed) ? movementSpeed * 40: movementSpeed;
+    if (leftPressed) camera.xOffset += (shiftPressed) ? movementSpeed * 4: movementSpeed;
+    if (rightPressed) camera.xOffset -= (shiftPressed) ? movementSpeed * 4: movementSpeed;
+    if (upPressed) camera.yOffset += (shiftPressed) ? movementSpeed * 4: movementSpeed;
+    if (downPressed) camera.yOffset -= (shiftPressed) ? movementSpeed * 4: movementSpeed;
 
     for (let block of blocks) block.draw();
     for (let enemy of enemies) enemy.draw();

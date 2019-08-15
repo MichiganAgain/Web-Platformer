@@ -27,7 +27,7 @@ public class ClientHandler {
     @Path("{path}")
     @Produces("text/html")
     public static byte[] getHTML (@PathParam("path") String path) {
-        System.out.println("Serving HTML: " + path);
+        //System.out.println("Serving HTML: " + path);
         return getFile("resources/website/" + path);
     }
 
@@ -35,7 +35,7 @@ public class ClientHandler {
     @Path("JS/{path}")
     @Produces("text/javascript")
     public static byte[] getJS (@PathParam("path") String path) {
-        System.out.println("Serving JavaScript: " + path);
+        //System.out.println("Serving JavaScript: " + path);
         return getFile("resources/website/JS/" + path);
     }
 
@@ -43,21 +43,21 @@ public class ClientHandler {
     @Path("CSS/{path}")
     @Produces("text/css")
     public static byte[] getCSS (@PathParam("path") String path) {
-        System.out.println("Serving CSS: " + path);
+        //System.out.println("Serving CSS: " + path);
         return getFile("resources/website/CSS/" + path);
     }
 
     @GET
     @Path("images/{path}")
     public static byte[] getImage (@PathParam("path") String path) {
-        System.out.println("Serving image: " + path);
+        //System.out.println("Serving image: " + path);
         return getFile("resources/website/Images/" + path);
     }
 
     @GET
     @Path("audio/{path}")
     public static byte[] getAudio (@PathParam("path") String path) {
-        System.out.println("Serving audio: " + path);
+        //System.out.println("Serving audio: " + path);
         return getFile("resources/website/Audio/" + path);
     }
 }

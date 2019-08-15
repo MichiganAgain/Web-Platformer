@@ -7,7 +7,7 @@
         <script src="/client/JS/jQuery.js"></script>
         <link href="https://fonts.googleapis.com/css?family=Bowlby+One+SC&display=swap" rel="stylesheet">
         
-        <title>Tux Game - Map Editior</title>
+        <title>Tux Game - Map Editor</title>
 
         <style>
         
@@ -18,6 +18,8 @@
 
             canvas {
                 background-color: #333333;
+                width: 100%;
+                height: 85%;
             }
             
             img {
@@ -125,17 +127,19 @@
             }
 
             #image-bar {
+                margin-top: 10px;
                 width: 55px;
                 position: absolute;
                 left: 50%;
                 transform: translate(-50%, 0%);
                 overflow: hidden;
                 text-align: center;
-                transition: 1.3s;
+                transition: 0.8s;
             }
 
             #image-bar:hover {
                 width: 60%;
+                height: 13%;
             }
 
             table {
@@ -151,9 +155,9 @@
     <body onload="pageLoad()">
 
         <div id="helpText">
-            <p id="coords">x: 0   y: 0</p>
-            <p>Menu [ESC]</p>
+            <p>Menu       [ESC]</p>
             <p>Speedboost [Shift]</p>
+            <p id="coords">x: 0   y: 0</p>
         </div>
         <canvas id="mainCanvas"></canvas>
 
@@ -182,15 +186,18 @@
 
                 <table>
                     <tr>
-                        <td><img id="ice" src="/client/images/minecraft_ice.png"></td>
                         <td><img id="grass_dirt" src="/client/images/minecraft_grass_block.png"></td>
                         <td><img id="dirt" src="/client/images/minecraft_dirt.png"></td>
                         <td><img id="stone" src="/client/images/minecraft_stone.png"></td>
+                        <td><img id="ice" src="/client/images/minecraft_ice.png"></td>
                         <td><img id="oak_plank" src="/client/images/minecraft_oak_plank.png"></td>
+                        <td><img id="oak" src="/client/images/minecraft_oak.png"></td>
                         <td><img id="lava" src="/client/images/minecraft_lava.gif"></td>
+                        <td><img id="oak_leaf" src="/client/images/minecraft_oak_leaf.png"></td>
                         <td><img id="slime" src="/client/images/minecraft_slime_block.png"></td>
                         <td><img id="eraser" src="/client/images/ice.jpg"></td>
-                        <td><img id="sprite" src="/client/images/tux_1.png"></td>
+                        <!--<td><img id="sprite" src="/client/images/spy_penguin.png"></td>-->
+                        <td><img id="sprite" src="/client/images/uKnuck.png"></td>
                         <td><img id="enemy" src="/client/images/enemy.png"></td>
                         <td><img id="tux" src="/client/images/Tux.png"></td>
                     </tr>

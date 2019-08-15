@@ -43,7 +43,7 @@ public class Users {
             ps.setString(1, username);
             ps.setString(2, hash(password));
             ps.execute();
-            System.out.println("Inserted into users table");
+            //System.out.println("Inserted into users table");
             return "{\"success\": \"successfully added user\"}";
 
         } catch (Exception e) {
