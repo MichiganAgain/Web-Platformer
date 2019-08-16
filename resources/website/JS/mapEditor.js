@@ -1,6 +1,6 @@
 let canvas = document.getElementById("mainCanvas")
-// canvas.width = window.innerWidth;
-// canvas.height = window.innerHeight * 0.85;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight * 0.85;
 let context = canvas.getContext("2d");
 
 $("#GameButton").click(function () {window.location.href = "/client/game.html"});
@@ -100,6 +100,7 @@ window.addEventListener("keyup", function (evt) {
 window.addEventListener("click", function (evt) { //for placing a block / sprite on canvas
     if (evt.clientY < canvas.height && xMouse <= rightLimit && xMouse >= leftLimit && yMouse >= topLimit && yMouse <= bottomLimit && !menuShowing) {
         allContentSaved = false;
+
         let xMouse = (evt.clientX - camera.xOffset) - ((evt.clientX - camera.xOffset) % 50);
         if ((evt.clientX - camera.xOffset) < 0) xMouse -= 50;
 
