@@ -85,7 +85,7 @@ window.addEventListener("keydown", function (evt) {
         else if (evt.keyCode === 68) rightPressed = true; //d
         else if (evt.keyCode === 83) downPressed = true; //s
         else if (evt.keyCode === 87) upPressed = true; //w
-        else if (evt.keyCode === 16) {shiftPressed = true;alert(mostRecentlySelected);} //shift
+        else if (evt.keyCode === 16) shiftPressed = true; //shift
     }
 });
 
