@@ -176,7 +176,7 @@
                     let formData = new FormData();
                     formData.append("username", $("#username").val());
                     formData.append("password", $("#password").val());
-                    fetch("/users/insert", {method: "POST", body: formData}).then(response => response.json()).then(data => {
+                    fetch("/users/register", {method: "POST", body: formData}).then(response => response.json()).then(data => {
                         let validUsername = true;
                         if (data.hasOwnProperty('error')) {validUsername = false; console.log(data.error);}
                         if (!validUsername) {

@@ -18,6 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.UUID;
 import javax.ws.rs.core.Cookie;
+import javax.xml.transform.Result;
 
 @Path("users/")
 public class Users {
@@ -35,28 +36,34 @@ public class Users {
     }
 
     @POST
-    @Path("insert")
+    @Path("register")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public String addUser (@FormDataParam("username") String username, @FormDataParam("password") String password) {
+    public String register (@FormDataParam("username") String username, @FormDataParam("password") String password) {
         try {
+            PreparedStatement checkExisting = database.prepareStatement("SELECT username FROM users WHERE username = ?");
+            checkExisting.setString(1, username);
+            ResultSet resultSet = checkExisting.executeQuery();
+
+            if (resultSet.next()) return "{\"error\": \"error username taken\"}";
+
             PreparedStatement ps = database.prepareStatement("INSERT INTO users (username, password) VALUES (?, ?)");
             ps.setString(1, username);
             ps.setString(2, hash(password));
             ps.execute();
-            //System.out.println("Inserted into users table");
+            System.out.println("Inserted into users table: " + username);
             return "{\"success\": \"successfully added user\"}";
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return "{\"error\": \"Error: username taken\"}";
+            return "{\"error\": \"error during database query\"}";
         }
     }
 
     @POST
-    @Path("verify") // verify user on login and give them sessionToken
+    @Path("login") // verify user on login and give them sessionToken
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String verifyUsername (@FormDataParam("username") String username, @FormDataParam("password") String password) {
+    public String login (@FormDataParam("username") String username, @FormDataParam("password") String password) {
         try {
             PreparedStatement ps = database.prepareStatement("SELECT password FROM users WHERE username=?");
             ps.setString(1, username);
@@ -91,7 +98,7 @@ public class Users {
         try {
             if (sessionCookie != null) {
                 String token = sessionCookie.getValue();
-                PreparedStatement ps = database.prepareStatement("UpdAtE users SeT sessionToken=nULL wHeRE sessionToken=?");
+                PreparedStatement ps = database.prepareStatement("UPDATE users SET sessionToken=NULL WHERE sessionToken=?");
                 ps.setString(1, token);
                 ps.executeUpdate();
                 return "{\"success\": \"Successfully removed sessionCookie from database\"}";
@@ -102,7 +109,7 @@ public class Users {
         return "{\"error\": \"Failed to remove sessionCookie from database\"}";
     }
 
-    public static String validateCookieMonster (Cookie cookieSession) {
+    public static String validateCookie (Cookie cookieSession) {
         if (cookieSession != null) {
             try {
                 String sessionToken = cookieSession.getValue();
@@ -124,7 +131,7 @@ public class Users {
     @Path("check")
     @Produces(MediaType.APPLICATION_JSON)
     public String checkLogin (@CookieParam("sessionToken") Cookie sessionCookie) {
-        String user = validateCookieMonster(sessionCookie);
+        String user = validateCookie(sessionCookie);
         return (user == null) ? "{\"error\": \"Invalid user session token\"}": "{\"username\": \"" + user + "\"}";
     }
 }

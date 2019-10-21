@@ -30,7 +30,7 @@ public class Maps {
     @Produces(MediaType.APPLICATION_JSON)
     public String insertMapData (@CookieParam("sessionToken") Cookie sessionToken, @FormDataParam("mapName") String mapName, @FormDataParam("mapData") String mapData) {
         try {
-            String username = Users.validateCookieMonster(sessionToken);
+            String username = Users.validateCookie(sessionToken);
             if (username != null) {
                 int mapID = getMapID(mapName, username);
 
@@ -128,61 +128,65 @@ public class Maps {
     @Path("getMap")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public String getMap (@FormDataParam("mapOwner") String mapOwner, @FormDataParam("mapName") String mapName) throws Exception {
-        int mapID;
-        System.out.println("Serving map| mapOwner: " + mapOwner + " | mapName: " + mapName);
+    public String getMap (@FormDataParam("mapOwner") String mapOwner, @FormDataParam("mapName") String mapName) {
+        try {
+            int mapID;
+            System.out.println("Serving map| mapOwner: " + mapOwner + " | mapName: " + mapName);
 
-        mapID = getMapID(mapName, mapOwner);
+            mapID = getMapID(mapName, mapOwner);
 
-        PreparedStatement bps = database.prepareStatement("SELECT type, x, y FROM blocks WHERE mapID = ?");
-        bps.setInt(1, mapID);
-        ResultSet blockResults = bps.executeQuery();
-        JSONArray blockArray = new JSONArray();
-        while (blockResults.next()) {               // getting block data
-            JSONObject blockObject = new JSONObject();
-            blockObject.put("type", blockResults.getString("type"));
-            blockObject.put("x", blockResults.getInt("x"));
-            blockObject.put("y", blockResults.getInt("y"));
-            blockArray.put(blockObject);
+            PreparedStatement bps = database.prepareStatement("SELECT type, x, y FROM blocks WHERE mapID = ?");
+            bps.setInt(1, mapID);
+            ResultSet blockResults = bps.executeQuery();
+            JSONArray blockArray = new JSONArray();
+            while (blockResults.next()) {               // getting block data
+                JSONObject blockObject = new JSONObject();
+                blockObject.put("type", blockResults.getString("type"));
+                blockObject.put("x", blockResults.getInt("x"));
+                blockObject.put("y", blockResults.getInt("y"));
+                blockArray.put(blockObject);
+            }
+
+            PreparedStatement eps = database.prepareStatement("SELECT x, y FROM enemies WHERE mapID = ?");
+            eps.setInt(1, mapID);
+            ResultSet enemyResults = eps.executeQuery();
+            JSONArray enemyArray = new JSONArray();
+            while (enemyResults.next()) {              // getting enemy data
+                JSONObject enemyObject = new JSONObject();
+                enemyObject.put("x", enemyResults.getInt("x"));
+                enemyObject.put("y", enemyResults.getInt("y"));
+                enemyArray.put(enemyObject);
+            }
+
+            PreparedStatement sps = database.prepareStatement("SELECT x, y FROM sprites WHERE mapID = ?");
+            sps.setInt(1, mapID);
+            ResultSet spriteResult = sps.executeQuery();
+            spriteResult.next();                    // getting sprite data
+            JSONObject spriteObject = new JSONObject();
+            spriteObject.put("x", spriteResult.getInt("x"));
+            spriteObject.put("y", spriteResult.getInt("y"));
+
+            PreparedStatement tps = database.prepareStatement("SELECT x, y FROM tuxs WHERE mapID = ?");
+            tps.setInt(1, mapID);
+            ResultSet tuxResult = tps.executeQuery();
+            tuxResult.next();
+            JSONObject tuxObject = new JSONObject();
+            tuxObject.put("x", tuxResult.getInt("x"));
+            tuxObject.put("y", tuxResult.getInt("y"));
+
+            JSONObject mapData = new JSONObject();
+
+            mapData.put("blocks", blockArray);
+            mapData.put("enemies", enemyArray);
+            mapData.put("sprite", spriteObject);
+            mapData.put("tux", tuxObject);
+            mapData.put("mapID", mapID);
+
+            return mapData.toString();
+            // mapData has blocks, enemies, sprites, tuxs and mapID
+            //return "{'blocks': " + blockArray + ", 'enemies': " + enemyArray + ", 'sprite': " + spriteObject + "}";
+        } catch (Exception e) {
+            return "{\"error\": \"error during database query\"}";
         }
-
-        PreparedStatement eps = database.prepareStatement("SELECT x, y FROM enemies WHERE mapID = ?");
-        eps.setInt(1, mapID);
-        ResultSet enemyResults = eps.executeQuery();
-        JSONArray enemyArray = new JSONArray();
-        while (enemyResults.next()) {              // getting enemy data
-            JSONObject enemyObject = new JSONObject();
-            enemyObject.put("x", enemyResults.getInt("x"));
-            enemyObject.put("y", enemyResults.getInt("y"));
-            enemyArray.put(enemyObject);
-        }
-
-        PreparedStatement sps = database.prepareStatement("SELECT x, y FROM sprites WHERE mapID = ?");
-        sps.setInt(1, mapID);
-        ResultSet spriteResult = sps.executeQuery();
-        spriteResult.next();                    // getting sprite data
-        JSONObject spriteObject = new JSONObject();
-        spriteObject.put("x", spriteResult.getInt("x"));
-        spriteObject.put("y", spriteResult.getInt("y"));
-
-        PreparedStatement tps = database.prepareStatement("SELECT x, y FROM tuxs WHERE mapID = ?");
-        tps.setInt(1, mapID);
-        ResultSet tuxResult = tps.executeQuery();
-        tuxResult.next();
-        JSONObject tuxObject = new JSONObject();
-        tuxObject.put("x", tuxResult.getInt("x"));
-        tuxObject.put("y", tuxResult.getInt("y"));
-
-        JSONObject mapData = new JSONObject();
-
-        mapData.put("blocks", blockArray);
-        mapData.put("enemies", enemyArray);
-        mapData.put("sprite", spriteObject);
-        mapData.put("tux", tuxObject);
-        mapData.put("mapID", mapID);
-
-        return mapData.toString();
-        // mapData has blocks, enemies, sprites, tuxs and mapID
-        //return "{'blocks': " + blockArray + ", 'enemies': " + enemyArray + ", 'sprite': " + spriteObject + "}";
     }
 }

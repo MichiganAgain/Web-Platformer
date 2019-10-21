@@ -1,6 +1,6 @@
 package Controllers;
 
-import static Controllers.Users.validateCookieMonster;
+import static Controllers.Users.validateCookie;
 import static Server.ServerStarter.database;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.json.*;
@@ -21,7 +21,7 @@ public class Scores {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public String insertScore (@CookieParam("sessionToken") Cookie sessionCookie, @FormDataParam("mapID") int mapID, @FormDataParam("score") float score) {
         try {
-            String username = validateCookieMonster(sessionCookie);
+            String username = validateCookie(sessionCookie);
             if (username != null) {
                 LocalDate localDate = LocalDate.now();
                 PreparedStatement ps = database.prepareStatement("INSERT INTO scores (username, mapID, score, date) VALUES (?, ?, ?, ?)");
@@ -66,7 +66,7 @@ public class Scores {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return null;
+            return "{\"error\": \"Failed to read scores from database\"}";
         }
     }
 }
