@@ -120,7 +120,6 @@
                     opacity: 0;
                     margin-left: 100%;
                 }
-
                 to {
                     opacity: 1;
                     margin-left: 0%;
@@ -165,10 +164,10 @@
             $("#profile-picture").draggable();
 
             window.addEventListener("keydown", function (evt) {
-                if (evt.keyCode == 13) {loginPressed();}
+                if (evt.keyCode === 13) {loginPressed();}
             });
 
-            /////////////////////Page Load / Exit animations/////////////////////////////////
+            /////////////////////Page Load/////////////////////////////////
             $(window).bind("pageshow", function(event) { // needed for Safari as page load not triggered on back button press
                 if (event.originalEvent.persisted) {
                     window.location.reload();

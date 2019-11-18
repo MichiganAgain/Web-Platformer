@@ -58,11 +58,11 @@ function Enemy (x, y) {
 
     this.checkSnowballCollision = function () {
         for (let snowball of snowballs) {
-            if (this.y + this.SIZE >= snowball.y && this.y <= snowball.y + snowball.SIZE) { 
-                this.health -= snowball.damage;
-                snowball.dead = true;
-            }
-            if (this.x + this.SIZE >= snowball.x && this.x <= snowball.x + snowball.SIZE) {
+            if (this.y + this.SIZE >= snowball.y && this.y <= snowball.y + snowball.SIZE) {
+                if (this.x + this.SIZE >= snowball.x && this.x <= snowball.x + snowball.SIZE) {
+                    this.health -= snowball.damage;
+                    snowball.dead = true;
+                }
             }
         }
     }

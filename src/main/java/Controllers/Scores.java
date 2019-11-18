@@ -6,11 +6,8 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.json.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.math.BigInteger;
-import java.security.MessageDigest;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.UUID;
 import java.time.LocalDate;
 import javax.ws.rs.core.Cookie;
 

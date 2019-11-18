@@ -128,7 +128,8 @@ let sprite;
 let tux;
 let snowballs = [];
 let blocks = [];
-let enemies = [];
+let enemies = [new Enemy(10, 20), new Enemy(2000, 2000)];
+alert(enemies[0].x);
 let camera;
 
 function initWorld () { // initialize the world by getting map data from database
@@ -170,7 +171,7 @@ function completedWorld () {
     var rowsToShow = 10;
 
     fetch("/scores/getScores/" + mapID, {method: 'GET'}).then(response => response.json()).then(data => {
-        // first find users position in leader-board
+        // first find users position in leaderboard
         for (pos = 0; pos < data.scores.length; pos++) {
             if (data.scores[pos].score > finishTime) break;
         }
@@ -184,7 +185,6 @@ function completedWorld () {
             }
             document.getElementById("leaderboard-table").innerHTML += "<tr><td>" + ((scoreInserted) ? (i + 2): (i + 1)) + "</td><td>" + data.scores[i].username + "</td><td>" + data.scores[i].score.toString().substring(0, 6) + "</td><td>" + data.scores[i].date + "</td></tr>";
         }
-
         if (!scoreInserted) document.getElementById("leaderboard-table").innerHTML += "<tr id='your-time'><td>" + ((pos < rowsToShow) ? "": "..") + (pos + 1) + "</td><td>" + username + "</td><td>" + finishTime.toString().substring(0, 5) + "</td><td>Today</td></tr>";
 
         $("#leaderboard-container").css({"display": "inline-block"});

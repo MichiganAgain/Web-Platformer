@@ -1,3 +1,6 @@
+let llll = 69;
+var vvvv = 70;
+
 function Sprite (x, y) {
     this.x = x;
     this.y = y;

@@ -148,7 +148,7 @@ window.addEventListener("click", function (evt) { //for placing a block / sprite
 window.addEventListener("mousemove", function (evt) {
     xMouse = (evt.clientX - camera.xOffset);
     yMouse = (evt.clientY - camera.yOffset);
-    document.getElementById("coords").innerHTML = "x: " + xMouse + "  y: " + yMouse;
+    document.getElementById("coords").innerHTML = "x: " + xMouse + "  y: " + (-yMouse);
 });
 
 function loadMap () {

@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 
 @Path("maps/")
 public class Maps {
-    public static int getMapID (String mapName, String username) {
+    private static int getMapID (String mapName, String username) {
         try {
             PreparedStatement getMapID = database.prepareStatement("SELECT mapID FROM maps WHERE mapName=? AND username=?");
             getMapID.setString(1, mapName);

@@ -1,7 +1,6 @@
 package Controllers;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;

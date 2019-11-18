@@ -109,6 +109,53 @@ public class Users {
         return "{\"error\": \"Failed to remove sessionCookie from database\"}";
     }
 
+    @POST
+    @Path("delete")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public static String delete (@CookieParam("sessionToken") Cookie sessionCookie) {
+        try {
+            if (sessionCookie != null) {
+                String token = sessionCookie.getValue();
+                PreparedStatement ps = database.prepareStatement("DELETE FROM users WHERE sessionToken=?");
+                ps.setString(1, token);
+                ps.execute();
+                return "{\"success\": \"Successfully removed user from database\"}";
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return "{\"error\": \"Failed to remove user from database\"}";
+    }
+
+    @POST
+    @Path("updatePassword")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public static String updatePassword (@CookieParam("sessionToken") Cookie sessionCookie, @FormDataParam("currentPassword") String currentPassword, @FormDataParam("newPassword") String newPassword) {
+        try {
+            if (sessionCookie != null) {
+                String token = sessionCookie.getValue();
+                PreparedStatement pps = database.prepareStatement("SELECT password FROM users WHERE sessionToken=?");
+                pps.setString(1, token);
+                ResultSet resultSet = pps.executeQuery();
+                if (resultSet.next()) {
+                    if (resultSet.getString(1).equals(hash(currentPassword))) {
+                        PreparedStatement ups = database.prepareStatement("UPDATE users SET password=? WHERE sessionToken=?");
+                        ups.setString(1, hash(newPassword));
+                        ups.setString(2, token);
+                        ups.execute();
+                        return "{\"success\": \"Successfully updated password\"}";
+                    }
+                }
+                return "{\"error\": \"incorrect password\"}";
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return "{\"error\": \"Failed to update password\"}";
+    }
+
     public static String validateCookie (Cookie cookieSession) {
         if (cookieSession != null) {
             try {
@@ -131,6 +178,7 @@ public class Users {
     @Path("check")
     @Produces(MediaType.APPLICATION_JSON)
     public String checkLogin (@CookieParam("sessionToken") Cookie sessionCookie) {
+        System.out.println(sessionCookie);
         String user = validateCookie(sessionCookie);
         return (user == null) ? "{\"error\": \"Invalid user session token\"}": "{\"username\": \"" + user + "\"}";
     }

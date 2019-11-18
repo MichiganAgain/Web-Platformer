@@ -82,6 +82,14 @@
                 opacity: 0;
             }
 
+            #login-button {
+                background-image: linear-gradient(to left, #FFC112, #EF5A24, #FFA312);
+                animation-name: slide-in;
+                animation-delay: 1.5s;
+                animation-duration: 1s;
+                animation-fill-mode: both;
+            }
+
             .clear-float {float: none;}
 
             @keyframes slide-in {
@@ -122,6 +130,8 @@
                 <div class="clear-float"></div>
 
                 <button id="register-button" class="button">Register</button>
+                <br>
+                <button id="login-button" class="button">Login</button>
 
             </div>
 
@@ -159,6 +169,7 @@
             //////////////////////////////////////////////////////////////////////////////
 
             $("#register-button").click(function () {registerPressed();});
+            $("#login-button").click(function () {window.location.href = "login.html";});
             function registerPressed () {
                 let validPassword = validatePassword();
                 if (!validPassword) {

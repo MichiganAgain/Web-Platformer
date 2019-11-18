@@ -7,7 +7,7 @@ function Snowball (x, y, xVelocity, yVelocity) {
     this.SIZE = 15;
     this.airResistance = 0.99;
     this.dead = false; // for when it should disappear
-    this.damage = 1;
+    this.damage = 10;
     this.totalCollisions = 0;
     this.maxCollisions = 50;    // until it disappears
 
