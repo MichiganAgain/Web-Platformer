@@ -129,7 +129,6 @@ let tux;
 let snowballs = [];
 let blocks = [];
 let enemies = [new Enemy(10, 20), new Enemy(2000, 2000)];
-alert(enemies[0].x);
 let camera;
 
 function initWorld () { // initialize the world by getting map data from database
