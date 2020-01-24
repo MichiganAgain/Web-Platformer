@@ -67,10 +67,10 @@ public class Users {
         try {
             PreparedStatement ps = database.prepareStatement("SELECT password FROM users WHERE username=?");
             ps.setString(1, username);
-            ResultSet resultSet = ps.executeQuery();
+            ResultSet resultSet = ps.executeQuery();    //  Select any records in the table with that existing username
 
-            if (resultSet.next()) {
-                if (resultSet.getString(1).equals(hash(password))) {
+            if (resultSet.next()) {     //  If username exists in the database
+                if (resultSet.getString(1).equals(hash(password))) {    //  Check hashed password with hashed password in the database
                     String token = UUID.randomUUID().toString();
                     PreparedStatement ps2 = database.prepareStatement("UPDATE users SET sessionToken = ? WHERE username = ?");
                     ps2.setString(1, token);
@@ -80,7 +80,7 @@ public class Users {
                 } else {
                     return "{\"error\": \"Error: password incorrect\"}";
                 }
-            } else {
+            } else {    // if record with that username is not found in the database
                 return "{\"error\": \"Error: user doesn't exist\"}";
             }
 
